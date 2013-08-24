@@ -1,0 +1,16 @@
+{
+    "name": "derelict-sdl2",
+    "description": "Dynamic bindings to SDL2, SDL2_image, SDL2_mixer, SDL2_ttf and SDL2_net.",
+    "homepage": "https://github.com/DerelictOrg/DerelictSDL2",
+    "license": "Boost",
+    "authors": [
+        "Mike Parker"
+    ],
+
+    "targetName": "DerelictPHYSFS",
+    "targetPath": "lib",
+
+    "dependencies": {
+        "derelict-util": "~master"
+    }
+}
