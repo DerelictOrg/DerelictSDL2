@@ -7,7 +7,7 @@
         "Mike Parker"
     ],
 
-    "targetName": "DerelictPHYSFS",
+    "targetName": "DerelictSDL2",
     "targetPath": "lib",
 
     "dependencies": {
