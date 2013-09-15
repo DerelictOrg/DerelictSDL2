@@ -112,13 +112,15 @@ enum : SDL_AudioFormat {
     SDL_AUDIO_MASK_SIGNED = 1<<15,
 }
 
-int SDL_AUDIO_BITSIZE( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_BITSIZE; }
-int SDL_AUDIO_ISFLOAT( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_DATATYPE; }
-int SDL_AUDIO_ISBIGENDIAN( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_ENDIAN; }
-int SDL_AUDIO_ISSIGNED( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_SIGNED; }
-int SDL_AUDIO_ISINT( SDL_AudioFormat x ) { return !SDL_AUDIO_ISFLOAT( x ); }
-int SDL_AUDIO_ISLITTLEENDIAN( SDL_AudioFormat x ) { return !SDL_AUDIO_ISBIGENDIAN( x ); }
-int SDL_AUDIO_ISUNSIGNED( SDL_AudioFormat x ) { return !SDL_AUDIO_ISSIGNED( x ); }
+nothrow {
+    int SDL_AUDIO_BITSIZE( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_BITSIZE; }
+    int SDL_AUDIO_ISFLOAT( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_DATATYPE; }
+    int SDL_AUDIO_ISBIGENDIAN( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_ENDIAN; }
+    int SDL_AUDIO_ISSIGNED( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_SIGNED; }
+    int SDL_AUDIO_ISINT( SDL_AudioFormat x ) { return !SDL_AUDIO_ISFLOAT( x ); }
+    int SDL_AUDIO_ISLITTLEENDIAN( SDL_AudioFormat x ) { return !SDL_AUDIO_ISBIGENDIAN( x ); }
+    int SDL_AUDIO_ISUNSIGNED( SDL_AudioFormat x ) { return !SDL_AUDIO_ISSIGNED( x ); }
+}
 
 enum : SDL_AudioFormat {
     AUDIO_U8 = 0x0008,
@@ -1757,7 +1759,7 @@ struct SDL_Texture;
 
 // SDL_rwops.h
 struct SDL_RWops {
-    extern( C ) {
+    extern( C ) nothrow {
         Sint64 function( SDL_RWops* ) size;
         Sint64 function( SDL_RWops*, Sint64, int ) seek;
         size_t function( SDL_RWops*, void*, size_t, size_t ) read;
