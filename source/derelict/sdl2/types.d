@@ -1655,7 +1655,7 @@ struct SDL_Color {
     Uint8 g;
     Uint8 b;
     Uint8 unused;
-};
+}
 
 struct SDL_Palette {
     int ncolors;
@@ -1670,7 +1670,7 @@ struct SDL_PixelFormat {
     SDL_Palette *palette;
     Uint8 BitsPerPixel;
     Uint8 BytesPerPixel;
-    Uint8 padding[2];
+    Uint8[2] padding;
     Uint32 Rmask;
     Uint32 Gmask;
     Uint32 Bmask;
