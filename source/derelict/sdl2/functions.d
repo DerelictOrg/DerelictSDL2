@@ -250,7 +250,7 @@ extern( C ) nothrow {
     alias da_SDL_LogSetOutputFunction = void function( SDL_LogOutputFunction, void* );
 
     // SDL_messagebox.h
-    alias da_SDL_ShowMessageBox = int function( const( SDL_MessageBoxData )*, int );
+    alias da_SDL_ShowMessageBox = int function( const( SDL_MessageBoxData )*, int* );
     alias da_SDL_ShowSimpleMessageBox = int function( Uint32, const( char )*, const( char )*, SDL_Window* );
 
     // SDL_mouse.h
