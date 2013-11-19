@@ -494,6 +494,8 @@ extern( C ) nothrow {
     alias da_SDL_GL_GetAttribute = int function( SDL_GLattr, int* );
     alias da_SDL_GL_CreateContext = SDL_GLContext function( SDL_Window* );
     alias da_SDL_GL_MakeCurrent = int function( SDL_Window*, SDL_GLContext );
+    alias da_SDL_GL_GetCurrentWindow = SDL_Window* function();
+    alias da_SDL_GL_GetCurrentContext = SDL_GLContext function();
     alias da_SDL_GL_SetSwapInterval = int function( int );
     alias da_SDL_GL_GetSwapInterval = int function();
     alias da_SDL_GL_SwapWindow = void function( SDL_Window* );
@@ -952,6 +954,8 @@ __gshared {
     da_SDL_GL_GetAttribute SDL_GL_GetAttribute;
     da_SDL_GL_CreateContext SDL_GL_CreateContext;
     da_SDL_GL_MakeCurrent SDL_GL_MakeCurrent;
+    da_SDL_GL_GetCurrentWindow SDL_GL_GetCurrentWindow;
+    da_SDL_GL_GetCurrentContext SDL_GL_GetCurrentContext;
     da_SDL_GL_SetSwapInterval SDL_GL_SetSwapInterval;
     da_SDL_GL_GetSwapInterval SDL_GL_GetSwapInterval;
     da_SDL_GL_SwapWindow SDL_GL_SwapWindow;
