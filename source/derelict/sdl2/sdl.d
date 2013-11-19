@@ -181,6 +181,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_SetHintWithPriority, "SDL_SetHintWithPriority" );
             bindFunc( cast( void** )&SDL_SetHint, "SDL_SetHint" );
             bindFunc( cast( void** )&SDL_GetHint, "SDL_GetHint" );
+            bindFunc( cast( void** )&SDL_AddHintCallback, "SDL_AddHintCallback" );
+            bindFunc( cast( void** )&SDL_DelHintCallback, "SDL_DelHintCallback" );
             bindFunc( cast( void** )&SDL_ClearHints, "SDL_ClearHints" );
             //            bindFunc( cast( void** )&SDL_RedetectInputDevices, "SDL_RedetectInputDevices" );
             //            bindFunc( cast( void** )&SDL_GetNumInputDevices, "SDL_GetNumInputDevices" );

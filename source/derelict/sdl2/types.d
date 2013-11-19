@@ -32,10 +32,6 @@ private {
     import core.stdc.stdio;
 }
 
-// From SDL_revision.h
-enum SDL_REVISION = "hg-6984:ae9c4b12f3e2";
-enum SDL_REVISION_NUMBER = 6984;
-
 // SDL_version.h
 struct SDL_version {
     Uint8 major;
@@ -591,7 +587,7 @@ struct SDL_Haptic;
 enum : Uint16 {
     SDL_HAPTIC_CONSTANT = 1<<0,
     SDL_HAPTIC_SINE = 1<<1,
-    SDL_HAPTIC_SQUARE = 1<<2,
+    SDL_HAPTIC_LEFTRIGHT = 1<<2,
     SDL_HAPTIC_TRIANGLE = 1<<3,
     SDL_HAPTIC_SAWTOOTHUP = 1<<4,
     SDL_HAPTIC_SAWTOOTHDOWN = 1<<5,
@@ -678,6 +674,13 @@ struct SDL_HapticRamp {
     Uint16 fade_level;
 }
 
+struct SDL_HapticLeftRight {
+    Uint16 type;
+    Uint32 length;
+    Uint16 large_magnitude;
+    Uint16 small_magnitude;
+}
+
 struct SDL_HapticCustom {
     Uint16 type;
     SDL_HapticDirection direction;
@@ -701,6 +704,7 @@ union SDL_HapticEffect {
     SDL_HapticPeriodic periodic;
     SDL_HapticCondition condition;
     SDL_HapticRamp ramp;
+    SDL_HapticLeftRight leftright;
     SDL_HapticCustom custom;
 }
 
@@ -721,6 +725,9 @@ enum : string
     SDL_HINT_ORIENTATIONS = "SDL_IOS_ORIENTATIONS",
     SDL_HINT_XINPUT_ENABLED = "SDL_XINPUT_ENABLED",
     SDL_HINT_GAMECONTROLLERCONFIG = "SDL_GAMECONTROLLERCONFIG",
+    SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS",
+    SDL_HINT_ALLOW_TOPMOST = "SDL_ALLOW_TOPMOST",
+    SDL_HINT_TIMER_RESOLUTION = "SDL_TIMER_RESOLUTION",
 }
 
 alias SDL_HintPriority = int;
@@ -729,6 +736,8 @@ enum {
     SDL_HINT_NORMAL,
     SDL_HINT_OVERRIDE,
 }
+
+extern( C ) nothrow alias SDL_HintCallback = void function( void*, const( char )*, const( char )* );
 
 // SDL_joystick.h
 struct SDL_Joystick;

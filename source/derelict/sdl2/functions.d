@@ -176,6 +176,8 @@ extern( C ) nothrow {
     alias da_SDL_SetHintWithPriority = SDL_bool function( const( char )*, const( char )*, SDL_HintPriority );
     alias da_SDL_SetHint = SDL_bool function( const( char )*, const( char )* );
     alias da_SDL_GetHint = const( char )* function( const( char )* );
+    alias da_SDL_AddHintCallback = void function( const( char )*, SDL_HintCallback, void* );
+    alias da_SDL_DelHintCallback = void function( const( char )*, SDL_HintCallback, void* );
     alias da_SDL_ClearHints = void function();
 
     // SDL_input.h
@@ -655,6 +657,8 @@ __gshared {
     da_SDL_SetHintWithPriority SDL_SetHintWithPriority;
     da_SDL_SetHint SDL_SetHint;
     da_SDL_GetHint SDL_GetHint;
+    da_SDL_AddHintCallback SDL_AddHintCallback;
+    da_SDL_DelHintCallback SDL_DelHintCallback;
     da_SDL_ClearHints SDL_ClearHints;
 
 //    da_SDL_RedetectInputDevices SDL_RedetectInputDevices;
