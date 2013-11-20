@@ -1,7 +1,7 @@
 DerelictSDL2
 ============
 
-Dynamic bindings to [SDL 2](http://www.libsdl.org/download-2.0.php), [SDL2_image](http://www.libsdl.org/projects/SDL_image/), [SDL2_mixer](http://www.libsdl.org/projects/SDL_mixer/), [SDL2_ttf](http://www.libsdl.org/projects/SDL_ttf/), and [SDL2_net](http://www.libsdl.org/projects/SDL_net/) for the D Programming Language.
+Dynamic bindings to [SDL 2](http://www.libsdl.org/download-2.0.php) version 2.0.0, [SDL2_image](http://www.libsdl.org/projects/SDL_image/), [SDL2_mixer](http://www.libsdl.org/projects/SDL_mixer/), [SDL2_ttf](http://www.libsdl.org/projects/SDL_ttf/), and [SDL2_net](http://www.libsdl.org/projects/SDL_net/) for the D Programming Language.
 
 For information on how to build DerelictSDL2 and link it with your programs, please see the post [Building and Using Packages in DerelictOrg](http://dblog.aldacron.net/forum/index.php?topic=841.0) at the Derelict forums.
 
