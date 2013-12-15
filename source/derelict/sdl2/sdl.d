@@ -464,6 +464,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GL_GetSwapInterval, "SDL_GL_GetSwapInterval" );
             bindFunc( cast( void** )&SDL_GL_SwapWindow, "SDL_GL_SwapWindow" );
             bindFunc( cast( void** )&SDL_GL_DeleteContext, "SDL_GL_DeleteContext" );
+            bindFunc( cast( void** )&SDL_GL_GetDrawableSize, "SDL_GL_GetDrawableSize" );
 
             // SDL_init will fail if SDL_SetMainReady has not been called.
             // Since there's no SDL_main on the D side, it needs to be handled
