@@ -1,4 +1,4 @@
-module package.d;
+module derelict.sdl2;
 
 public import derelict.sdl2.image,
               derelict.sdl2.mixer,
