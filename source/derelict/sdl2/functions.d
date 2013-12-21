@@ -41,6 +41,11 @@ extern( C ) nothrow {
     alias da_SDL_WasInit = Uint32 function( Uint32 );
     alias da_SDL_Quit = void function();
 
+    // SDL_assert.h
+    alias da_SDL_SetAssertionHandler = void function(SDL_AssertionHandler, void*);
+    alias da_SDL_GetAssertionReport = const(SDL_assert_data)* function();
+    alias da_SDL_ResetAssertionReport = void function();
+
     // SDL_audio.h
     alias da_SDL_GetNumAudioDrivers = int function();
     alias da_SDL_GetAudioDriver = const( char )* function( int );
@@ -536,6 +541,10 @@ __gshared {
     da_SDL_QuitSubSystem SDL_QuitSubSystem;
     da_SDL_WasInit SDL_WasInit;
     da_SDL_Quit SDL_Quit;
+
+    da_SDL_SetAssertionHandler SDL_SetAssertionHandler;
+    da_SDL_GetAssertionReport SDL_GetAssertionReport;
+    da_SDL_ResetAssertionReport SDL_ResetAssertionReport;
 
     da_SDL_GetNumAudioDrivers SDL_GetNumAudioDrivers;
     da_SDL_GetAudioDriver SDL_GetAudioDriver;

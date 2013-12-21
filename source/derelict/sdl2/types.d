@@ -98,6 +98,29 @@ enum : Uint32 {
                 SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER
 }
 
+// SDL_assert.h
+alias SDL_assert_state = Uint32;
+
+enum : SDL_assert_state {
+    SDL_ASSERTION_RETRY = 0,
+    SDL_ASSERTION_BREAK = 1,
+    SDL_ASSERTION_ABORT = 2,
+    SDL_ASSERTION_IGNORE = 3,
+    SDL_ASSERTION_ALWAYS_IGNORE = 4
+}
+
+struct SDL_assert_data {
+    int always_ignore;
+    Uint32 trigger_count;
+    const(char) *condition;
+    const(char) *filename;
+    int linenum;
+    const(char) *function_;
+    const(SDL_assert_data) *next;
+}
+
+extern( C ) nothrow alias SDL_AssertionHandler = SDL_assert_state function( const(SDL_assert_data)* data, void* userdata );
+
 // SDL_audio.h
 alias SDL_AudioFormat = Uint16;
 
@@ -2009,3 +2032,4 @@ enum {
     SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG = 0x0004,
     SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008,
 }
+
