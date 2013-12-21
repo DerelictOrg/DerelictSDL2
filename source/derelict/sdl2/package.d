@@ -1,4 +1,4 @@
-module derelict.sdl2;
+module sdl2;
 
 public import derelict.sdl2.image,
               derelict.sdl2.mixer,
