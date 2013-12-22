@@ -64,6 +64,9 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_QuitSubSystem, "SDL_QuitSubSystem" );
             bindFunc( cast( void** )&SDL_WasInit, "SDL_WasInit" );
             bindFunc( cast( void** )&SDL_Quit, "SDL_Quit" );
+            bindFunc( cast( void** )&SDL_SetAssertionHandler, "SDL_SetAssertionHandler" );
+            bindFunc( cast( void** )&SDL_GetAssertionReport, "SDL_GetAssertionReport" );
+            bindFunc( cast( void** )&SDL_ResetAssertionReport, "SDL_ResetAssertionReport" );
             bindFunc( cast( void** )&SDL_GetNumAudioDrivers, "SDL_GetNumAudioDrivers" );
             bindFunc( cast( void** )&SDL_GetAudioDriver, "SDL_GetAudioDriver" );
             bindFunc( cast( void** )&SDL_AudioInit, "SDL_AudioInit" );
