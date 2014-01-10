@@ -114,7 +114,7 @@ extern( C ) nothrow {
     alias da_SDLNet_ResolveHost = int function( IPaddress*, const( char )*, Uint16 );
     alias da_SDLNet_ResolveIP = const( char )* function( const( IPaddress )* );
     alias da_SDLNet_GetLocalAddresses = int function( IPaddress*, int );
-    alias da_SDLNet_TCP_Open = TCPsocket function( IPaddress );
+    alias da_SDLNet_TCP_Open = TCPsocket function( IPaddress* );
     alias da_SDLNet_TCP_Accept = TCPsocket function( TCPsocket );
     alias da_SDLNet_TCP_GetPeerAddress = IPaddress* function( TCPsocket );
     alias da_SDLNet_TCP_Send = int function( TCPsocket, const( void )*, int );
