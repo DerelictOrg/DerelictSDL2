@@ -511,7 +511,7 @@ extern( C ) nothrow {
     alias da_SDL_GL_DeleteContext = void function( SDL_GLContext );
 
     // SDL_filesystem.h
-    alias da_SDL_GetBasePath = char* function( const( char )* org, const( char )* app);
+    alias da_SDL_GetBasePath = char* function();
     alias da_SDL_GetPrefPath = char* function( const( char )* org, const( char )* app);
 }
 
