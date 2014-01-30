@@ -385,6 +385,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetPerformanceFrequency, "SDL_GetPerformanceFrequency" );
             bindFunc( cast( void** )&SDL_Delay, "SDL_Delay" );
             bindFunc( cast( void** )&SDL_AddTimer, "SDL_AddTimer" );
+            bindFunc( cast( void** )&SDL_RemoveTimer, "SDL_RemoveTimer" );
             bindFunc( cast( void** )&SDL_GetNumTouchDevices, "SDL_GetNumTouchDevices" );
             bindFunc( cast( void** )&SDL_GetTouchDevice, "SDL_GetTouchDevice" );
             bindFunc( cast( void** )&SDL_GetNumTouchFingers, "SDL_GetNumTouchFingers" );

@@ -880,6 +880,7 @@ __gshared {
     da_SDL_GetPerformanceFrequency SDL_GetPerformanceFrequency;
     da_SDL_Delay SDL_Delay;
     da_SDL_AddTimer SDL_AddTimer;
+    da_SDL_RemoveTimer SDL_RemoveTimer;
 
     da_SDL_GetNumTouchDevices SDL_GetNumTouchDevices;
     da_SDL_GetTouchDevice SDL_GetTouchDevice;
