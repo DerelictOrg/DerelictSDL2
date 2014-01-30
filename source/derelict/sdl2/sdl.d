@@ -64,6 +64,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_QuitSubSystem, "SDL_QuitSubSystem" );
             bindFunc( cast( void** )&SDL_WasInit, "SDL_WasInit" );
             bindFunc( cast( void** )&SDL_Quit, "SDL_Quit" );
+            bindFunc( cast( void** )&SDL_free, "SDL_free" );
             bindFunc( cast( void** )&SDL_SetAssertionHandler, "SDL_SetAssertionHandler" );
             bindFunc( cast( void** )&SDL_GetAssertionReport, "SDL_GetAssertionReport" );
             bindFunc( cast( void** )&SDL_ResetAssertionReport, "SDL_ResetAssertionReport" );
@@ -469,6 +470,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GL_SwapWindow, "SDL_GL_SwapWindow" );
             bindFunc( cast( void** )&SDL_GL_DeleteContext, "SDL_GL_DeleteContext" );
             bindFunc( cast( void** )&SDL_GL_GetDrawableSize, "SDL_GL_GetDrawableSize" );
+            bindFunc( cast( void** )&SDL_GetBasePath, "SDL_GetBasePath", false );
+            bindFunc( cast( void** )&SDL_GetPrefPath, "SDL_GetPrefPath", false );
 
             // SDL_init will fail if SDL_SetMainReady has not been called.
             // Since there's no SDL_main on the D side, it needs to be handled

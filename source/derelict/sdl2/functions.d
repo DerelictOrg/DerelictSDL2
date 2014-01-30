@@ -40,6 +40,7 @@ extern( C ) nothrow {
     alias da_SDL_QuitSubSystem = void function( Uint32 );
     alias da_SDL_WasInit = Uint32 function( Uint32 );
     alias da_SDL_Quit = void function();
+    alias da_SDL_free = void function( void* mem );
 
     // SDL_assert.h
     alias da_SDL_SetAssertionHandler = void function(SDL_AssertionHandler, void*);
@@ -508,6 +509,10 @@ extern( C ) nothrow {
     alias da_SDL_GL_GetSwapInterval = int function();
     alias da_SDL_GL_SwapWindow = void function( SDL_Window* );
     alias da_SDL_GL_DeleteContext = void function( SDL_GLContext );
+
+    // SDL_filesystem.h
+    alias da_SDL_GetBasePath = char* function();
+    alias da_SDL_GetPrefPath = char* function( const( char )* org, const( char )* app);
 }
 
 // SDL_audio.h
@@ -541,6 +546,7 @@ __gshared {
     da_SDL_QuitSubSystem SDL_QuitSubSystem;
     da_SDL_WasInit SDL_WasInit;
     da_SDL_Quit SDL_Quit;
+    da_SDL_free SDL_free;
 
     da_SDL_SetAssertionHandler SDL_SetAssertionHandler;
     da_SDL_GetAssertionReport SDL_GetAssertionReport;
@@ -976,5 +982,8 @@ __gshared {
     da_SDL_GL_GetSwapInterval SDL_GL_GetSwapInterval;
     da_SDL_GL_SwapWindow SDL_GL_SwapWindow;
     da_SDL_GL_DeleteContext SDL_GL_DeleteContext;
+
+    da_SDL_GetBasePath SDL_GetBasePath;
+    da_SDL_GetPrefPath SDL_GetPrefPath;
 }
 
