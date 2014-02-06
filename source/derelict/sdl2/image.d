@@ -74,7 +74,6 @@ extern(C) nothrow {
     alias da_IMG_Linked_Version = const(SDL_version)* function();
     alias da_IMG_LoadTyped_RW = SDL_Surface* function(SDL_RWops*, int, const(char)*);
     alias da_IMG_Load = SDL_Surface* function(const(char)*);
-    alias da_IMG_SavePNG = int function(SDL_Surface*, const(char)*);
     alias da_IMG_Load_RW = SDL_Surface* function(SDL_RWops*, int);
 
     alias da_IMG_LoadTexture = SDL_Texture* function(SDL_Renderer*, const(char)*);
@@ -121,7 +120,6 @@ __gshared {
     da_IMG_Linked_Version IMG_Linked_Version;
     da_IMG_LoadTyped_RW IMG_LoadTyped_RW;
     da_IMG_Load IMG_Load;
-    da_IMG_SavePNG IMG_SavePNG;
     da_IMG_Load_RW IMG_Load_RW;
     da_IMG_LoadTexture IMG_LoadTexture;
     da_IMG_LoadTexture_RW IMG_LoadTexture_RW;
@@ -169,7 +167,6 @@ class DerelictSDL2ImageLoader : SharedLibLoader {
         bindFunc(cast(void**)&IMG_Linked_Version, "IMG_Linked_Version");
         bindFunc(cast(void**)&IMG_LoadTyped_RW, "IMG_LoadTyped_RW");
         bindFunc(cast(void**)&IMG_Load, "IMG_Load");
-        bindFunc(cast(void**)&IMG_SavePNG, "IMG_SavePng");
         bindFunc(cast(void**)&IMG_Load_RW, "IMG_Load_RW");
         bindFunc(cast(void**)&IMG_LoadTexture, "IMG_LoadTexture");
         bindFunc(cast(void**)&IMG_LoadTexture_RW, "IMG_LoadTexture_RW");
