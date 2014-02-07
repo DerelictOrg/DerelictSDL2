@@ -34,14 +34,14 @@ private {
     import derelict.sdl2.types;
     import derelict.sdl2.functions;
 
-    static if(Derelict_OS_Windows)
+    static if( Derelict_OS_Windows )
         enum libNames = "SDL2_image.dll";
-    else static if(Derelict_OS_Mac)
+    else static if( Derelict_OS_Mac )
         enum libNames = "../Frameworks/SDL2_image.framework/SDL2_image, /Library/Frameworks/SDL2_image.framework/SDL2_image, /System/Library/Frameworks/SDL2_image.framework/SDL2_image";
-    else static if(Derelict_OS_Posix)
+    else static if( Derelict_OS_Posix )
         enum libNames = "libSDL2_image.so, libSDL2_image-2.0.so, libSDL2_image-2.0.so.0, /usr/local/lib/libSDL2_image.so, /usr/local/lib/libSDL2_image-2.0.so, /usr/local/lib/libSDL2_image-2.0.so.0";
     else
-        static assert(0, "Need to implement SDL2_image libNames for this operating system.");
+        static assert( 0, "Need to implement SDL2_image libNames for this operating system." );
 }
 
 alias IMG_SetError = SDL_SetError;
@@ -53,7 +53,7 @@ enum : Uint8 {
     SDL_IMAGE_PATCHLEVEL        = 0,
 }
 
-void SDL_IMAGE_VERSION(SDL_version* X) {
+void SDL_IMAGE_VERSION( SDL_version* X ) {
     X.major     = SDL_IMAGE_MAJOR_VERSION;
     X.minor     = SDL_IMAGE_MINOR_VERSION;
     X.patch     = SDL_IMAGE_PATCHLEVEL;
@@ -68,50 +68,53 @@ enum {
 
 
 
-extern(C) nothrow {
-    alias da_IMG_Init = int function(int);
+extern( C ) nothrow {
+    alias da_IMG_Init = int function( int );
     alias da_IMG_Quit = int function();
-    alias da_IMG_Linked_Version = const(SDL_version)* function();
-    alias da_IMG_LoadTyped_RW = SDL_Surface* function(SDL_RWops*, int, const(char)*);
-    alias da_IMG_Load = SDL_Surface* function(const(char)*);
-    alias da_IMG_Load_RW = SDL_Surface* function(SDL_RWops*, int);
+    alias da_IMG_Linked_Version = const( SDL_version )* function();
+    alias da_IMG_LoadTyped_RW = SDL_Surface* function( SDL_RWops*, int, const( char )* );
+    alias da_IMG_Load = SDL_Surface* function( const( char )* );
+    alias da_IMG_Load_RW = SDL_Surface* function( SDL_RWops*, int );
 
-    alias da_IMG_LoadTexture = SDL_Texture* function(SDL_Renderer*, const(char)*);
-    alias da_IMG_LoadTexture_RW = SDL_Texture* function(SDL_Renderer*, SDL_RWops*, int);
-    alias da_IMG_LoadTextureTyped_RW = SDL_Texture* function(SDL_Renderer*, SDL_RWops*, int, const(char)*);
+    alias da_IMG_LoadTexture = SDL_Texture* function( SDL_Renderer*, const( char )* );
+    alias da_IMG_LoadTexture_RW = SDL_Texture* function( SDL_Renderer*, SDL_RWops*, int );
+    alias da_IMG_LoadTextureTyped_RW = SDL_Texture* function( SDL_Renderer*, SDL_RWops*, int, const( char )* );
 
-    alias da_IMG_isICO = int function(SDL_RWops*);
-    alias da_IMG_isCUR = int function(SDL_RWops*);
-    alias da_IMG_isBMP = int function(SDL_RWops*);
-    alias da_IMG_isGIF = int function(SDL_RWops*);
-    alias da_IMG_isJPG = int function(SDL_RWops*);
-    alias da_IMG_isLBM = int function(SDL_RWops*);
-    alias da_IMG_isPCX = int function(SDL_RWops*);
-    alias da_IMG_isPNG = int function(SDL_RWops*);
-    alias da_IMG_isPNM = int function(SDL_RWops*);
-    alias da_IMG_isTIF = int function(SDL_RWops*);
-    alias da_IMG_isXCF = int function(SDL_RWops*);
-    alias da_IMG_isXPM = int function(SDL_RWops*);
-    alias da_IMG_isXV = int function(SDL_RWops*);
-    alias da_IMG_isWEBP = int function(SDL_RWops*);
+    alias da_IMG_isICO = int function( SDL_RWops* );
+    alias da_IMG_isCUR = int function( SDL_RWops* );
+    alias da_IMG_isBMP = int function( SDL_RWops* );
+    alias da_IMG_isGIF = int function( SDL_RWops* );
+    alias da_IMG_isJPG = int function( SDL_RWops* );
+    alias da_IMG_isLBM = int function( SDL_RWops* );
+    alias da_IMG_isPCX = int function( SDL_RWops* );
+    alias da_IMG_isPNG = int function( SDL_RWops* );
+    alias da_IMG_isPNM = int function( SDL_RWops* );
+    alias da_IMG_isTIF = int function( SDL_RWops* );
+    alias da_IMG_isXCF = int function( SDL_RWops* );
+    alias da_IMG_isXPM = int function( SDL_RWops* );
+    alias da_IMG_isXV = int function( SDL_RWops* );
+    alias da_IMG_isWEBP = int function( SDL_RWops* );
 
-    alias da_IMG_LoadICO_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadCUR_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadBMP_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadGIF_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadJPG_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadLBM_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadPCX_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadPNG_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadPNM_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadTGA_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadTIF_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadXCF_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadXPM_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadXV_RW = SDL_Surface* function(SDL_RWops*);
-    alias da_IMG_LoadWEBP_RW = SDL_Surface* function(SDL_RWops*);
+    alias da_IMG_LoadICO_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadCUR_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadBMP_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadGIF_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadJPG_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadLBM_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadPCX_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadPNG_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadPNM_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadTGA_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadTIF_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadXCF_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadXPM_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadXV_RW = SDL_Surface* function( SDL_RWops* );
+    alias da_IMG_LoadWEBP_RW = SDL_Surface* function( SDL_RWops* );
 
-    alias da_IMG_ReadXPMFromArray = SDL_Surface* function(char**);
+    alias da_IMG_ReadXPMFromArray = SDL_Surface* function( char** );
+
+    alias da_IMG_SavePNG = int function( SDL_Surface*, const( char )* )
+    alias da_IMG_SavePNG_RW = int function( SDL_Surface*, SDL_RWops*, int );
 }
 
 __gshared {
@@ -154,53 +157,57 @@ __gshared {
     da_IMG_LoadXV_RW IMG_LoadXV_RW;
     da_IMG_LoadWEBP_RW IMG_LoadWEBP_RW;
     da_IMG_ReadXPMFromArray IMG_ReadXPMFromArray;
+    da_IMG_SavePNG IMG_SavePNG;
+    da_IMG_SavePNG_RW IMG_SavePNG_RW;
 }
 
 class DerelictSDL2ImageLoader : SharedLibLoader {
     public this() {
-        super(libNames);
+        super( libNames );
     }
 
     protected override void loadSymbols() {
-        bindFunc(cast(void**)&IMG_Init, "IMG_Init");
-        bindFunc(cast(void**)&IMG_Quit, "IMG_Quit");
-        bindFunc(cast(void**)&IMG_Linked_Version, "IMG_Linked_Version");
-        bindFunc(cast(void**)&IMG_LoadTyped_RW, "IMG_LoadTyped_RW");
-        bindFunc(cast(void**)&IMG_Load, "IMG_Load");
-        bindFunc(cast(void**)&IMG_Load_RW, "IMG_Load_RW");
-        bindFunc(cast(void**)&IMG_LoadTexture, "IMG_LoadTexture");
-        bindFunc(cast(void**)&IMG_LoadTexture_RW, "IMG_LoadTexture_RW");
-        bindFunc(cast(void**)&IMG_LoadTextureTyped_RW, "IMG_LoadTextureTyped_RW");
-        bindFunc(cast(void**)&IMG_isICO, "IMG_isICO");
-        bindFunc(cast(void**)&IMG_isCUR, "IMG_isCUR");
-        bindFunc(cast(void**)&IMG_isBMP, "IMG_isBMP");
-        bindFunc(cast(void**)&IMG_isGIF, "IMG_isGIF");
-        bindFunc(cast(void**)&IMG_isJPG, "IMG_isJPG");
-        bindFunc(cast(void**)&IMG_isLBM, "IMG_isLBM");
-        bindFunc(cast(void**)&IMG_isPCX, "IMG_isPCX");
-        bindFunc(cast(void**)&IMG_isPNG, "IMG_isPNG");
-        bindFunc(cast(void**)&IMG_isPNM, "IMG_isPNM");
-        bindFunc(cast(void**)&IMG_isTIF, "IMG_isTIF");
-        bindFunc(cast(void**)&IMG_isXCF, "IMG_isXCF");
-        bindFunc(cast(void**)&IMG_isXPM, "IMG_isXPM");
-        bindFunc(cast(void**)&IMG_isXV, "IMG_isXV");
-        bindFunc(cast(void**)&IMG_isWEBP, "IMG_isWEBP");
-        bindFunc(cast(void**)&IMG_LoadICO_RW, "IMG_LoadICO_RW");
-        bindFunc(cast(void**)&IMG_LoadCUR_RW, "IMG_LoadCUR_RW");
-        bindFunc(cast(void**)&IMG_LoadBMP_RW, "IMG_LoadBMP_RW");
-        bindFunc(cast(void**)&IMG_LoadGIF_RW, "IMG_LoadGIF_RW");
-        bindFunc(cast(void**)&IMG_LoadJPG_RW, "IMG_LoadJPG_RW");
-        bindFunc(cast(void**)&IMG_LoadLBM_RW, "IMG_LoadLBM_RW");
-        bindFunc(cast(void**)&IMG_LoadPCX_RW, "IMG_LoadPCX_RW");
-        bindFunc(cast(void**)&IMG_LoadPNG_RW, "IMG_LoadPNG_RW");
-        bindFunc(cast(void**)&IMG_LoadPNM_RW, "IMG_LoadPNM_RW");
-        bindFunc(cast(void**)&IMG_LoadTGA_RW, "IMG_LoadTGA_RW");
-        bindFunc(cast(void**)&IMG_LoadTIF_RW, "IMG_LoadTIF_RW");
-        bindFunc(cast(void**)&IMG_LoadXCF_RW, "IMG_LoadXCF_RW");
-        bindFunc(cast(void**)&IMG_LoadXPM_RW, "IMG_LoadXPM_RW");
-        bindFunc(cast(void**)&IMG_LoadXV_RW, "IMG_LoadXV_RW");
-        bindFunc(cast(void**)&IMG_isXV, "IMG_isXV");
-        bindFunc(cast(void**)&IMG_LoadWEBP_RW, "IMG_LoadWEBP_RW");
+        bindFunc( cast( void** )&IMG_Init, "IMG_Init" );
+        bindFunc( cast( void** )&IMG_Quit, "IMG_Quit" );
+        bindFunc( cast( void** )&IMG_Linked_Version, "IMG_Linked_Version" );
+        bindFunc( cast( void** )&IMG_LoadTyped_RW, "IMG_LoadTyped_RW" );
+        bindFunc( cast( void** )&IMG_Load, "IMG_Load" );
+        bindFunc( cast( void** )&IMG_Load_RW, "IMG_Load_RW" );
+        bindFunc( cast( void** )&IMG_LoadTexture, "IMG_LoadTexture" );
+        bindFunc( cast( void** )&IMG_LoadTexture_RW, "IMG_LoadTexture_RW" );
+        bindFunc( cast( void** )&IMG_LoadTextureTyped_RW, "IMG_LoadTextureTyped_RW" );
+        bindFunc( cast( void** )&IMG_isICO, "IMG_isICO" );
+        bindFunc( cast( void** )&IMG_isCUR, "IMG_isCUR" );
+        bindFunc( cast( void** )&IMG_isBMP, "IMG_isBMP" );
+        bindFunc( cast( void** )&IMG_isGIF, "IMG_isGIF" );
+        bindFunc( cast( void** )&IMG_isJPG, "IMG_isJPG" );
+        bindFunc( cast( void** )&IMG_isLBM, "IMG_isLBM" );
+        bindFunc( cast( void** )&IMG_isPCX, "IMG_isPCX" );
+        bindFunc( cast( void** )&IMG_isPNG, "IMG_isPNG" );
+        bindFunc( cast( void** )&IMG_isPNM, "IMG_isPNM" );
+        bindFunc( cast( void** )&IMG_isTIF, "IMG_isTIF" );
+        bindFunc( cast( void** )&IMG_isXCF, "IMG_isXCF" );
+        bindFunc( cast( void** )&IMG_isXPM, "IMG_isXPM" );
+        bindFunc( cast( void** )&IMG_isXV, "IMG_isXV" );
+        bindFunc( cast( void** )&IMG_isWEBP, "IMG_isWEBP" );
+        bindFunc( cast( void** )&IMG_LoadICO_RW, "IMG_LoadICO_RW" );
+        bindFunc( cast( void** )&IMG_LoadCUR_RW, "IMG_LoadCUR_RW" );
+        bindFunc( cast( void** )&IMG_LoadBMP_RW, "IMG_LoadBMP_RW" );
+        bindFunc( cast( void** )&IMG_LoadGIF_RW, "IMG_LoadGIF_RW" );
+        bindFunc( cast( void** )&IMG_LoadJPG_RW, "IMG_LoadJPG_RW" );
+        bindFunc( cast( void** )&IMG_LoadLBM_RW, "IMG_LoadLBM_RW" );
+        bindFunc( cast( void** )&IMG_LoadPCX_RW, "IMG_LoadPCX_RW" );
+        bindFunc( cast( void** )&IMG_LoadPNG_RW, "IMG_LoadPNG_RW" );
+        bindFunc( cast( void** )&IMG_LoadPNM_RW, "IMG_LoadPNM_RW" );
+        bindFunc( cast( void** )&IMG_LoadTGA_RW, "IMG_LoadTGA_RW" );
+        bindFunc( cast( void** )&IMG_LoadTIF_RW, "IMG_LoadTIF_RW" );
+        bindFunc( cast( void** )&IMG_LoadXCF_RW, "IMG_LoadXCF_RW" );
+        bindFunc( cast( void** )&IMG_LoadXPM_RW, "IMG_LoadXPM_RW" );
+        bindFunc( cast( void** )&IMG_LoadXV_RW, "IMG_LoadXV_RW" );
+        bindFunc( cast( void** )&IMG_isXV, "IMG_isXV" );
+        bindFunc( cast( void** )&IMG_LoadWEBP_RW, "IMG_LoadWEBP_RW" );
+        bindFunc( cast( void** )&IMG_SavePNG, "IMG_SavePNG" );
+        bindFunc( cast( void** )&IMG_SavePNG_RW, "IMG_SavePNG_RW" );
     }
 }
 
