@@ -113,7 +113,7 @@ extern( C ) nothrow {
 
     alias da_IMG_ReadXPMFromArray = SDL_Surface* function( char** );
 
-    alias da_IMG_SavePNG = int function( SDL_Surface*, const( char )* )
+    alias da_IMG_SavePNG = int function( SDL_Surface*, const( char )* );
     alias da_IMG_SavePNG_RW = int function( SDL_Surface*, SDL_RWops*, int );
 }
 
