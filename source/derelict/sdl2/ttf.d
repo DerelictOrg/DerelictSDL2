@@ -4,7 +4,7 @@ Boost Software License - Version 1.0 - August 17th, 2003
 
 Permission is hereby granted, free of charge, to any person or organization
 obtaining a copy of the software and accompanying documentation covered by
-this license (the "Software") to use, reproduce, display, distribute,
+this license ( the "Software" ) to use, reproduce, display, distribute,
 execute, and transmit the Software, and to prepare derivative works of the
 Software, and to permit third-parties to whom the Software is furnished to
 do so, all subject to the following:
@@ -35,14 +35,14 @@ private {
     import derelict.sdl2.types;
     import derelict.sdl2.functions;
 
-    static if(Derelict_OS_Windows)
+    static if( Derelict_OS_Windows )
         enum libNames = "SDL2_ttf.dll";
-    else static if(Derelict_OS_Mac)
+    else static if( Derelict_OS_Mac )
         enum libNames = "../Frameworks/SDL2_ttf.framework/SDL2_ttf, /Library/Frameworks/SDL2_ttf.framework/SDL2_ttf, /System/Library/Frameworks/SDL2_ttf.framework/SDL2_ttf";
-    else static if(Derelict_OS_Posix)
+    else static if( Derelict_OS_Posix )
         enum libNames = "libSDL2_ttf.so, libSDL2_ttf-2.0.so, libSDL2_ttf-2.0.so.0, /usr/local/lib/libSDL2.so, /usr/local/lib/libSDL2_ttf-2.0.so, /usr/local/lib/libSDL2_ttf-2.0.so.0";
     else
-        static assert(0, "Need to implement SDL2_ttf libNames for this operating system.");
+        static assert( 0, "Need to implement SDL2_ttf libNames for this operating system." );
 }
 
 enum : Uint8 {
@@ -76,59 +76,59 @@ alias TTF_GetError = SDL_GetError;
 
 struct TTF_Font;
 
-nothrow void SDL_TTF_VERSION(SDL_version* X) {
+nothrow void SDL_TTF_VERSION( SDL_version* X ) {
     X.major = SDL_TTF_MAJOR_VERSION;
     X.minor = SDL_TTF_MINOR_VERSION;
     X.patch = SDL_TTF_PATCHLEVEL;
 }
 
-nothrow void TTF_VERSION(SDL_version* X) { SDL_TTF_VERSION(X); }
+nothrow void TTF_VERSION( SDL_version* X ) { SDL_TTF_VERSION( X ); }
 
-extern (C) nothrow {
+extern ( C ) nothrow {
     alias da_TTF_Linked_Version = SDL_version* function();
-    alias da_TTF_ByteSwappedUNICODE = void function(int);
+    alias da_TTF_ByteSwappedUNICODE = void function( int );
     alias da_TTF_Init = int function();
-    alias da_TTF_OpenFont = TTF_Font * function (const(char)*, int);
-    alias da_TTF_OpenFontIndex = TTF_Font * function (const(char)*, int, c_long );
-    alias da_TTF_OpenFontRW = TTF_Font * function (SDL_RWops*, int, int);
-    alias da_TTF_OpenFontIndexRW = TTF_Font * function (SDL_RWops*, int, int, c_long);
-    alias da_TTF_GetFontStyle = int function (const(TTF_Font)*);
-    alias da_TTF_SetFontStyle = void function (const(TTF_Font)*, int style);
-    alias da_TTF_GetFontOutline = int function(const(TTF_Font)*);
-    alias da_TTF_SetFontOutline = void function(TTF_Font*, int);
-    alias da_TTF_GetFontHinting = int function(const(TTF_Font)*);
-    alias da_TTF_SetFontHinting = void function(TTF_Font*, int);
-    alias da_TTF_FontHeight = int function(const(TTF_Font)*);
-    alias da_TTF_FontAscent = int function(const(TTF_Font)*);
-    alias da_TTF_FontDescent = int function(const(TTF_Font)*);
-    alias da_TTF_FontLineSkip = int function(const(TTF_Font)*);
-    alias da_TTF_GetFontKerning = int function(const(TTF_Font)*);
-    alias da_TTF_SetFontKerning = void function(TTF_Font*, int);
-    alias da_TTF_FontFaces = int function(const(TTF_Font)*);
-    alias da_TTF_FontFaceIsFixedWidth = int function(const(TTF_Font)*);
-    alias da_TTF_FontFaceFamilyName = char* function(const(TTF_Font)*);
-    alias da_TTF_FontFaceStyleName = char* function(const(TTF_Font)*);
-    alias da_TTF_GlyphIsProvided = int function(const(TTF_Font)*, Uint16);
-    alias da_TTF_GlyphMetrics = int function (TTF_Font*, Uint16, int*, int*, int*, int*, int*);
-    alias da_TTF_SizeText = int function (TTF_Font*, const(char)*, int*, int*);
-    alias da_TTF_SizeUTF8 = int function (TTF_Font*, const(char)*, int*, int*);
-    alias da_TTF_SizeUNICODE = int function (TTF_Font*, Uint16*, int*, int*);
-    alias da_TTF_RenderText_Solid = SDL_Surface* function (TTF_Font*, const(char)*, SDL_Color);
-    alias da_TTF_RenderUTF8_Solid = SDL_Surface* function (TTF_Font*, const(char)*, SDL_Color);
-    alias da_TTF_RenderUNICODE_Solid = SDL_Surface* function (TTF_Font*, const(Uint16)*, SDL_Color);
-    alias da_TTF_RenderGlyph_Solid = SDL_Surface* function (TTF_Font*, Uint16, SDL_Color);
-    alias da_TTF_RenderText_Shaded = SDL_Surface* function (TTF_Font*, const(char)*, SDL_Color, SDL_Color);
-    alias da_TTF_RenderUTF8_Shaded = SDL_Surface* function (TTF_Font*, const(char)*, SDL_Color, SDL_Color);
-    alias da_TTF_RenderUNICODE_Shaded = SDL_Surface* function (TTF_Font*, const(Uint16)*, SDL_Color, SDL_Color);
-    alias da_TTF_RenderGlyph_Shaded = SDL_Surface* function (TTF_Font*, Uint16, SDL_Color, SDL_Color);
-    alias da_TTF_RenderText_Blended = SDL_Surface* function (TTF_Font*, const(char)*, SDL_Color);
-    alias da_TTF_RenderUTF8_Blended = SDL_Surface* function (TTF_Font*, const(char)*, SDL_Color);
-    alias da_TTF_RenderUNICODE_Blended = SDL_Surface* function (TTF_Font*, const(Uint16)*, SDL_Color);
-    alias da_TTF_RenderGlyph_Blended = SDL_Surface* function (TTF_Font*, Uint16, SDL_Color);
-    alias da_TTF_CloseFont = void function (TTF_Font*);
+    alias da_TTF_OpenFont = TTF_Font * function ( const( char )*, int );
+    alias da_TTF_OpenFontIndex = TTF_Font * function ( const( char )*, int, c_long  );
+    alias da_TTF_OpenFontRW = TTF_Font * function ( SDL_RWops*, int, int );
+    alias da_TTF_OpenFontIndexRW = TTF_Font * function ( SDL_RWops*, int, int, c_long );
+    alias da_TTF_GetFontStyle = int function ( const( TTF_Font )* );
+    alias da_TTF_SetFontStyle = void function ( const( TTF_Font )*, int style );
+    alias da_TTF_GetFontOutline = int function( const( TTF_Font )* );
+    alias da_TTF_SetFontOutline = void function( TTF_Font*, int );
+    alias da_TTF_GetFontHinting = int function( const( TTF_Font )* );
+    alias da_TTF_SetFontHinting = void function( TTF_Font*, int );
+    alias da_TTF_FontHeight = int function( const( TTF_Font )* );
+    alias da_TTF_FontAscent = int function( const( TTF_Font )* );
+    alias da_TTF_FontDescent = int function( const( TTF_Font )* );
+    alias da_TTF_FontLineSkip = int function( const( TTF_Font )* );
+    alias da_TTF_GetFontKerning = int function( const( TTF_Font )* );
+    alias da_TTF_SetFontKerning = void function( TTF_Font*, int );
+    alias da_TTF_FontFaces = int function( const( TTF_Font )* );
+    alias da_TTF_FontFaceIsFixedWidth = int function( const( TTF_Font )* );
+    alias da_TTF_FontFaceFamilyName = char* function( const( TTF_Font )* );
+    alias da_TTF_FontFaceStyleName = char* function( const( TTF_Font )* );
+    alias da_TTF_GlyphIsProvided = int function( const( TTF_Font )*, Uint16 );
+    alias da_TTF_GlyphMetrics = int function ( TTF_Font*, Uint16, int*, int*, int*, int*, int* );
+    alias da_TTF_SizeText = int function ( TTF_Font*, const( char )*, int*, int* );
+    alias da_TTF_SizeUTF8 = int function ( TTF_Font*, const( char )*, int*, int* );
+    alias da_TTF_SizeUNICODE = int function ( TTF_Font*, Uint16*, int*, int* );
+    alias da_TTF_RenderText_Solid = SDL_Surface* function ( TTF_Font*, const( char )*, SDL_Color );
+    alias da_TTF_RenderUTF8_Solid = SDL_Surface* function ( TTF_Font*, const( char )*, SDL_Color );
+    alias da_TTF_RenderUNICODE_Solid = SDL_Surface* function ( TTF_Font*, const( Uint16 )*, SDL_Color );
+    alias da_TTF_RenderGlyph_Solid = SDL_Surface* function ( TTF_Font*, Uint16, SDL_Color );
+    alias da_TTF_RenderText_Shaded = SDL_Surface* function ( TTF_Font*, const( char )*, SDL_Color, SDL_Color );
+    alias da_TTF_RenderUTF8_Shaded = SDL_Surface* function ( TTF_Font*, const( char )*, SDL_Color, SDL_Color );
+    alias da_TTF_RenderUNICODE_Shaded = SDL_Surface* function ( TTF_Font*, const( Uint16 )*, SDL_Color, SDL_Color );
+    alias da_TTF_RenderGlyph_Shaded = SDL_Surface* function ( TTF_Font*, Uint16, SDL_Color, SDL_Color );
+    alias da_TTF_RenderText_Blended = SDL_Surface* function ( TTF_Font*, const( char )*, SDL_Color );
+    alias da_TTF_RenderUTF8_Blended = SDL_Surface* function ( TTF_Font*, const( char )*, SDL_Color );
+    alias da_TTF_RenderUNICODE_Blended = SDL_Surface* function ( TTF_Font*, const( Uint16 )*, SDL_Color );
+    alias da_TTF_RenderGlyph_Blended = SDL_Surface* function ( TTF_Font*, Uint16, SDL_Color );
+    alias da_TTF_CloseFont = void function ( TTF_Font* );
     alias da_TTF_Quit = void function ();
     alias da_TTF_WasInit = int function ();
-    alias da_TTF_GetFontKerningSize = int function(TTF_Font*,int,int);
+    alias da_TTF_GetFontKerningSize = int function( TTF_Font*,int,int );
 }
 
 __gshared {
@@ -184,54 +184,54 @@ alias TTF_RenderUNICODE = TTF_RenderUNICODE_Shaded;
 
 class DerelictSDL2ttfLoader : SharedLibLoader {
     public this() {
-        super(libNames);
+        super( libNames );
     }
 
     protected override void loadSymbols() {
-        bindFunc(cast(void**)&TTF_Linked_Version, "TTF_Linked_Version");
-        bindFunc(cast(void**)&TTF_ByteSwappedUNICODE, "TTF_ByteSwappedUNICODE");
-        bindFunc(cast(void**)&TTF_Init, "TTF_Init");
-        bindFunc(cast(void**)&TTF_OpenFont, "TTF_OpenFont");
-        bindFunc(cast(void**)&TTF_OpenFontIndex, "TTF_OpenFontIndex");
-        bindFunc(cast(void**)&TTF_OpenFontRW, "TTF_OpenFontRW");
-        bindFunc(cast(void**)&TTF_OpenFontIndexRW, "TTF_OpenFontIndexRW");
-        bindFunc(cast(void**)&TTF_GetFontStyle, "TTF_GetFontStyle");
-        bindFunc(cast(void**)&TTF_SetFontStyle, "TTF_SetFontStyle");
-        bindFunc(cast(void**)&TTF_GetFontOutline, "TTF_GetFontOutline");
-        bindFunc(cast(void**)&TTF_SetFontOutline, "TTF_SetFontOutline");
-        bindFunc(cast(void**)&TTF_GetFontHinting, "TTF_GetFontHinting");
-        bindFunc(cast(void**)&TTF_SetFontHinting, "TTF_SetFontHinting");
-        bindFunc(cast(void**)&TTF_FontHeight, "TTF_FontHeight");
-        bindFunc(cast(void**)&TTF_FontAscent, "TTF_FontAscent");
-        bindFunc(cast(void**)&TTF_FontDescent, "TTF_FontDescent");
-        bindFunc(cast(void**)&TTF_FontLineSkip, "TTF_FontLineSkip");
-        bindFunc(cast(void**)&TTF_GetFontKerning, "TTF_GetFontKerning");
-        bindFunc(cast(void**)&TTF_SetFontKerning, "TTF_SetFontKerning");
-        bindFunc(cast(void**)&TTF_FontFaces, "TTF_FontFaces");
-        bindFunc(cast(void**)&TTF_FontFaceIsFixedWidth, "TTF_FontFaceIsFixedWidth");
-        bindFunc(cast(void**)&TTF_FontFaceFamilyName, "TTF_FontFaceFamilyName");
-        bindFunc(cast(void**)&TTF_FontFaceStyleName, "TTF_FontFaceStyleName");
-        bindFunc(cast(void**)&TTF_GlyphIsProvided, "TTF_GlyphIsProvided");
-        bindFunc(cast(void**)&TTF_GlyphMetrics, "TTF_GlyphMetrics");
-        bindFunc(cast(void**)&TTF_SizeText, "TTF_SizeText");
-        bindFunc(cast(void**)&TTF_SizeUTF8, "TTF_SizeUTF8");
-        bindFunc(cast(void**)&TTF_SizeUNICODE, "TTF_SizeUNICODE");
-        bindFunc(cast(void**)&TTF_RenderText_Solid, "TTF_RenderText_Solid");
-        bindFunc(cast(void**)&TTF_RenderUTF8_Solid, "TTF_RenderUTF8_Solid");
-        bindFunc(cast(void**)&TTF_RenderUNICODE_Solid, "TTF_RenderUNICODE_Solid");
-        bindFunc(cast(void**)&TTF_RenderGlyph_Solid, "TTF_RenderGlyph_Solid");
-        bindFunc(cast(void**)&TTF_RenderText_Shaded, "TTF_RenderText_Shaded");
-        bindFunc(cast(void**)&TTF_RenderUTF8_Shaded, "TTF_RenderUTF8_Shaded");
-        bindFunc(cast(void**)&TTF_RenderUNICODE_Shaded, "TTF_RenderUNICODE_Shaded");
-        bindFunc(cast(void**)&TTF_RenderGlyph_Shaded, "TTF_RenderGlyph_Shaded");
-        bindFunc(cast(void**)&TTF_RenderText_Blended, "TTF_RenderText_Blended");
-        bindFunc(cast(void**)&TTF_RenderUTF8_Blended, "TTF_RenderUTF8_Blended");
-        bindFunc(cast(void**)&TTF_RenderUNICODE_Blended, "TTF_RenderUNICODE_Blended");
-        bindFunc(cast(void**)&TTF_RenderGlyph_Blended, "TTF_RenderGlyph_Blended");
-        bindFunc(cast(void**)&TTF_CloseFont, "TTF_CloseFont");
-        bindFunc(cast(void**)&TTF_Quit, "TTF_Quit");
-        bindFunc(cast(void**)&TTF_WasInit, "TTF_WasInit");
-        bindFunc(cast(void**)&TTF_GetFontKerningSize, "TTF_GetFontKerningSize");
+        bindFunc( cast( void** )&TTF_Linked_Version, "TTF_Linked_Version" );
+        bindFunc( cast( void** )&TTF_ByteSwappedUNICODE, "TTF_ByteSwappedUNICODE" );
+        bindFunc( cast( void** )&TTF_Init, "TTF_Init" );
+        bindFunc( cast( void** )&TTF_OpenFont, "TTF_OpenFont" );
+        bindFunc( cast( void** )&TTF_OpenFontIndex, "TTF_OpenFontIndex" );
+        bindFunc( cast( void** )&TTF_OpenFontRW, "TTF_OpenFontRW" );
+        bindFunc( cast( void** )&TTF_OpenFontIndexRW, "TTF_OpenFontIndexRW" );
+        bindFunc( cast( void** )&TTF_GetFontStyle, "TTF_GetFontStyle" );
+        bindFunc( cast( void** )&TTF_SetFontStyle, "TTF_SetFontStyle" );
+        bindFunc( cast( void** )&TTF_GetFontOutline, "TTF_GetFontOutline" );
+        bindFunc( cast( void** )&TTF_SetFontOutline, "TTF_SetFontOutline" );
+        bindFunc( cast( void** )&TTF_GetFontHinting, "TTF_GetFontHinting" );
+        bindFunc( cast( void** )&TTF_SetFontHinting, "TTF_SetFontHinting" );
+        bindFunc( cast( void** )&TTF_FontHeight, "TTF_FontHeight" );
+        bindFunc( cast( void** )&TTF_FontAscent, "TTF_FontAscent" );
+        bindFunc( cast( void** )&TTF_FontDescent, "TTF_FontDescent" );
+        bindFunc( cast( void** )&TTF_FontLineSkip, "TTF_FontLineSkip" );
+        bindFunc( cast( void** )&TTF_GetFontKerning, "TTF_GetFontKerning" );
+        bindFunc( cast( void** )&TTF_SetFontKerning, "TTF_SetFontKerning" );
+        bindFunc( cast( void** )&TTF_FontFaces, "TTF_FontFaces" );
+        bindFunc( cast( void** )&TTF_FontFaceIsFixedWidth, "TTF_FontFaceIsFixedWidth" );
+        bindFunc( cast( void** )&TTF_FontFaceFamilyName, "TTF_FontFaceFamilyName" );
+        bindFunc( cast( void** )&TTF_FontFaceStyleName, "TTF_FontFaceStyleName" );
+        bindFunc( cast( void** )&TTF_GlyphIsProvided, "TTF_GlyphIsProvided" );
+        bindFunc( cast( void** )&TTF_GlyphMetrics, "TTF_GlyphMetrics" );
+        bindFunc( cast( void** )&TTF_SizeText, "TTF_SizeText" );
+        bindFunc( cast( void** )&TTF_SizeUTF8, "TTF_SizeUTF8" );
+        bindFunc( cast( void** )&TTF_SizeUNICODE, "TTF_SizeUNICODE" );
+        bindFunc( cast( void** )&TTF_RenderText_Solid, "TTF_RenderText_Solid" );
+        bindFunc( cast( void** )&TTF_RenderUTF8_Solid, "TTF_RenderUTF8_Solid" );
+        bindFunc( cast( void** )&TTF_RenderUNICODE_Solid, "TTF_RenderUNICODE_Solid" );
+        bindFunc( cast( void** )&TTF_RenderGlyph_Solid, "TTF_RenderGlyph_Solid" );
+        bindFunc( cast( void** )&TTF_RenderText_Shaded, "TTF_RenderText_Shaded" );
+        bindFunc( cast( void** )&TTF_RenderUTF8_Shaded, "TTF_RenderUTF8_Shaded" );
+        bindFunc( cast( void** )&TTF_RenderUNICODE_Shaded, "TTF_RenderUNICODE_Shaded" );
+        bindFunc( cast( void** )&TTF_RenderGlyph_Shaded, "TTF_RenderGlyph_Shaded" );
+        bindFunc( cast( void** )&TTF_RenderText_Blended, "TTF_RenderText_Blended" );
+        bindFunc( cast( void** )&TTF_RenderUTF8_Blended, "TTF_RenderUTF8_Blended" );
+        bindFunc( cast( void** )&TTF_RenderUNICODE_Blended, "TTF_RenderUNICODE_Blended" );
+        bindFunc( cast( void** )&TTF_RenderGlyph_Blended, "TTF_RenderGlyph_Blended" );
+        bindFunc( cast( void** )&TTF_CloseFont, "TTF_CloseFont" );
+        bindFunc( cast( void** )&TTF_Quit, "TTF_Quit" );
+        bindFunc( cast( void** )&TTF_WasInit, "TTF_WasInit" );
+        bindFunc( cast( void** )&TTF_GetFontKerningSize, "TTF_GetFontKerningSize" );
     }
 }
 
