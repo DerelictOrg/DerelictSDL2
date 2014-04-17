@@ -30,6 +30,7 @@ module derelict.sdl2.types;
 private {
     import core.stdc.config;
     import core.stdc.stdio;
+    import derelict.util.system;
 }
 
 // SDL_version.h

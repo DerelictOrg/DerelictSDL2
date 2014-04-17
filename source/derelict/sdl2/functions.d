@@ -30,6 +30,7 @@ module derelict.sdl2.functions;
 private {
     import core.stdc.stdio;
     import core.stdc.stdarg;
+    import derelict.util.system;
     import derelict.sdl2.types;
 }
 
