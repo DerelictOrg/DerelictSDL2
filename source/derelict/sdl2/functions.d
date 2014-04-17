@@ -418,6 +418,29 @@ extern( C ) nothrow {
     alias SDL_BlitSurface = SDL_UpperBlit;
     alias SDL_BlitScaled = SDL_UpperBlitScaled;
 
+    // SDL_system.h
+    static if( Derelict_OS_Windows ) {
+        alias da_SDL_Direct3D9GetAdapterIndex = int function( int );
+        alias da_SDL_RenderGetD3D9Device = IDirect3DDevice9* function( SDL_Renderer* );
+        alias da_SDL_DXGIGetOutputInfo = void function ( int, int*, int* );
+    }
+    static if( Derelict_OS_iOS ) {
+        alias da_SDL_iPhoneSetAnimationCallback = int function( SDL_Window*, int, SDL_iPhoneAnimationCallback, void* );
+        alias da_SDL_iPhoneSetEventPump = void function( SDL_bool );
+    }
+    static if( Derelict_OS_Android ) {
+        alias da_SDL_AndroidGetJNIEnv = void* function();
+        alias da_SDL_AndroidGetActivity = void* function();
+
+        alias da_SDL_AndroidGetInternalStoragePath = const( char )* function();
+        alias da_SDL_AndroidGetInternalStorageState = int function();
+        alias da_SDL_AndroidGetExternalStoragePath = const( char )* function();
+    }
+    static if( Derelict_OS_WindowsRT ) {
+        alias da_SDL_WinRTGetFSPathUNICODE = const( wchar_t )* function( SDL_WinRT_Path );
+        alias da_SDL_WinRTGetFSPathUTF8 = const( char )* function( SDL_WinRT_Path );
+    }
+
     // SDL_timer.h
     alias da_SDL_GetTicks = Uint32 function();
     alias da_SDL_GetPerformanceCounter = Uint64 function();
@@ -894,6 +917,28 @@ __gshared {
     da_SDL_SoftStretch SDL_SoftStretch;
     da_SDL_UpperBlitScaled SDL_UpperBlitScaled;
     da_SDL_LowerBlitScaled SDL_LowerBlitScaled;
+
+    static if( Derelict_OS_Windows ) {
+        da_SDL_Direct3D9GetAdapterIndex SDL_Direct3D9GetAdapterIndex ;
+        da_SDL_RenderGetD3D9Device SDL_RenderGetD3D9Device;
+        da_SDL_DXGIGetOutputInfo SDL_DXGIGetOutputInfo;
+    }
+    static if( Derelict_OS_iOS ) {
+        da_SDL_iPhoneSetAnimationCallback SDL_iPhoneSetAnimationCallback;
+        da_SDL_iPhoneSetEventPump SDL_iPhoneSetEventPump;
+    }
+    static if( Derelict_OS_Android ) {
+        da_SDL_AndroidGetJNIEnv SDL_AndroidGetJNIEnv;
+        da_SDL_AndroidGetActivity SDL_AndroidGetActivity;
+
+        da_SDL_AndroidGetInternalStoragePath SDL_AndroidGetInternalStoragePath;
+        da_SDL_AndroidGetInternalStorageState SDL_AndroidGetInternalStorageState;
+        da_SDL_AndroidGetExternalStoragePath SDL_AndroidGetExternalStoragePath;
+    }
+    static if( Derelict_OS_WindowsRT ) {
+        da_SDL_WinRTGetFSPathUNICODE SDL_WinRTGetFSPathUNICODE;
+        da_SDL_WinRTGetFSPathUTF8 SDL_WinRTGetFSPathUTF8;
+    }
 
     da_SDL_GetTicks SDL_GetTicks;
     da_SDL_GetPerformanceCounter SDL_GetPerformanceCounter;

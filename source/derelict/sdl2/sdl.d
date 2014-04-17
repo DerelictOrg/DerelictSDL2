@@ -386,6 +386,28 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_SoftStretch, "SDL_SoftStretch" );
             bindFunc( cast( void** )&SDL_UpperBlitScaled, "SDL_UpperBlitScaled" );
             bindFunc( cast( void** )&SDL_LowerBlitScaled, "SDL_LowerBlitScaled" );
+            static if( Derelict_OS_Windows ) {
+                bindFunc( cast( void** )&SDL_Direct3D9GetAdapterIndex, "SDL_Direct3D9GetAdapterIndex" ) ;
+                bindFunc( cast( void** )&SDL_RenderGetD3D9Device, "SDL_RenderGetD3D9Device" );
+                bindFunc( cast( void** )&SDL_DXGIGetOutputInfo, "SDL_DXGIGetOutputInfo" );
+            }
+            static if( Derelict_OS_iOS ) {
+                bindFunc( cast( void** )&SDL_iPhoneSetAnimationCallback, "SDL_iPhoneSetAnimationCallback" );
+                bindFunc( cast( void** )&SDL_iPhoneSetEventPump, "SDL_iPhoneSetEventPump" );
+            }
+            static if( Derelict_OS_Android ) {
+                bindFunc( cast( void** )&SDL_AndroidGetJNIEnv, "SDL_AndroidGetJNIEnv" );
+                bindFunc( cast( void** )&SDL_AndroidGetActivity, "SDL_AndroidGetActivity" );
+
+                bindFunc( cast( void** )&SDL_AndroidGetInternalStoragePath, "SDL_AndroidGetInternalStoragePath" );
+                bindFunc( cast( void** )&SDL_AndroidGetInternalStorageState, "SDL_AndroidGetInternalStorageState" );
+                bindFunc( cast( void** )&SDL_AndroidGetExternalStoragePath, "SDL_AndroidGetExternalStoragePath" );
+            }
+            static if( Derelict_OS_WindowsRT ) {
+                bindFunc( cast( void** )&SDL_WinRTGetFSPathUNICODE, "SDL_WinRTGetFSPathUNICODE" );
+                bindFunc( cast( void** )&SDL_WinRTGetFSPathUTF8, "SDL_WinRTGetFSPathUTF8" );
+            }
+
             bindFunc( cast( void** )&SDL_GetTicks, "SDL_GetTicks" );
             bindFunc( cast( void** )&SDL_GetPerformanceCounter, "SDL_GetPerformanceCounter" );
             bindFunc( cast( void** )&SDL_GetPerformanceFrequency, "SDL_GetPerformanceFrequency" );

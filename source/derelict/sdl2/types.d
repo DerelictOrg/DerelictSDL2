@@ -1917,6 +1917,26 @@ struct SDL_Surface {
 
 extern( C ) nothrow alias SDL_blit = int function( SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect );
 
+// SDL_system.h
+static if( Derelict_OS_Windows ) {
+    struct IDirect3DDevice9;
+}
+static if( Derelict_OS_iOS ) {
+    extern( C ) nothrow alias SDL_iPhoneAnimationCallback = void function( void* );
+}
+static if( Derelict_OS_Android ) {
+    enum int SDL_ANDROID_EXTERNAL_STORAGE_READ  = 0x01;
+    enum int SDL_ANDROID_EXTERNAL_STORAGE_WRITE = 0x02;
+}
+static if( Derelict_OS_WindowsRT ) {
+    enum SDL_WinRT_Path {
+        SDL_WINRT_PATH_INSTALLED_LOCATION,
+        SDL_WINRT_PATH_LOCAL_FOLDER,
+        SDL_WINRT_PATH_ROAMING_FOLDER,
+        SDL_WINRT_PATH_TEMP_FOLDER
+    }
+}
+
 // SDL_timer.h
 extern( C ) nothrow alias SDL_TimerCallback = Uint32 function( Uint32 interval, void* param );
 alias SDL_TimerID = int;
