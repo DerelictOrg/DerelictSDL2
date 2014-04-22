@@ -1929,7 +1929,7 @@ static if( Derelict_OS_Android ) {
     enum int SDL_ANDROID_EXTERNAL_STORAGE_READ  = 0x01;
     enum int SDL_ANDROID_EXTERNAL_STORAGE_WRITE = 0x02;
 }
-static if( Derelict_OS_WindowsRT ) {
+static if( Derelict_OS_WinRT ) {
     enum SDL_WinRT_Path {
         SDL_WINRT_PATH_INSTALLED_LOCATION,
         SDL_WINRT_PATH_LOCAL_FOLDER,
