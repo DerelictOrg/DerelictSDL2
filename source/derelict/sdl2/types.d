@@ -1922,14 +1922,14 @@ extern( C ) nothrow alias SDL_blit = int function( SDL_Surface* src, SDL_Rect* s
 static if( Derelict_OS_Windows ) {
     struct IDirect3DDevice9;
 }
-static if( Derelict_OS_iOS ) {
+static if( Derelict_OS_Mac ) {
     extern( C ) nothrow alias SDL_iPhoneAnimationCallback = void function( void* );
 }
 static if( Derelict_OS_Android ) {
     enum int SDL_ANDROID_EXTERNAL_STORAGE_READ  = 0x01;
     enum int SDL_ANDROID_EXTERNAL_STORAGE_WRITE = 0x02;
 }
-static if( Derelict_OS_WindowsRT ) {
+static if( Derelict_OS_Windows ) {
     enum SDL_WinRT_Path {
         SDL_WINRT_PATH_INSTALLED_LOCATION,
         SDL_WINRT_PATH_LOCAL_FOLDER,

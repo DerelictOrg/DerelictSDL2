@@ -391,7 +391,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                 bindFunc( cast( void** )&SDL_RenderGetD3D9Device, "SDL_RenderGetD3D9Device" );
                 bindFunc( cast( void** )&SDL_DXGIGetOutputInfo, "SDL_DXGIGetOutputInfo" );
             }
-            static if( Derelict_OS_iOS ) {
+            static if( Derelict_OS_Mac ) {
                 bindFunc( cast( void** )&SDL_iPhoneSetAnimationCallback, "SDL_iPhoneSetAnimationCallback" );
                 bindFunc( cast( void** )&SDL_iPhoneSetEventPump, "SDL_iPhoneSetEventPump" );
             }
@@ -403,7 +403,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                 bindFunc( cast( void** )&SDL_AndroidGetInternalStorageState, "SDL_AndroidGetInternalStorageState" );
                 bindFunc( cast( void** )&SDL_AndroidGetExternalStoragePath, "SDL_AndroidGetExternalStoragePath" );
             }
-            static if( Derelict_OS_WindowsRT ) {
+            static if( Derelict_OS_Windows ) {
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUNICODE, "SDL_WinRTGetFSPathUNICODE" );
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUTF8, "SDL_WinRTGetFSPathUTF8" );
             }

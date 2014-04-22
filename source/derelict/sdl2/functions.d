@@ -425,7 +425,7 @@ extern( C ) nothrow {
         alias da_SDL_RenderGetD3D9Device = IDirect3DDevice9* function( SDL_Renderer* );
         alias da_SDL_DXGIGetOutputInfo = void function ( int, int*, int* );
     }
-    static if( Derelict_OS_iOS ) {
+    static if( Derelict_OS_Mac ) {
         alias da_SDL_iPhoneSetAnimationCallback = int function( SDL_Window*, int, SDL_iPhoneAnimationCallback, void* );
         alias da_SDL_iPhoneSetEventPump = void function( SDL_bool );
     }
@@ -437,7 +437,7 @@ extern( C ) nothrow {
         alias da_SDL_AndroidGetInternalStorageState = int function();
         alias da_SDL_AndroidGetExternalStoragePath = const( char )* function();
     }
-    static if( Derelict_OS_WindowsRT ) {
+    static if( Derelict_OS_Windows ) {
         alias da_SDL_WinRTGetFSPathUNICODE = const( wchar_t )* function( SDL_WinRT_Path );
         alias da_SDL_WinRTGetFSPathUTF8 = const( char )* function( SDL_WinRT_Path );
     }
@@ -924,7 +924,7 @@ __gshared {
         da_SDL_RenderGetD3D9Device SDL_RenderGetD3D9Device;
         da_SDL_DXGIGetOutputInfo SDL_DXGIGetOutputInfo;
     }
-    static if( Derelict_OS_iOS ) {
+    static if( Derelict_OS_Mac ) {
         da_SDL_iPhoneSetAnimationCallback SDL_iPhoneSetAnimationCallback;
         da_SDL_iPhoneSetEventPump SDL_iPhoneSetEventPump;
     }
@@ -936,7 +936,7 @@ __gshared {
         da_SDL_AndroidGetInternalStorageState SDL_AndroidGetInternalStorageState;
         da_SDL_AndroidGetExternalStoragePath SDL_AndroidGetExternalStoragePath;
     }
-    static if( Derelict_OS_WindowsRT ) {
+    static if( Derelict_OS_Windows ) {
         da_SDL_WinRTGetFSPathUNICODE SDL_WinRTGetFSPathUNICODE;
         da_SDL_WinRTGetFSPathUTF8 SDL_WinRTGetFSPathUTF8;
     }
