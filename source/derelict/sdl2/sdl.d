@@ -403,7 +403,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                 bindFunc( cast( void** )&SDL_AndroidGetInternalStorageState, "SDL_AndroidGetInternalStorageState" );
                 bindFunc( cast( void** )&SDL_AndroidGetExternalStoragePath, "SDL_AndroidGetExternalStoragePath" );
             }
-            static if( Derelict_OS_WindowsRT ) {
+            static if( Derelict_OS_WinRT ) {
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUNICODE, "SDL_WinRTGetFSPathUNICODE" );
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUTF8, "SDL_WinRTGetFSPathUTF8" );
             }
