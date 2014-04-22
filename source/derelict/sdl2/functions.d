@@ -437,7 +437,7 @@ extern( C ) nothrow {
         alias da_SDL_AndroidGetInternalStorageState = int function();
         alias da_SDL_AndroidGetExternalStoragePath = const( char )* function();
     }
-    static if( Derelict_OS_WindowsRT ) {
+    static if( Derelict_OS_WinRT ) {
         alias da_SDL_WinRTGetFSPathUNICODE = const( wchar_t )* function( SDL_WinRT_Path );
         alias da_SDL_WinRTGetFSPathUTF8 = const( char )* function( SDL_WinRT_Path );
     }
@@ -936,7 +936,7 @@ __gshared {
         da_SDL_AndroidGetInternalStorageState SDL_AndroidGetInternalStorageState;
         da_SDL_AndroidGetExternalStoragePath SDL_AndroidGetExternalStoragePath;
     }
-    static if( Derelict_OS_WindowsRT ) {
+    static if( Derelict_OS_WinRT ) {
         da_SDL_WinRTGetFSPathUNICODE SDL_WinRTGetFSPathUNICODE;
         da_SDL_WinRTGetFSPathUTF8 SDL_WinRTGetFSPathUTF8;
     }
