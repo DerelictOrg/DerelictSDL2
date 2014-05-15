@@ -94,7 +94,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_CloseAudio, "SDL_CloseAudio" );
             bindFunc( cast( void** )&SDL_CloseAudioDevice, "SDL_CloseAudioDevice" );
             //            bindFunc( cast( void** )&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected" );
-            bindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
+              bindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
             bindFunc( cast( void** )&SDL_GetClipboardText, "SDL_GetClipboardText" );
             bindFunc( cast( void** )&SDL_HasClipboardText, "SDL_HasClipboardText" );
             bindFunc( cast( void** )&SDL_GetCPUCount, "SDL_GetCPUCount" );
@@ -108,6 +108,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_HasSSE3, "SDL_HasSSE3" );
             bindFunc( cast( void** )&SDL_HasSSE41, "SDL_HasSSE41" );
             bindFunc( cast( void** )&SDL_HasSSE42, "SDL_HasSSE42" );
+            bindFunc( cast( void** )&SDL_HasAVX, "SDL_HasAVX" );
             bindFunc( cast( void** )&SDL_GetSystemRAM, "SDL_GetSystemRAM" );
             bindFunc( cast( void** )&SDL_SetError, "SDL_SetError" );
             bindFunc( cast( void** )&SDL_GetError, "SDL_GetError" );
@@ -129,6 +130,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_FilterEvents, "SDL_FilterEvents" );
             bindFunc( cast( void** )&SDL_EventState, "SDL_EventState" );
             bindFunc( cast( void** )&SDL_RegisterEvents, "SDL_RegisterEvents" );
+            bindFunc( cast( void** )&SDL_GameControllerAddMappingsFromRW, "SDL_GameControllerAddMappingsFromRW" );
             bindFunc( cast( void** )&SDL_GameControllerAddMapping, "SDL_GameControllerAddMapping" );
             bindFunc( cast( void** )&SDL_GameControllerMappingForGUID, "SDL_GameControllerMappingForGUID" );
             bindFunc( cast( void** )&SDL_GameControllerMapping, "SDL_GameControllerMapping" );
@@ -481,6 +483,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GL_GetProcAddress, "SDL_GL_GetProcAddress" );
             bindFunc( cast( void** )&SDL_GL_UnloadLibrary, "SDL_GL_UnloadLibrary" );
             bindFunc( cast( void** )&SDL_GL_ExtensionSupported, "SDL_GL_ExtensionSupported" );
+            bindFunc( cast( void** )&SDL_GL_ResetAttributes, "SDL_GL_ResetAttributes" );
             bindFunc( cast( void** )&SDL_GL_SetAttribute, "SDL_GL_SetAttribute" );
             bindFunc( cast( void** )&SDL_GL_GetAttribute, "SDL_GL_GetAttribute" );
             bindFunc( cast( void** )&SDL_GL_CreateContext, "SDL_GL_CreateContext" );
