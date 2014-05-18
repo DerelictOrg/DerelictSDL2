@@ -1,11 +1,11 @@
 DerelictSDL2
 ============
 
-Dynamic bindings to [SDL 2](http://www.libsdl.org/download-2.0.php) version 2.0.2 and 2.0.3, [SDL2_image](http://www.libsdl.org/projects/SDL_image/), [SDL2_mixer](http://www.libsdl.org/projects/SDL_mixer/), [SDL2_ttf](http://www.libsdl.org/projects/SDL_ttf/), and [SDL2_net](http://www.libsdl.org/projects/SDL_net/) for the D Programming Language.
+Dynamic bindings to [SDL 2][1] version 2.0.2 and 2.0.3, [SDL2_image][2], [SDL2_mixer][3], [SDL2_ttf][4], and [SDL2_net][5] for the D Programming Language.
 
-For information on how to build DerelictSDL2 and link it with your programs, please see the post [Building and Using Packages in DerelictOrg](http://dblog.aldacron.net/forum/index.php?topic=841.0) at the Derelict forums.
+For information on how to build DerelictSDL2 and link it with your programs, please see the post [Using Derelict][6] at The One With D.
 
-For information on how to load the SDL 2 libraries via DerelictSDL2, see the page [DerelictUtil for Users](https://github.com/DerelictOrg/DerelictUtil/wiki/DerelictUtil-for-Users) at the DerelictUtil Wiki. In the meantime, here's some sample code.
+For information on how to load the SDL 2 libraries via DerelictSDL2, see the page [DerelictUtil for Users][7] at the DerelictUtil Wiki. In the meantime, here's some sample code.
 
 ```D
 // This example shows how to import all of the DerelictSDL2 bindings. Of course,
@@ -40,3 +40,14 @@ void main() {
     ...
 }
 ```
+
+[1]: http://www.libsdl.org/download-2.0.php
+[2]: http://www.libsdl.org/projects/SDL_image/
+[3]: http://www.libsdl.org/projects/SDL_mixer/
+[4]: http://www.libsdl.org/projects/SDL_ttf/
+[5]: http://www.libsdl.org/projects/SDL_net/
+[6]: http://dblog.aldacron.net/derelict-help/using-derelict/
+[7]: https://github.com/DerelictOrg/DerelictUtil/wiki/DerelictUtil-for-Users
+
+
+
