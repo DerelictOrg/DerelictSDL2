@@ -124,6 +124,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_FilterEvents, "SDL_FilterEvents" );
             bindFunc( cast( void** )&SDL_EventState, "SDL_EventState" );
             bindFunc( cast( void** )&SDL_RegisterEvents, "SDL_RegisterEvents" );
+            bindFunc( cast( void** )&SDL_GetBasePath, "SDL_GetBasePath" );
+            bindFunc( cast( void** )&SDL_GetPrefPath, "SDL_GetPrefPath" );
             bindFunc( cast( void** )&SDL_GameControllerAddMapping, "SDL_GameControllerAddMapping" );
             bindFunc( cast( void** )&SDL_GameControllerMappingForGUID, "SDL_GameControllerMappingForGUID" );
             bindFunc( cast( void** )&SDL_GameControllerMapping, "SDL_GameControllerMapping" );
@@ -351,6 +353,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_IsShapedWindow, "SDL_IsShapedWindow" );
             bindFunc( cast( void** )&SDL_SetWindowShape, "SDL_SetWindowShape" );
             bindFunc( cast( void** )&SDL_GetShapedWindowMode, "SDL_GetShapedWindowMode" );
+            bindFunc( cast( void** )&SDL_free, "SDL_free" );
             bindFunc( cast( void** )&SDL_CreateRGBSurface, "SDL_CreateRGBSurface" );
             bindFunc( cast( void** )&SDL_CreateRGBSurfaceFrom, "SDL_CreateRGBSurfaceFrom" );
             bindFunc( cast( void** )&SDL_FreeSurface, "SDL_FreeSurface" );
