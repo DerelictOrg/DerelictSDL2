@@ -111,10 +111,6 @@ extern( C ) nothrow {
     alias da_SDL_EventState = Uint8 function( Uint32, int );
     alias da_SDL_RegisterEvents = Uint32 function( int );
 
-    // SDL_filesystem.h
-    alias da_SDL_GetBasePath = char* function();
-    alias da_SDL_GetPrefPath = char* function( const( char )* org, const( char )* app);
-
     // SDL_gamecontroller.h
     alias da_SDL_GameControllerAddMapping = int function( const( char )* );
     alias da_SDL_GameControllerMappingForGUID = char* function( SDL_JoystickGUID );
@@ -380,9 +376,6 @@ extern( C ) nothrow {
     alias da_SDL_SetWindowShape = int function( SDL_Window*, SDL_Surface*, SDL_WindowShapeMode* );
     alias da_SDL_GetShapedWindowMode = int function( SDL_Window*, SDL_WindowShapeMode* );
 
-    // SDL_stdinc.h
-    alias da_SDL_free = void function( void* );
-
     // SDL_surface.h
     alias da_SDL_CreateRGBSurface = SDL_Surface* function( Uint32, int, int, int, Uint32, Uint32, Uint32, Uint32 );
     alias da_SDL_CreateRGBSurfaceFrom = SDL_Surface* function( void*, int, int, int, int, Uint32, Uint32, Uint32, Uint32 );
@@ -605,9 +598,6 @@ __gshared {
     da_SDL_FilterEvents SDL_FilterEvents;
     da_SDL_EventState SDL_EventState;
     da_SDL_RegisterEvents SDL_RegisterEvents;
-
-    da_SDL_GetBasePath SDL_GetBasePath;
-    da_SDL_GetPrefPath SDL_GetPrefPath;
 
     da_SDL_GameControllerAddMapping SDL_GameControllerAddMapping;
     da_SDL_GameControllerMappingForGUID SDL_GameControllerMappingForGUID;
@@ -854,8 +844,6 @@ __gshared {
     da_SDL_IsShapedWindow SDL_IsShapedWindow;
     da_SDL_SetWindowShape SDL_SetWindowShape;
     da_SDL_GetShapedWindowMode SDL_GetShapedWindowMode;
-
-    da_SDL_free SDL_free;
 
     da_SDL_CreateRGBSurface SDL_CreateRGBSurface;
     da_SDL_CreateRGBSurfaceFrom SDL_CreateRGBSurfaceFrom;
