@@ -2088,10 +2088,8 @@ enum {
 struct SDL_SysWMmsg {
     SDL_version version_;
     SDL_SYSWM_TYPE subsystem;
-    union msg_
-    {
-        static if( Derelict_OS_Windows ) // because wintypes types are only defined when compiling for Windows
-        {
+    union msg_ {
+        static if( Derelict_OS_Windows ) { // because wintypes types are only defined when compiling for Windows
             import derelict.util.wintypes;
 
             // Win32
@@ -2104,8 +2102,7 @@ struct SDL_SysWMmsg {
             win_ win;
         }
 
-        static if( Derelict_OS_Posix )
-        {
+        static if( Derelict_OS_Posix ) {
             // X11 unsupported for now
             struct x11_ {
                 import core.stdc.config;
@@ -2129,10 +2126,8 @@ struct SDL_SysWMinfo {
     SDL_version version_; // version is reserved in D
     SDL_SYSWM_TYPE subsystem;
 
-    union info_
-    {
-        static if( Derelict_OS_Windows )
-        {
+    union info_ {
+        static if( Derelict_OS_Windows ) {
             import derelict.util.wintypes;
             struct win_ {
                HWND window;
@@ -2144,8 +2139,7 @@ struct SDL_SysWMinfo {
             }
         }
 
-        static if( Derelict_OS_Posix )
-        {
+        static if( Derelict_OS_Posix ) {
             struct x11_ {
                 import derelict.util.xtypes;
                 struct Display;
