@@ -410,6 +410,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUTF8, "SDL_WinRTGetFSPathUTF8" );
             }
 
+            bindFunc( cast( void** )&SDL_GetWindowWMInfo, "SDL_GetWindowWMInfo" );
             bindFunc( cast( void** )&SDL_GetTicks, "SDL_GetTicks" );
             bindFunc( cast( void** )&SDL_GetPerformanceCounter, "SDL_GetPerformanceCounter" );
             bindFunc( cast( void** )&SDL_GetPerformanceFrequency, "SDL_GetPerformanceFrequency" );

@@ -443,6 +443,9 @@ extern( C ) nothrow {
         alias da_SDL_WinRTGetFSPathUTF8 = const( char )* function( SDL_WinRT_Path );
     }
 
+    // SDL_syswm.h
+    alias da_SDL_GetWindowWMInfo = SDL_bool function(SDL_Window* window, SDL_SysWMinfo * info);
+
     // SDL_timer.h
     alias da_SDL_GetTicks = Uint32 function();
     alias da_SDL_GetPerformanceCounter = Uint64 function();
@@ -949,6 +952,8 @@ __gshared {
         da_SDL_WinRTGetFSPathUNICODE SDL_WinRTGetFSPathUNICODE;
         da_SDL_WinRTGetFSPathUTF8 SDL_WinRTGetFSPathUTF8;
     }
+
+    da_SDL_GetWindowWMInfo SDL_GetWindowWMInfo;
 
     da_SDL_GetTicks SDL_GetTicks;
     da_SDL_GetPerformanceCounter SDL_GetPerformanceCounter;
