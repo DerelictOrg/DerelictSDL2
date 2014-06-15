@@ -501,7 +501,6 @@ struct SDL_UserEvent {
     void* data2;
 }
 
-struct SDL_SysWMmsg;
 struct SDL_SysWMEvent {
     Uint32 type;
     Uint32 timestamp;
@@ -2070,3 +2069,121 @@ enum {
     SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008,
 }
 
+// SDL_syswm.h
+
+// Ext for types.d
+alias SDL_SYSWM_TYPE = int;
+enum {
+    SDL_SYSWM_UNKNOWN,
+    SDL_SYSWM_WINDOWS,
+    SDL_SYSWM_X11,
+    SDL_SYSWM_DIRECTFB,
+    SDL_SYSWM_COCOA,
+    SDL_SYSWM_UIKIT,
+    SDL_SYSWM_WAYLAND,
+    SDL_SYSWM_MIR,
+    SDL_SYSWM_WINRT,
+}
+
+struct SDL_SysWMmsg {
+    SDL_version version_;
+    SDL_SYSWM_TYPE subsystem;
+    union msg_
+    {
+        static if( Derelict_OS_Windows ) // because wintypes types are only defined when compiling for Windows
+        {
+            import derelict.util.wintypes;
+
+            // Win32
+            struct win_ {
+                HWND hwnd;
+                UINT msg;
+                WPARAM wParam;
+                LPARAM lParam;
+            }
+            win_ win;
+        }
+
+        static if( Derelict_OS_Posix )
+        {
+            // X11 unsupported for now
+            struct x11_ {
+                import core.stdc.config;
+                c_long[24] pad; // sufficient size for any X11 event
+            } 
+            x11_ x11;
+        }
+
+        // DirectFB unsupported for now
+        // Consequently SDL_SysWMmsg might have a different size that in SDL
+        struct dfb_ {
+            void* event;
+        }
+        dfb_ dfb;
+    }
+    msg_ msg;
+}
+
+ 
+struct SDL_SysWMinfo {
+    SDL_version version_; // version is reserved in D
+    SDL_SYSWM_TYPE subsystem;
+
+    union info_
+    {
+        static if( Derelict_OS_Windows )
+        {
+            import derelict.util.wintypes;
+            struct win_ {
+               HWND window;
+            }
+            win_ win;
+
+            struct winrt {
+                void* window;
+            }
+        }
+
+        static if( Derelict_OS_Posix )
+        {
+            struct x11_ {
+                import derelict.util.xtypes;
+                struct Display;
+                Display* display;
+                Window window;
+            } 
+            x11_ x11;
+        }
+
+        struct dfb_ {
+            void *dfb;
+            void *window;
+            void *surface;
+        } 
+        dfb_ dfb;
+
+        struct cocoa_ {
+           void* window;
+        } 
+        cocoa_ cocoa;
+
+        struct uikit_ {
+            void *window;
+        } 
+        uikit_ uikit;
+
+        struct wl_ {
+            void *display;
+            void *surface;
+            void *shell_surface;
+        } 
+        wl_ wl;
+
+        struct mir_ {
+            void *connection;
+            void *surface;
+        }
+        mir_ mir;
+    }
+    info_ info;
+}
