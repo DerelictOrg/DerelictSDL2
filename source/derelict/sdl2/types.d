@@ -1970,13 +1970,6 @@ struct SDL_SysWMinfo {
             win_ win;
         }
 
-        static if( Derelict_OS_WinRT ) {
-            struct winrt_ {
-                void* window;
-            }
-            winrt_ winrt;
-        }
-
         static if( Derelict_OS_Posix ) {
             struct x11_ {
                 Display* display;
