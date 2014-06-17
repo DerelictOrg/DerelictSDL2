@@ -290,14 +290,14 @@ extern( C ) nothrow {
     // SDL_power.h
     alias da_SDL_GetPowerInfo = SDL_PowerState function( int*, int* );
 
-    // SDL_Rect.h
+    // SDL_rect.h
     alias da_SDL_HasIntersection = SDL_bool function( const( SDL_Rect )*, const( SDL_Rect )* );
     alias da_SDL_IntersectRect = SDL_bool function( const( SDL_Rect )*, const( SDL_Rect )*, SDL_Rect* );
     alias da_SDL_UnionRect = void function( const( SDL_Rect )*, const( SDL_Rect )*, SDL_Rect* );
     alias da_SDL_EnclosePoints = void function( const( SDL_Point )*, int, const( SDL_Rect )*, SDL_Rect* );
     alias da_SDL_IntersectRectAndLine = SDL_bool function( const( SDL_Rect )*, int*, int*, int*, int* );
 
-    // SDL_Render.h
+    // SDL_render.h
     alias da_SDL_GetNumRenderDrivers = int function();
     alias da_SDL_GetRenderDriverInfo = int function( int, SDL_RendererInfo* );
     alias da_SDL_CreateWindowAndRenderer = int function( int, int, Uint32, SDL_Window**, SDL_Renderer** );
@@ -409,6 +409,9 @@ extern( C ) nothrow {
 
     alias SDL_BlitSurface = SDL_UpperBlit;
     alias SDL_BlitScaled = SDL_UpperBlitScaled;
+
+    // SDL_syswm.h
+    alias da_SDL_GetWindowWMInfo = SDL_bool function(SDL_Window* window, SDL_SysWMinfo * info);
 
     // SDL_timer.h
     alias da_SDL_GetTicks = Uint32 function();
@@ -874,6 +877,8 @@ __gshared {
     da_SDL_SoftStretch SDL_SoftStretch;
     da_SDL_UpperBlitScaled SDL_UpperBlitScaled;
     da_SDL_LowerBlitScaled SDL_LowerBlitScaled;
+
+    da_SDL_GetWindowWMInfo SDL_GetWindowWMInfo;
 
     da_SDL_GetTicks SDL_GetTicks;
     da_SDL_GetPerformanceCounter SDL_GetPerformanceCounter;
