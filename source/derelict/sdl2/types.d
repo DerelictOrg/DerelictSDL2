@@ -1945,6 +1945,126 @@ static if( Derelict_OS_WinRT ) {
     }
 }
 
+// SDL_syswm.h
+alias SDL_SYSWM_TYPE = int;
+enum {
+    SDL_SYSWM_UNKNOWN,
+    SDL_SYSWM_WINDOWS,
+    SDL_SYSWM_X11,
+    SDL_SYSWM_DIRECTFB,
+    SDL_SYSWM_COCOA,
+    SDL_SYSWM_UIKIT,
+    SDL_SYSWM_WAYLAND,
+    SDL_SYSWM_MIR,
+    SDL_SYSWM_WINRT,
+}
+
+struct SDL_SysWMmsg {
+    SDL_version version_;
+    SDL_SYSWM_TYPE subsystem;
+    union msg_ {
+        static if( Derelict_OS_Windows ) { // because wintypes types are only defined when compiling for Windows
+            import derelict.util.wintypes;
+
+            // Win32
+            struct win_ {
+                HWND hwnd;
+                UINT msg;
+                WPARAM wParam;
+                LPARAM lParam;
+            }
+            win_ win;
+        }
+
+        static if( Derelict_OS_Posix ) {
+            // X11 unsupported for now
+            struct x11_ {
+                import core.stdc.config;
+                c_long[24] pad; // sufficient size for any X11 event
+            }
+            x11_ x11;
+        }
+
+        static if( Derelict_OS_Linux ) {
+            // DirectFB unsupported for now
+            // Consequently SDL_SysWMmsg might have a different size that in SDL
+            struct dfb_ {
+                void* event;
+            }
+            dfb_ dfb;
+        }
+    }
+    msg_ msg;
+}
+
+struct SDL_SysWMinfo {
+    SDL_version version_; // version is reserved in D
+    SDL_SYSWM_TYPE subsystem;
+
+    union info_ {
+        static if( Derelict_OS_Windows ) {
+            import derelict.util.wintypes;
+            struct win_ {
+               HWND window;
+            }
+            win_ win;
+        }
+
+        static if( Derelict_OS_WinRT ) {
+            struct winrt_ {
+                void* window;
+            }
+            winrt_ winrt;
+        }
+
+        static if( Derelict_OS_Posix ) {
+            struct x11_ {
+                import derelict.util.xtypes;
+                struct Display;
+                Display* display;
+                Window window;
+            }
+            x11_ x11;
+        }
+
+        // TODO not too sure about all the Derelict_OS tests below.
+        static if( Derelict_OS_Linux ) {
+            struct dfb_ {
+                void *dfb;
+                void *window;
+                void *surface;
+            }
+            dfb_ dfb;
+
+            struct wl_ {
+                void *display;
+                void *surface;
+                void *shell_surface;
+            }
+            wl_ wl;
+
+            struct mir_ {
+                void *connection;
+                void *surface;
+            }
+            mir_ mir;
+        }
+
+        static if( Derelict_OS_Mac || Derelict_OS_iOS ) {
+            struct cocoa_ {
+               void* window;
+            }
+            cocoa_ cocoa;
+
+            struct uikit_ {
+                void *window;
+            }
+            uikit_ uikit;
+        }
+    }
+    info_ info;
+}
+
 // SDL_timer.h
 extern( C ) nothrow alias SDL_TimerCallback = Uint32 function( Uint32 interval, void* param );
 alias SDL_TimerID = int;
@@ -2067,127 +2187,4 @@ enum {
     SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG = 0x0002,
     SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG = 0x0004,
     SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008,
-}
-
-// SDL_syswm.h
-
-// Ext for types.d
-alias SDL_SYSWM_TYPE = int;
-enum {
-    SDL_SYSWM_UNKNOWN,
-    SDL_SYSWM_WINDOWS,
-    SDL_SYSWM_X11,
-    SDL_SYSWM_DIRECTFB,
-    SDL_SYSWM_COCOA,
-    SDL_SYSWM_UIKIT,
-    SDL_SYSWM_WAYLAND,
-    SDL_SYSWM_MIR,
-    SDL_SYSWM_WINRT,
-}
-
-struct SDL_SysWMmsg {
-    SDL_version version_;
-    SDL_SYSWM_TYPE subsystem;
-    union msg_ {
-        static if( Derelict_OS_Windows ) { // because wintypes types are only defined when compiling for Windows
-            import derelict.util.wintypes;
-
-            // Win32
-            struct win_ {
-                HWND hwnd;
-                UINT msg;
-                WPARAM wParam;
-                LPARAM lParam;
-            }
-            win_ win;
-        }
-
-        static if( Derelict_OS_Posix ) {
-            // X11 unsupported for now
-            struct x11_ {
-                import core.stdc.config;
-                c_long[24] pad; // sufficient size for any X11 event
-            }
-            x11_ x11;
-        }
-
-        static if( Derelict_OS_Linux ) {
-            // DirectFB unsupported for now
-            // Consequently SDL_SysWMmsg might have a different size that in SDL
-            struct dfb_ {
-                void* event;
-            }
-            dfb_ dfb;
-        }
-    }
-    msg_ msg;
-}
-
-
-struct SDL_SysWMinfo {
-    SDL_version version_; // version is reserved in D
-    SDL_SYSWM_TYPE subsystem;
-
-    union info_ {
-        static if( Derelict_OS_Windows ) {
-            import derelict.util.wintypes;
-            struct win_ {
-               HWND window;
-            }
-            win_ win;
-        }
-
-        static if( Derelict_OS_WinRT ) {
-            struct winrt_ {
-                void* window;
-            }
-            winrt_ winrt;
-        }
-
-        static if( Derelict_OS_Posix ) {
-            struct x11_ {
-                import derelict.util.xtypes;
-                struct Display;
-                Display* display;
-                Window window;
-            }
-            x11_ x11;
-        }
-
-        // TODO not too sure about all the Derelict_OS tests below.
-        static if( Derelict_OS_Linux ) {
-            struct dfb_ {
-                void *dfb;
-                void *window;
-                void *surface;
-            }
-            dfb_ dfb;
-
-            struct wl_ {
-                void *display;
-                void *surface;
-                void *shell_surface;
-            }
-            wl_ wl;
-
-            struct mir_ {
-                void *connection;
-                void *surface;
-            }
-            mir_ mir;
-        }
-
-        static if( Derelict_OS_Mac || Derelict_OS_iOS ) {
-            struct cocoa_ {
-               void* window;
-            }
-            cocoa_ cocoa;
-
-            struct uikit_ {
-                void *window;
-            }
-            uikit_ uikit;
-        }
-    }
-    info_ info;
 }
