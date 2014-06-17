@@ -31,8 +31,9 @@ private {
     import core.stdc.config;
     import core.stdc.stdio;
     import derelict.util.system;
+
     static if( Derelict_OS_Windows ) import derelict.util.wintypes;
-    static if( Derelict_OS_Linux ) import derelict.util.xtypes;
+    static if( Derelict_OS_Posix ) import derelict.util.xtypes;
 }
 
 // SDL_version.h
@@ -1897,9 +1898,6 @@ enum {
     SDL_SYSWM_DIRECTFB,
     SDL_SYSWM_COCOA,
     SDL_SYSWM_UIKIT,
-    SDL_SYSWM_WAYLAND,
-    SDL_SYSWM_MIR,
-    SDL_SYSWM_WINRT,
 }
 
 struct SDL_SysWMmsg {
@@ -1947,13 +1945,6 @@ struct SDL_SysWMinfo {
                HWND window;
             }
             win_ win;
-        }
-
-        static if( Derelict_OS_WinRT ) {
-            struct winrt_ {
-                void* window;
-            }
-            winrt_ winrt;
         }
 
         static if( Derelict_OS_Posix ) {
