@@ -31,6 +31,9 @@ private {
     import core.stdc.config;
     import core.stdc.stdio;
     import derelict.util.system;
+
+    static if( Derelict_OS_Windows ) import derelict.util.wintypes;
+    static if( Derelict_OS_Linux ) import derelict.util.xtypes;
 }
 
 // SDL_version.h
@@ -1964,8 +1967,6 @@ struct SDL_SysWMmsg {
     SDL_SYSWM_TYPE subsystem;
     union msg_ {
         static if( Derelict_OS_Windows ) { // because wintypes types are only defined when compiling for Windows
-            import derelict.util.wintypes;
-
             // Win32
             struct win_ {
                 HWND hwnd;
@@ -1979,7 +1980,6 @@ struct SDL_SysWMmsg {
         static if( Derelict_OS_Posix ) {
             // X11 unsupported for now
             struct x11_ {
-                import core.stdc.config;
                 c_long[24] pad; // sufficient size for any X11 event
             }
             x11_ x11;
@@ -2003,7 +2003,6 @@ struct SDL_SysWMinfo {
 
     union info_ {
         static if( Derelict_OS_Windows ) {
-            import derelict.util.wintypes;
             struct win_ {
                HWND window;
             }
@@ -2019,8 +2018,6 @@ struct SDL_SysWMinfo {
 
         static if( Derelict_OS_Posix ) {
             struct x11_ {
-                import derelict.util.xtypes;
-                struct Display;
                 Display* display;
                 Window window;
             }
