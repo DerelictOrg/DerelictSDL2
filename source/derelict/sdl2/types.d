@@ -33,7 +33,7 @@ private {
     import derelict.util.system;
 
     static if( Derelict_OS_Windows ) import derelict.util.wintypes;
-    static if( Derelict_OS_Linux ) import derelict.util.xtypes;
+    static if( Derelict_OS_Posix ) import derelict.util.xtypes;
 }
 
 // SDL_version.h
