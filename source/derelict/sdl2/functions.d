@@ -418,6 +418,9 @@ extern( C ) nothrow {
     alias SDL_BlitSurface = SDL_UpperBlit;
     alias SDL_BlitScaled = SDL_UpperBlitScaled;
 
+    // SDL_syswm.h
+    alias da_SDL_GetWindowWMInfo = SDL_bool function(SDL_Window* window, SDL_SysWMinfo * info);
+
     // SDL_timer.h
     alias da_SDL_GetTicks = Uint32 function();
     alias da_SDL_GetPerformanceCounter = Uint64 function();
@@ -894,6 +897,8 @@ __gshared {
     da_SDL_SoftStretch SDL_SoftStretch;
     da_SDL_UpperBlitScaled SDL_UpperBlitScaled;
     da_SDL_LowerBlitScaled SDL_LowerBlitScaled;
+
+    da_SDL_GetWindowWMInfo SDL_GetWindowWMInfo;
 
     da_SDL_GetTicks SDL_GetTicks;
     da_SDL_GetPerformanceCounter SDL_GetPerformanceCounter;

@@ -30,6 +30,9 @@ module derelict.sdl2.types;
 private {
     import core.stdc.config;
     import core.stdc.stdio;
+    import derelict.util.system;
+    static if( Derelict_OS_Windows ) import derelict.util.wintypes;
+    static if( Derelict_OS_Posix ) import derelict.util.xtypes;
 }
 
 // SDL_version.h
@@ -62,7 +65,6 @@ Uint32 SDL_COMPILEDVERSION() {
 bool SDL_VERSION_ATLEAST( Uint8 X, Uint8 Y, Uint8 Z ) {
     return ( SDL_COMPILEDVERSION() >= SDL_VERSIONNUM( X, Y, Z ) );
 }
-
 
 // From SDL_stdinc.h
 alias int SDL_bool;
@@ -493,7 +495,6 @@ struct SDL_UserEvent {
     void* data2;
 }
 
-struct SDL_SysWMmsg;
 struct SDL_SysWMEvent {
     Uint32 type;
     Uint32 timestamp;
@@ -1910,6 +1911,104 @@ struct SDL_Surface {
 }
 
 extern( C ) nothrow alias SDL_blit = int function( SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect );
+
+// SDL_syswm.h
+alias SDL_SYSWM_TYPE = int;
+enum {
+    SDL_SYSWM_UNKNOWN,
+    SDL_SYSWM_WINDOWS,
+    SDL_SYSWM_X11,
+    SDL_SYSWM_DIRECTFB,
+    SDL_SYSWM_COCOA,
+    SDL_SYSWM_UIKIT,
+}
+
+struct SDL_SysWMmsg {
+    SDL_version version_;
+    SDL_SYSWM_TYPE subsystem;
+    union msg_ {
+        static if( Derelict_OS_Windows ) { // because wintypes types are only defined when compiling for Windows
+            // Win32
+            struct win_ {
+                HWND hwnd;
+                UINT msg;
+                WPARAM wParam;
+                LPARAM lParam;
+            }
+            win_ win;
+        }
+
+        static if( Derelict_OS_Posix ) {
+            // X11 unsupported for now
+            struct x11_ {
+                c_long[24] pad; // sufficient size for any X11 event
+            }
+            x11_ x11;
+        }
+
+        static if( Derelict_OS_Linux ) {
+            // DirectFB unsupported for now
+            // Consequently SDL_SysWMmsg might have a different size that in SDL
+            struct dfb_ {
+                void* event;
+            }
+            dfb_ dfb;
+        }
+    }
+    msg_ msg;
+}
+
+struct SDL_SysWMinfo {
+    SDL_version version_; // version is reserved in D
+    SDL_SYSWM_TYPE subsystem;
+
+    union info_ {
+        static if( Derelict_OS_Windows ) {
+            struct win_ {
+               HWND window;
+            }
+            win_ win;
+        }
+
+        static if( Derelict_OS_WinRT ) {
+            struct winrt_ {
+                void* window;
+            }
+            winrt_ winrt;
+        }
+
+        static if( Derelict_OS_Posix ) {
+            struct x11_ {
+                Display* display;
+                Window window;
+            }
+            x11_ x11;
+        }
+
+        // TODO not too sure about all the Derelict_OS tests below.
+        static if( Derelict_OS_Linux ) {
+            struct dfb_ {
+                void *dfb;
+                void *window;
+                void *surface;
+            }
+            dfb_ dfb;
+        }
+
+        static if( Derelict_OS_Mac || Derelict_OS_iOS ) {
+            struct cocoa_ {
+               void* window;
+            }
+            cocoa_ cocoa;
+
+            struct uikit_ {
+                void *window;
+            }
+            uikit_ uikit;
+        }
+    }
+    info_ info;
+}
 
 // SDL_timer.h
 extern( C ) nothrow alias SDL_TimerCallback = Uint32 function( Uint32 interval, void* param );
