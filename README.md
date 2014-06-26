@@ -1,7 +1,7 @@
 DerelictSDL2
 ============
 
-Dynamic bindings to [SDL 2][1] version 2.0.1, [SDL2_image][2], [SDL2_mixer][3], [SDL2_ttf][4], and [SDL2_net][5] for the D Programming Language.
+Dynamic bindings to [SDL 2][1] version 2.0.2 and 2.0.3, [SDL2_image][2], [SDL2_mixer][3], [SDL2_ttf][4], and [SDL2_net][5] for the D Programming Language.
 
 For information on how to build DerelictSDL2 and link it with your programs, please see the post [Using Derelict][6] at The One With D.
 
