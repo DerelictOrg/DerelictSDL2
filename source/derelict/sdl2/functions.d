@@ -524,6 +524,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetWindowBrightness = float function( SDL_Window* );
     alias da_SDL_SetWindowGammaRamp = int function( SDL_Window*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )* );
     alias da_SDL_GetWindowGammaRamp = int function( SDL_Window*, Uint16*, Uint16*, Uint16*, Uint16* );
+    alias da_SDL_SetWindowHitTest = int function( SDL_Window*, SDL_HitTest, void* );
     alias da_SDL_DestroyWindow = void function( SDL_Window* );
     alias da_SDL_IsScreenSaverEnabled = SDL_bool function();
     alias da_SDL_EnableScreenSaver = void function();
@@ -1035,6 +1036,7 @@ __gshared {
     da_SDL_GetWindowBrightness SDL_GetWindowBrightness;
     da_SDL_SetWindowGammaRamp SDL_SetWindowGammaRamp;
     da_SDL_GetWindowGammaRamp SDL_GetWindowGammaRamp;
+    da_SDL_SetWindowHitTest SDL_SetWindowHitTest;
     da_SDL_DestroyWindow SDL_DestroyWindow;
     da_SDL_IsScreenSaverEnabled SDL_IsScreenSaverEnabled;
     da_SDL_EnableScreenSaver SDL_EnableScreenSaver;

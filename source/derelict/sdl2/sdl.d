@@ -483,6 +483,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetWindowBrightness, "SDL_GetWindowBrightness" );
             bindFunc( cast( void** )&SDL_SetWindowGammaRamp, "SDL_SetWindowGammaRamp" );
             bindFunc( cast( void** )&SDL_GetWindowGammaRamp, "SDL_GetWindowGammaRamp" );
+            bindFunc( cast( void** )&SDL_SetWindowHitTest, "SDL_SetWindowHitTest" );
             bindFunc( cast( void** )&SDL_DestroyWindow, "SDL_DestroyWindow" );
             bindFunc( cast( void** )&SDL_IsScreenSaverEnabled, "SDL_IsScreenSaverEnabled" );
             bindFunc( cast( void** )&SDL_EnableScreenSaver, "SDL_EnableScreenSaver" );
