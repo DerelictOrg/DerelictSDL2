@@ -62,7 +62,10 @@ class DerelictSDL2Loader : SharedLibLoader {
       protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
             if( minVersion.major == 2 && minVersion.minor == 0 )
             {
-                  if( minVersion.patch == 2 ) {
+                  if( minVersion.patch == 3 ) {
+                        missingSymbolCallback = &allowSDL_2_0_3;
+                  }
+                  else if( minVersion.patch == 2 ) {
                         missingSymbolCallback = &allowSDL_2_0_2;
                   }
                   else if( minVersion.patch == 1 ) {
@@ -273,6 +276,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetRelativeMouseState, "SDL_GetRelativeMouseState" );
             bindFunc( cast( void** )&SDL_WarpMouseInWindow, "SDL_WarpMouseInWindow" );
             bindFunc( cast( void** )&SDL_SetRelativeMouseMode, "SDL_SetRelativeMouseMode" );
+            bindFunc( cast( void** )&SDL_CaptureMouse, "SDL_CaptureMouse" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseMode, "SDL_GetRelativeMouseMode" );
             bindFunc( cast( void** )&SDL_CreateCursor, "SDL_CreateCursor" );
             bindFunc( cast( void** )&SDL_CreateColorCursor, "SDL_CreateColorCursor" );
@@ -586,6 +590,15 @@ class DerelictSDL2Loader : SharedLibLoader {
                         case "SDL_WinRTGetFSPathUTF8": break;
                         case "SDL_WinRTRunApp": break;
                   }
+                  default: return allowSDL_2_0_3( symbolName );
+            }
+            return ShouldThrow.No;
+      }
+
+      private ShouldThrow allowSDL_2_0_3( string symbolName ) {
+            switch( symbolName ) {
+                  // Functions added in 2.0.4
+                  case "SDL_CaptureMouse": break;
                   default: return ShouldThrow.Yes;
             }
             return ShouldThrow.No;
