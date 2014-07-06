@@ -276,6 +276,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetGlobalMouseState, "SDL_GetGlobalMouseState" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseState, "SDL_GetRelativeMouseState" );
             bindFunc( cast( void** )&SDL_WarpMouseInWindow, "SDL_WarpMouseInWindow" );
+            bindFunc( cast( void** )&SDL_WarpMouseGlobal, "SDL_WarpMouseGlobal" );
             bindFunc( cast( void** )&SDL_SetRelativeMouseMode, "SDL_SetRelativeMouseMode" );
             bindFunc( cast( void** )&SDL_CaptureMouse, "SDL_CaptureMouse" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseMode, "SDL_GetRelativeMouseMode" );
@@ -605,6 +606,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                   case "SDL_GetGlobalMouseState": break;
                   case "SDL_RenderIsClipEnabled": break;
                   case "SDL_SetWindowHitTest": break;
+                  case "SDL_WarpMouseGlobal": break;
                   default: return ShouldThrow.Yes;
             }
             return ShouldThrow.No;

@@ -268,6 +268,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetGlobalMouseState = Uint32 function( int*, int* );
     alias da_SDL_GetRelativeMouseState = Uint32 function( int*, int* );
     alias da_SDL_WarpMouseInWindow = void function( SDL_Window*, int, int );
+    alias da_SDL_WarpMouseGlobal = void function( int, int );
     alias da_SDL_SetRelativeMouseMode = int function( SDL_bool );
     alias da_SDL_CaptureMouse = int function( SDL_bool );
     alias da_SDL_GetRelativeMouseMode = SDL_bool function();
@@ -800,6 +801,7 @@ __gshared {
     da_SDL_GetGlobalMouseState SDL_GetGlobalMouseState;
     da_SDL_GetRelativeMouseState SDL_GetRelativeMouseState;
     da_SDL_WarpMouseInWindow SDL_WarpMouseInWindow;
+    da_SDL_WarpMouseGlobal SDL_WarpMouseGlobal;
     da_SDL_SetRelativeMouseMode SDL_SetRelativeMouseMode;
     da_SDL_CaptureMouse SDL_CaptureMouse;
     da_SDL_GetRelativeMouseMode SDL_GetRelativeMouseMode;
