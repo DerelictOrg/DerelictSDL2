@@ -273,6 +273,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_ShowSimpleMessageBox, "SDL_ShowSimpleMessageBox" );
             bindFunc( cast( void** )&SDL_GetMouseFocus, "SDL_GetMouseFocus" );
             bindFunc( cast( void** )&SDL_GetMouseState, "SDL_GetMouseState" );
+            bindFunc( cast( void** )&SDL_GetGlobalMouseState, "SDL_GetGlobalMouseState" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseState, "SDL_GetRelativeMouseState" );
             bindFunc( cast( void** )&SDL_WarpMouseInWindow, "SDL_WarpMouseInWindow" );
             bindFunc( cast( void** )&SDL_SetRelativeMouseMode, "SDL_SetRelativeMouseMode" );
@@ -599,6 +600,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             switch( symbolName ) {
                   // Functions added in 2.0.4
                   case "SDL_CaptureMouse": break;
+                  case "SDL_GetGlobalMouseState": break;
                   default: return ShouldThrow.Yes;
             }
             return ShouldThrow.No;
