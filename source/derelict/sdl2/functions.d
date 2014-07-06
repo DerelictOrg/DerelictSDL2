@@ -268,6 +268,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetRelativeMouseState = Uint32 function( int*, int* );
     alias da_SDL_WarpMouseInWindow = void function( SDL_Window*, int, int );
     alias da_SDL_SetRelativeMouseMode = int function( SDL_bool );
+    alias da_SDL_CaptureMouse = int function( SDL_bool );
     alias da_SDL_GetRelativeMouseMode = SDL_bool function();
     alias da_SDL_CreateCursor = SDL_Cursor* function( const( Uint8 )*, const( Uint8 )*, int, int, int, int );
     alias da_SDL_CreateColorCursor = SDL_Cursor* function( SDL_Surface*, int, int );
@@ -793,6 +794,7 @@ __gshared {
     da_SDL_GetRelativeMouseState SDL_GetRelativeMouseState;
     da_SDL_WarpMouseInWindow SDL_WarpMouseInWindow;
     da_SDL_SetRelativeMouseMode SDL_SetRelativeMouseMode;
+    da_SDL_CaptureMouse SDL_CaptureMouse;
     da_SDL_GetRelativeMouseMode SDL_GetRelativeMouseMode;
     da_SDL_CreateCursor SDL_CreateCursor;
     da_SDL_CreateColorCursor SDL_CreateColorCursor;
