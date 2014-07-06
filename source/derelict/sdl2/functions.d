@@ -339,6 +339,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_RenderGetLogicalSize = void function( SDL_Renderer*, int*, int* );
     alias da_SDL_RenderSetViewport = int function( SDL_Renderer*, const( SDL_Rect )* );
     alias da_SDL_RenderGetViewport = void function( SDL_Renderer*, SDL_Rect* );
+    alias da_SDL_RenderIsClipEnabled = SDL_bool function( SDL_Renderer* );
     alias da_SDL_RenderSetScale = int function( SDL_Renderer*, float, float );
     alias da_SDL_RenderGetScale = int function( SDL_Renderer*, float*, float* );
     alias da_SDL_SetRenderDrawColor = int function( SDL_Renderer*, Uint8, Uint8, Uint8, Uint8 );
@@ -864,6 +865,7 @@ __gshared {
     da_SDL_RenderGetLogicalSize SDL_RenderGetLogicalSize;
     da_SDL_RenderSetViewport SDL_RenderSetViewport;
     da_SDL_RenderGetViewport SDL_RenderGetViewport;
+    da_SDL_RenderIsClipEnabled SDL_RenderIsClipEnabled;
     da_SDL_RenderSetScale SDL_RenderSetScale;
     da_SDL_RenderGetScale SDL_RenderGetScale;
     da_SDL_SetRenderDrawColor SDL_SetRenderDrawColor;

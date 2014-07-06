@@ -337,6 +337,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_RenderGetLogicalSize, "SDL_RenderGetLogicalSize" );
             bindFunc( cast( void** )&SDL_RenderSetViewport, "SDL_RenderSetViewport" );
             bindFunc( cast( void** )&SDL_RenderGetViewport, "SDL_RenderGetViewport" );
+            bindFunc( cast( void** )&SDL_RenderIsClipEnabled, "SDL_RenderIsClipEnabled" );
             bindFunc( cast( void** )&SDL_RenderSetScale, "SDL_RenderSetScale" );
             bindFunc( cast( void** )&SDL_RenderGetScale, "SDL_RenderGetScale" );
             bindFunc( cast( void** )&SDL_SetRenderDrawColor, "SDL_SetRenderDrawColor" );
@@ -601,6 +602,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                   // Functions added in 2.0.4
                   case "SDL_CaptureMouse": break;
                   case "SDL_GetGlobalMouseState": break;
+                  case "SDL_RenderIsClipEnabled": break;
                   default: return ShouldThrow.Yes;
             }
             return ShouldThrow.No;
