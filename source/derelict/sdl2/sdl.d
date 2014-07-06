@@ -254,6 +254,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_ShowSimpleMessageBox, "SDL_ShowSimpleMessageBox" );
             bindFunc( cast( void** )&SDL_GetMouseFocus, "SDL_GetMouseFocus" );
             bindFunc( cast( void** )&SDL_GetMouseState, "SDL_GetMouseState" );
+            bindFunc( cast( void** )&SDL_GetGlobalMouseState, "SDL_GetGlobalMouseState" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseState, "SDL_GetRelativeMouseState" );
             bindFunc( cast( void** )&SDL_WarpMouseInWindow, "SDL_WarpMouseInWindow" );
             bindFunc( cast( void** )&SDL_SetRelativeMouseMode, "SDL_SetRelativeMouseMode" );
