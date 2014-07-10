@@ -68,7 +68,7 @@ enum {
 
 
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias da_IMG_Init = int function( int );
     alias da_IMG_Quit = int function();
     alias da_IMG_Linked_Version = const( SDL_version )* function();
