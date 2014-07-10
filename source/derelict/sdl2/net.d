@@ -107,7 +107,7 @@ nothrow bool SDLNet_SocketReady( void* sock ) {
     return sock && (cast( SDLNet_GenericSocket )sock).ready != 0;
 }
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias da_SDLNet_Linked_Version = const( SDLNet_Version )* function();
     alias da_SDLNet_Init = int function();
     alias da_SDLNet_Quit = void function();

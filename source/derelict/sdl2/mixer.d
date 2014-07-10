@@ -136,7 +136,7 @@ nothrow int Mix_FadeInChannel( int channel, Mix_Chunk* chunk, int loops, int ms 
     return Mix_FadeInChannelTimed( channel, chunk, loops, ms, -1 );
 }
 
-extern ( C ) nothrow {
+extern ( C ) @nogc nothrow {
     alias da_Mix_Linked_Version = const( SDL_version )* function();
     alias da_Mix_Init = int function( int );
     alias da_Mix_Quit = void function();
