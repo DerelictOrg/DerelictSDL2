@@ -233,9 +233,9 @@ class DerelictSDL2ttfLoader : SharedLibLoader {
         bindFunc( cast( void** )&TTF_RenderText_Blended, "TTF_RenderText_Blended" );
         bindFunc( cast( void** )&TTF_RenderUTF8_Blended, "TTF_RenderUTF8_Blended" );
         bindFunc( cast( void** )&TTF_RenderUNICODE_Blended, "TTF_RenderUNICODE_Blended" );
-        bindFunc( cast( void** )&TTF_RenderUNICODE_Shaded, "TTF_RenderText_Blended_Wrapped" );
-        bindFunc( cast( void** )&TTF_RenderUNICODE_Shaded, "TTF_RenderUTF8_Blended_Wrapped" );
-        bindFunc( cast( void** )&TTF_RenderUNICODE_Shaded, "TTF_RenderUNICODE_Blended_Wrapped" );
+        bindFunc( cast( void** )&TTF_RenderText_Blended_Wrapped, "TTF_RenderText_Blended_Wrapped" );
+        bindFunc( cast( void** )&TTF_RenderUTF8_Blended_Wrapped, "TTF_RenderUTF8_Blended_Wrapped" );
+        bindFunc( cast( void** )&TTF_RenderUNICODE_Blended_Wrapped, "TTF_RenderUNICODE_Blended_Wrapped" );
         bindFunc( cast( void** )&TTF_RenderGlyph_Blended, "TTF_RenderGlyph_Blended" );
         bindFunc( cast( void** )&TTF_CloseFont, "TTF_CloseFont" );
         bindFunc( cast( void** )&TTF_Quit, "TTF_Quit" );
