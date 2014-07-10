@@ -31,9 +31,10 @@ private {
     import core.stdc.stdio;
     import core.stdc.stdarg;
     import derelict.sdl2.types;
+    import derelict.util.system;
 }
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     // SDL.h
     alias da_SDL_Init = int function( Uint32 );
     alias da_SDL_InitSubSystem = int function( Uint32 );
