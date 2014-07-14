@@ -546,7 +546,7 @@ enum {
     SDL_GETEVENT
 }
 
-extern( C ) nothrow alias SDL_EventFilter = void function( void* userdata, SDL_Event* event );
+extern( C ) nothrow alias SDL_EventFilter = int function( void* userdata, SDL_Event* event );
 
 enum {
     SDL_QUERY = -1,
