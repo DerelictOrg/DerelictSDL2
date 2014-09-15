@@ -67,7 +67,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_UnlockAudio = void function();
     alias da_SDL_UnlockAudioDevice = void function( SDL_AudioDeviceID );
     alias da_SDL_CloseAudio = void function();
-    alias da_SDL_CloseAudioDevice = void function();
+    alias da_SDL_CloseAudioDevice = void function( SDL_AudioDeviceID );
     alias da_SDL_AudioDeviceConnected = int function( SDL_AudioDeviceID );
 
     // SDL_clipboard.h
