@@ -263,6 +263,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_CreateSystemCursor, "SDL_CreateSystemCursor" );
             bindFunc( cast( void** )&SDL_SetCursor, "SDL_SetCursor" );
             bindFunc( cast( void** )&SDL_GetCursor, "SDL_GetCursor" );
+            bindFunc( cast( void** )&SDL_GetDefaultCursor, "SDL_GetDefaultCursor" );
             bindFunc( cast( void** )&SDL_FreeCursor, "SDL_FreeCursor" );
             bindFunc( cast( void** )&SDL_ShowCursor, "SDL_ShowCursor" );
             bindFunc( cast( void** )&SDL_GetPixelFormatName, "SDL_GetPixelFormatName" );
