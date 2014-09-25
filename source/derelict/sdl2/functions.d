@@ -266,6 +266,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_CreateSystemCursor = SDL_Cursor* function( SDL_SystemCursor );
     alias da_SDL_SetCursor = void function( SDL_Cursor* );
     alias da_SDL_GetCursor = SDL_Cursor* function();
+    alias da_SDL_GetDefaultCursor = SDL_Cursor* function();
     alias da_SDL_FreeCursor = void function( SDL_Cursor* );
     alias da_SDL_ShowCursor = int function( int );
 
@@ -745,6 +746,7 @@ __gshared {
     da_SDL_CreateSystemCursor SDL_CreateSystemCursor;
     da_SDL_SetCursor SDL_SetCursor;
     da_SDL_GetCursor SDL_GetCursor;
+    da_SDL_GetDefaultCursor SDL_GetDefaultCursor;
     da_SDL_FreeCursor SDL_FreeCursor;
     da_SDL_ShowCursor SDL_ShowCursor;
 
