@@ -1810,6 +1810,15 @@ struct SDL_Renderer;
 struct SDL_Texture;
 
 // SDL_rwops.h
+enum {
+    SDL_RWOPS_UNKNOWN = 0,
+    SDL_RWOPS_WINFILE = 1,
+    SDL_RWOPS_STDFILE = 2,
+    SDL_RWOPS_JNIFILE = 3,
+    SDL_RWOPS_MEMORY = 4,
+    SDL_RWOPS_MEMORY_RO = 5,
+}
+
 struct SDL_RWops {
     extern( C ) nothrow {
         Sint64 function( SDL_RWops* ) size;
