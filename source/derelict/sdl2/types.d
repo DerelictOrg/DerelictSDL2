@@ -1918,7 +1918,7 @@ enum {
     SDL_DONTFREE = 0x00000004,
 }
 
-bool SDL_MUSTLOCK( SDL_Surface* S ) { return ( S.flags & SDL_RLEACCEL ) != 0; }
+bool SDL_MUSTLOCK( const SDL_Surface* S ) pure { return ( S.flags & SDL_RLEACCEL ) != 0; }
 
 struct SDL_BlitMap;
 struct SDL_Surface {
