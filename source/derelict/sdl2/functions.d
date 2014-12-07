@@ -349,7 +349,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_RenderDrawRect = int function( SDL_Renderer*, const( SDL_Rect )* );
     alias da_SDL_RenderDrawRects = int function( SDL_Renderer*, const( SDL_Rect )*, int );
     alias da_SDL_RenderFillRect = int function( SDL_Renderer*, const( SDL_Rect )* );
-    alias da_SDL_RenderFillRects = int function( SDL_Renderer*, const( SDL_Rect )* );
+    alias da_SDL_RenderFillRects = int function( SDL_Renderer*, const( SDL_Rect )*, int );
     alias da_SDL_RenderCopy = int function( SDL_Renderer*, SDL_Texture*, const( SDL_Rect )*, const( SDL_Rect* ) );
     alias da_SDL_RenderCopyEx = int function( SDL_Renderer*, SDL_Texture*, const( SDL_Rect )*, const( SDL_Rect )*, const( double ), const( SDL_Point )*, const( SDL_RendererFlip ) );
     alias da_SDL_RenderReadPixels = int function( SDL_Renderer*, const( SDL_Rect )*, Uint32, void*, int );
