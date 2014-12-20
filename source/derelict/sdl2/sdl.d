@@ -292,6 +292,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_CreateWindowAndRenderer, "SDL_CreateWindowAndRenderer" );
             bindFunc( cast( void** )&SDL_CreateRenderer, "SDL_CreateRenderer" );
             bindFunc( cast( void** )&SDL_CreateSoftwareRenderer, "SDL_CreateSoftwareRenderer" );
+            bindFunc( cast( void** )&SDL_GetRenderer, "SDL_GetRenderer" );
             bindFunc( cast( void** )&SDL_GetRendererInfo, "SDL_GetRendererInfo" );
             bindFunc( cast( void** )&SDL_CreateTexture, "SDL_CreateTexture" );
             bindFunc( cast( void** )&SDL_CreateTextureFromSurface, "SDL_CreateTextureFromSurface" );
