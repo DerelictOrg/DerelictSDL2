@@ -28,21 +28,22 @@ DEALINGS IN THE SOFTWARE.
 module derelict.sdl2.sdl;
 
 public {
-    import derelict.sdl2.types;
-    import derelict.sdl2.functions;
+      import derelict.sdl2.functions,
+             derelict.sdl2.types;
+      import derelict.util.loader;
 }
 
 private {
-    import derelict.util.loader;
-    import derelict.util.system;
+      import derelict.util.exception,
+             derelict.util.system;
 
-    static if( Derelict_OS_Windows )
+      static if( Derelict_OS_Windows )
         enum libNames = "SDL2.dll";
-    else static if( Derelict_OS_Mac )
+      else static if( Derelict_OS_Mac )
         enum libNames = "/usr/local/lib/libSDL2.dylib, ../Frameworks/SDL2.framework/SDL2, /Library/Frameworks/SDL2.framework/SDL2, /System/Library/Frameworks/SDL2.framework/SDL2";
-    else static if( Derelict_OS_Posix )
+      else static if( Derelict_OS_Posix )
         enum libNames = "libSDL2.so, libSDL2-2.0.so, libSDL2-2.0.so.0, /usr/local/lib/libSDL2.so, /usr/local/lib/libSDL2-2.0.so, /usr/local/lib/libSDL2-2.0.so.0";
-    else
+      else
         static assert( 0, "Need to implement SDL2 libNames for this operating system." );
 }
 
@@ -56,6 +57,18 @@ private extern( C ) nothrow alias da_SDL_SetMainReady = void function();
 class DerelictSDL2Loader : SharedLibLoader {
       public this() {
             super( libNames );
+      }
+
+      protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
+            if( minVersion.major == 2 && minVersion.minor == 0 )
+            {
+                  if( minVersion.patch == 1 ) {
+                        missingSymbolCallback = &allowSDL_2_0_1;
+                  }
+                  else if( minVersion.patch == 0 ) {
+                        missingSymbolCallback = &allowSDL_2_0_0;
+                  }
+            }
       }
 
       protected override void loadSymbols() {
@@ -93,8 +106,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_UnlockAudioDevice, "SDL_UnlockAudioDevice" );
             bindFunc( cast( void** )&SDL_CloseAudio, "SDL_CloseAudio" );
             bindFunc( cast( void** )&SDL_CloseAudioDevice, "SDL_CloseAudioDevice" );
-            //            bindFunc( cast( void** )&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected" );
-              bindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
+            //bindFunc( cast( void** )&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected" );
+            bindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
             bindFunc( cast( void** )&SDL_GetClipboardText, "SDL_GetClipboardText" );
             bindFunc( cast( void** )&SDL_HasClipboardText, "SDL_HasClipboardText" );
             bindFunc( cast( void** )&SDL_GetCPUCount, "SDL_GetCPUCount" );
@@ -191,10 +204,10 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_AddHintCallback, "SDL_AddHintCallback" );
             bindFunc( cast( void** )&SDL_DelHintCallback, "SDL_DelHintCallback" );
             bindFunc( cast( void** )&SDL_ClearHints, "SDL_ClearHints" );
-            //            bindFunc( cast( void** )&SDL_RedetectInputDevices, "SDL_RedetectInputDevices" );
-            //            bindFunc( cast( void** )&SDL_GetNumInputDevices, "SDL_GetNumInputDevices" );
-            //            bindFunc( cast( void** )&SDL_GetInputDeviceName, "SDL_GetInputDeviceName" );
-            //            bindFunc( cast( void** )&SDL_IsDeviceDisconnected, "SDL_IsDeviceDisconnected" );
+            //bindFunc( cast( void** )&SDL_RedetectInputDevices, "SDL_RedetectInputDevices" );
+            //bindFunc( cast( void** )&SDL_GetNumInputDevices, "SDL_GetNumInputDevices" );
+            //bindFunc( cast( void** )&SDL_GetInputDeviceName, "SDL_GetInputDeviceName" );
+            //bindFunc( cast( void** )&SDL_IsDeviceDisconnected, "SDL_IsDeviceDisconnected" );
             bindFunc( cast( void** )&SDL_NumJoysticks, "SDL_NumJoysticks" );
             bindFunc( cast( void** )&SDL_JoystickNameForIndex, "SDL_JoystickNameForIndex" );
             bindFunc( cast( void** )&SDL_JoystickOpen, "SDL_JoystickOpen" );
@@ -509,12 +522,57 @@ class DerelictSDL2Loader : SharedLibLoader {
             // I've wrapped it in a try/catch because it seem the function is
             // not always exported on Linux. See issue #153
             // https://github.com/aldacron/Derelict3/issues/153
-            import derelict.util.exception;
             try {
                   da_SDL_SetMainReady setReady;
                   bindFunc( cast( void** )&setReady, "SDL_SetMainReady" );
                   setReady();
             } catch(  DerelictException de  ) {}
+      }
+
+      private ShouldThrow allowSDL_2_0_0( string symbolName ) {
+            switch( symbolName ) {
+                  case "SDL_free": break;
+                  case "SDL_SetAssertionHandler": break;
+                  case "SDL_GetAssertionReport": break;
+                  case "SDL_ResetAssertionReport": break;
+                  case "SDL_GetSystemRAM": break;
+                  case "SDL_UpdateYUVTexture": break;
+                  case "SDL_GL_GetDrawableSize": break;
+                  case "SDL_GetBasePath": break;
+                  case "SDL_GetPrefPath": break;
+                  default: return allowSDL_2_0_1( symbolName );
+            }
+            return ShouldThrow.No;
+      }
+
+      private ShouldThrow allowSDL_2_0_1( string symbolName )
+      {
+            switch( symbolName )
+            {
+                  case "SDL_HasAVX": break;
+                  case "SDL_GameControllerAddMappingsFromRW": break;
+                  case "SDL_GL_ResetAttributes": break;
+
+                  static if( Derelict_OS_Windows ) {
+                        case "SDL_Direct3D9GetAdapterIndex": break;
+                        case "SDL_RenderGetD3D9Device": break;
+                        case "SDL_DXGIGetOutputInfo": break;
+                  } else static if( Derelict_OS_iOS ) {
+                        case "SDL_iPhoneSetAnimationCallback": break;
+                        case "SDL_iPhoneSetEventPump": break;
+                  } else static if( Derelict_OS_Android ) {
+                        case "SDL_AndroidGetJNIEnv": break;
+                        case "SDL_AndroidGetActivity": break;
+                        case "SDL_AndroidGetInternalStoragePath": break;
+                        case "SDL_AndroidGetInternalStorageState": break;
+                        case "SDL_AndroidGetExternalStoragePath": break;
+                  } else static if( Derelict_OS_WinRT ) {
+                        case "SDL_WinRTGetFSPathUNICODE": break;
+                        case "SDL_WinRTGetFSPathUTF8": break;
+                  }
+                  default: return ShouldThrow.Yes;
+            }
+            return ShouldThrow.No;
       }
 }
 
