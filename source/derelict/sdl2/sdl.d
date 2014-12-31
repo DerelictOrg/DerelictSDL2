@@ -531,6 +531,7 @@ class DerelictSDL2Loader : SharedLibLoader {
 
       private ShouldThrow allowSDL_2_0_0( string symbolName ) {
             switch( symbolName ) {
+                  // Functions added in 2.0.1
                   case "SDL_free": break;
                   case "SDL_SetAssertionHandler": break;
                   case "SDL_GetAssertionReport": break;
@@ -545,10 +546,9 @@ class DerelictSDL2Loader : SharedLibLoader {
             return ShouldThrow.No;
       }
 
-      private ShouldThrow allowSDL_2_0_1( string symbolName )
-      {
-            switch( symbolName )
-            {
+      private ShouldThrow allowSDL_2_0_1( string symbolName ) {
+            switch( symbolName ) {
+                  // Functions added in 2.0.2
                   case "SDL_HasAVX": break;
                   case "SDL_GameControllerAddMappingsFromRW": break;
                   case "SDL_GL_ResetAttributes": break;
