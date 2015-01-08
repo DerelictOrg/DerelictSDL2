@@ -331,6 +331,8 @@ extern( C ) @nogc nothrow {
     alias da_SDL_RenderTargetSupported = SDL_bool function( SDL_Renderer* );
     alias da_SDL_SetRenderTarget = int function( SDL_Renderer*, SDL_Texture* );
     alias da_SDL_GetRenderTarget = SDL_Texture* function( SDL_Renderer* );
+    alias da_SDL_RenderSetClipRect = int function( SDL_Renderer*, const( SDL_Rect )* );
+    alias da_SDL_RenderGetClipRect = void function( SDL_Renderer* renderer, SDL_Rect* );
     alias da_SDL_RenderSetLogicalSize = int function( SDL_Renderer*, int, int );
     alias da_SDL_RenderGetLogicalSize = void function( SDL_Renderer*, int*, int* );
     alias da_SDL_RenderSetViewport = int function( SDL_Renderer*, const( SDL_Rect )* );
@@ -849,6 +851,8 @@ __gshared {
     da_SDL_RenderTargetSupported SDL_RenderTargetSupported;
     da_SDL_SetRenderTarget SDL_SetRenderTarget;
     da_SDL_GetRenderTarget SDL_GetRenderTarget;
+    da_SDL_RenderSetClipRect SDL_RenderSetClipRect;
+    da_SDL_RenderGetClipRect SDL_RenderGetClipRect;
     da_SDL_RenderSetLogicalSize SDL_RenderSetLogicalSize;
     da_SDL_RenderGetLogicalSize SDL_RenderGetLogicalSize;
     da_SDL_RenderSetViewport SDL_RenderSetViewport;
