@@ -302,6 +302,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_RenderTargetSupported, "SDL_RenderTargetSupported" );
             bindFunc( cast( void** )&SDL_SetRenderTarget, "SDL_SetRenderTarget" );
             bindFunc( cast( void** )&SDL_GetRenderTarget, "SDL_GetRenderTarget" );
+            bindFunc( cast( void** )&SDL_RenderSetClipRect, "SDL_RenderSetClipRect" );
+            bindFunc( cast( void** )&SDL_RenderGetClipRect, "SDL_RenderGetClipRect" );
             bindFunc( cast( void** )&SDL_RenderSetLogicalSize, "SDL_RenderSetLogicalSize" );
             bindFunc( cast( void** )&SDL_RenderGetLogicalSize, "SDL_RenderGetLogicalSize" );
             bindFunc( cast( void** )&SDL_RenderSetViewport, "SDL_RenderSetViewport" );
