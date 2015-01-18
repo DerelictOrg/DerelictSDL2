@@ -36,7 +36,7 @@ private {
     static if(Derelict_OS_Windows)
         enum libNames = "SDL2_net.dll";
     else static if(Derelict_OS_Mac)
-        enum libNames = "../Frameworks/SDL2_net.framework/SDL2_net, /Library/Frameworks/SDL2_net.framework/SDL2_net, /System/Library/Frameworks/SDL2_net.framework/SDL2_net";
+        enum libNames = "/usr/local/lib/libSDL2_net.dylib, ../Frameworks/SDL2_net.framework/SDL2_net, /Library/Frameworks/SDL2_net.framework/SDL2_net, /System/Library/Frameworks/SDL2_net.framework/SDL2_net";
     else static if(Derelict_OS_Posix)
         enum libNames = "libSDL2_net.so, libSDL2_net-2.0.so, libSDL2_net-2.0.so.0, /usr/local/lib/libSDL2_net-2.0.so, /usr/local/lib/libSDL2_net-2.0.so.0";
     else
@@ -183,6 +183,8 @@ __gshared {
 
 class DerelictSDL2NetLoader: SharedLibLoader {
     public this() {
+      import std.stdio;
+      writeln("DerelictSDL2 loader, libnames are ", libNames);
         super( libNames );
     }
 
