@@ -49,21 +49,25 @@ enum : Uint8 {
     SDL_PATCHLEVEL = 2,
 }
 
+@nogc
 void SDL_VERSION( SDL_version* x ) {
     x.major = SDL_MAJOR_VERSION;
     x.minor = SDL_MINOR_VERSION;
     x.patch = SDL_PATCHLEVEL;
 }
 
-Uint32 SDL_VERSIONNUM( Uint8 X, Uint8 Y, Uint8 Z ) {
+@nogc
+Uint32 SDL_VERSIONNUM( Uint8 X, Uint8 Y, Uint8 Z ) pure nothrow {
     return X*1000 + Y*100 + Z;
 }
 
-Uint32 SDL_COMPILEDVERSION() {
+@nogc
+Uint32 SDL_COMPILEDVERSION() pure nothrow {
     return SDL_VERSIONNUM( SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
 }
 
-bool SDL_VERSION_ATLEAST( Uint8 X, Uint8 Y, Uint8 Z ) {
+@nogc
+bool SDL_VERSION_ATLEAST( Uint8 X, Uint8 Y, Uint8 Z ) pure nothrow {
     return ( SDL_COMPILEDVERSION() >= SDL_VERSIONNUM( X, Y, Z ) );
 }
 
@@ -84,7 +88,8 @@ alias Uint32 = uint;
 alias Sint64 = long;
 alias Uint64 = ulong;
 
-Uint32 SDL_FOURCC( char A, char B, char C, char D ) {
+@nogc
+Uint32 SDL_FOURCC( char A, char B, char C, char D ) pure nothrow {
     return ( ( A << 0 ) | ( B << 8 ) | ( C << 16 ) | ( D << 24 ) );
 }
 
@@ -1465,7 +1470,8 @@ extern( C ) nothrow alias SDL_LogOutputFunction = void function( void*, int, SDL
 // SDL_mouse.h
 struct SDL_Cursor;
 
-Uint8 SDL_BUTTON( Uint8 X ) {
+@nogc
+Uint8 SDL_BUTTON( Uint8 X ) pure nothrow {
     return cast( Uint8 )( 1 << ( X - 1 ) );
 }
 
@@ -1558,17 +1564,25 @@ enum {
     SDL_PACKEDLAYOUT_1010102
 }
 
-alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
-Uint32 SDL_DEFINE_PIXELFORMAT( int type, int order, int layout, int bits, int bytes ) {
+alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC;
+
+@nogc
+Uint32 SDL_DEFINE_PIXELFORMAT( int type, int order, int layout, int bits, int bytes ) pure nothrow {
     return ( 1<<28 ) | ( type << 24 ) | ( order << 20 ) | ( layout << 16 ) | ( bits << 8 ) | ( bytes << 0 );
 }
 
-Uint32 SDL_PIXELFLAG( Uint32 X ) { return ( X >> 28 ) & 0x0F; }
-Uint32 SDL_PIXELTYPE( Uint32 X ) { return ( X >> 24 ) & 0x0F; }
-Uint32 SDL_PIXELORDER( Uint32 X ) { return ( X >> 20 ) & 0x0F; }
-Uint32 SDL_PIXELLAYOUT( Uint32 X ) { return ( X >> 16 ) & 0x0F; }
-Uint32 SDL_BITSPERPIXEL( Uint32 X ) { return ( X >> 8 ) & 0xFF; }
-Uint32 SDL_BYTESPERPIXEL( Uint32 X ) {
+@nogc
+Uint32 SDL_PIXELFLAG( Uint32 X ) pure nothrow { return ( X >> 28 ) & 0x0F; }
+@nogc
+Uint32 SDL_PIXELTYPE( Uint32 X ) pure nothrow { return ( X >> 24 ) & 0x0F; }
+@nogc
+Uint32 SDL_PIXELORDER( Uint32 X ) pure nothrow { return ( X >> 20 ) & 0x0F; }
+@nogc
+Uint32 SDL_PIXELLAYOUT( Uint32 X ) pure nothrow { return ( X >> 16 ) & 0x0F; }
+@nogc
+Uint32 SDL_BITSPERPIXEL( Uint32 X ) pure nothrow { return ( X >> 8 ) & 0xFF; }
+@nogc
+Uint32 SDL_BYTESPERPIXEL( Uint32 X ) pure nothrow {
     if( SDL_ISPIXELFORMAT_FOURCC( X ) ) {
         if( X == SDL_PIXELFORMAT_YUY2 || X == SDL_PIXELFORMAT_UYVY || X == SDL_PIXELFORMAT_YVYU )
             return 2;
@@ -1579,7 +1593,8 @@ Uint32 SDL_BYTESPERPIXEL( Uint32 X ) {
     }
 }
 
-bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) {
+@nogc
+bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) pure nothrow {
     if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
         auto pixelType = SDL_PIXELTYPE( format );
         return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 || pixelType == SDL_PIXELTYPE_INDEX8;
@@ -1587,7 +1602,8 @@ bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) {
     return false;
 }
 
-bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) {
+@nogc
+bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) pure nothrow {
     if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
         auto pixelOrder = SDL_PIXELORDER( format );
         return pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA || pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA;
@@ -1595,7 +1611,8 @@ bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) {
     return false;
 }
 
-bool SDL_ISPIXELFORMAT_FOURCC( Uint32 format ) { return format && !( format & 0x80000000 ); }
+@nogc
+bool SDL_ISPIXELFORMAT_FOURCC( Uint32 format ) pure nothrow { return format && !( format & 0x80000000 ); }
 
 enum {
     SDL_PIXELFORMAT_UNKNOWN,
@@ -1761,8 +1778,11 @@ struct SDL_Rect {
     int w, h;
 }
 
-bool SDL_RectEmpty( const( SDL_Rect )* X ) { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
-bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) {
+@nogc
+bool SDL_RectEmpty( const( SDL_Rect )* X ) pure nothrow { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
+
+@nogc
+bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) pure nothrow {
     return A && B &&
         ( A.x == B.x ) && ( A.y == B.y ) &&
         ( A.w == B.w ) && ( A.h == B.h );
@@ -1896,7 +1916,8 @@ enum {
     ShapeModeColorKey
 }
 
-bool SDL_SHAPEMODEALPHA( WindowShapeMode mode ) {
+@nogc
+bool SDL_SHAPEMODEALPHA( WindowShapeMode mode ) pure nothrow {
     return mode == ShapeModeDefault || mode == ShapeModeBinarizeAlpha || mode == ShapeModeReverseBinarizeAlpha;
 }
 
@@ -1918,7 +1939,8 @@ enum {
     SDL_DONTFREE = 0x00000004,
 }
 
-bool SDL_MUSTLOCK( const( SDL_Surface )* S ) { return ( S.flags & SDL_RLEACCEL ) != 0; }
+@nogc
+bool SDL_MUSTLOCK( const( SDL_Surface )* S ) pure nothrow { return ( S.flags & SDL_RLEACCEL ) != 0; }
 
 struct SDL_BlitMap;
 struct SDL_Surface {
@@ -2075,7 +2097,8 @@ struct SDL_SysWMinfo {
 extern( C ) nothrow alias SDL_TimerCallback = Uint32 function( Uint32 interval, void* param );
 alias SDL_TimerID = int;
 
-bool SDL_TICKS_PASSED( Uint32 A, Uint32 B ) {
+@nogc
+bool SDL_TICKS_PASSED( Uint32 A, Uint32 B ) pure nothrow {
     return cast( Sint32 )( B - A ) <= 0;
 }
 
@@ -2122,14 +2145,18 @@ enum {
 }
 
 enum SDL_WINDOWPOS_UNDEFINED_MASK = 0x1FFF0000;
-Uint32 SDL_WINDOWPOS_UNDEFINED_DISPLAY( Uint32 X ) { return ( SDL_WINDOWPOS_UNDEFINED_MASK | X ); }
+@nogc
+Uint32 SDL_WINDOWPOS_UNDEFINED_DISPLAY( Uint32 X ) pure nothrow { return ( SDL_WINDOWPOS_UNDEFINED_MASK | X ); }
 enum SDL_WINDOWPOS_UNDEFINED = SDL_WINDOWPOS_UNDEFINED_DISPLAY( 0 );
-bool SDL_WINDOWPOS_ISUNDEFINED( Uint32 X ) { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_UNDEFINED_MASK; }
+@nogc
+bool SDL_WINDOWPOS_ISUNDEFINED( Uint32 X ) pure nothrow { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_UNDEFINED_MASK; }
 
 enum SDL_WINDOWPOS_CENTERED_MASK = 0x2FFF0000;
-Uint32 SDL_WINDOWPOS_CENTERED_DISPLAY( Uint32 X ) { return ( SDL_WINDOWPOS_CENTERED_MASK | X ); }
+@nogc
+Uint32 SDL_WINDOWPOS_CENTERED_DISPLAY( Uint32 X ) pure nothrow { return ( SDL_WINDOWPOS_CENTERED_MASK | X ); }
 enum SDL_WINDOWPOS_CENTERED = SDL_WINDOWPOS_CENTERED_DISPLAY( 0 );
-bool SDL_WINDOWPOS_ISCENTERED( Uint32 X ) { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_CENTERED_MASK; }
+@nogc
+bool SDL_WINDOWPOS_ISCENTERED( Uint32 X ) pure nothrow { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_CENTERED_MASK; }
 
 alias SDL_WindowEventID = int;
 enum {
