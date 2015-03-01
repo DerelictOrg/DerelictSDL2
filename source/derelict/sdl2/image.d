@@ -53,7 +53,7 @@ enum : Uint8 {
     SDL_IMAGE_PATCHLEVEL        = 0,
 }
 
-void SDL_IMAGE_VERSION( SDL_version* X ) {
+@nogc nothrow void SDL_IMAGE_VERSION( SDL_version* X ) {
     X.major     = SDL_IMAGE_MAJOR_VERSION;
     X.minor     = SDL_IMAGE_MINOR_VERSION;
     X.patch     = SDL_IMAGE_PATCHLEVEL;
