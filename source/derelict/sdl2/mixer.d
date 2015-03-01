@@ -52,7 +52,7 @@ alias MIX_MAJOR_VERSION = SDL_MIXER_MAJOR_VERSION;
 alias MIX_MINOR_VERSION = SDL_MIXER_MINOR_VERSION;
 alias MIX_PATCH_LEVEL = SDL_MIXER_PATCHLEVEL;
 
-void SDL_MIXER_VERSION( SDL_version* X )
+@nogc nothrow void SDL_MIXER_VERSION( SDL_version* X )
 {
     X.major     = SDL_MIXER_MAJOR_VERSION;
     X.minor     = SDL_MIXER_MINOR_VERSION;
@@ -124,16 +124,18 @@ extern( C ) nothrow {
     alias Mix_EffectDone_t = void function( int chan, void* udata );
 }
 
-nothrow Mix_Chunk* Mix_LoadWAV( const( char )* file ) {
-    return Mix_LoadWAV_RW( SDL_RWFromFile( file, "rb" ), 1 );
-}
+@nogc nothrow {
+    Mix_Chunk* Mix_LoadWAV( const( char )* file ) {
+        return Mix_LoadWAV_RW( SDL_RWFromFile( file, "rb" ), 1 );
+    }
 
-nothrow int Mix_PlayChannel( int channel, Mix_Chunk* chunk, int loops ) {
-    return Mix_PlayChannelTimed( channel, chunk, loops, -1 );
-}
+    int Mix_PlayChannel( int channel, Mix_Chunk* chunk, int loops ) {
+        return Mix_PlayChannelTimed( channel, chunk, loops, -1 );
+    }
 
-nothrow int Mix_FadeInChannel( int channel, Mix_Chunk* chunk, int loops, int ms ) {
-    return Mix_FadeInChannelTimed( channel, chunk, loops, ms, -1 );
+    int Mix_FadeInChannel( int channel, Mix_Chunk* chunk, int loops, int ms ) {
+        return Mix_FadeInChannelTimed( channel, chunk, loops, ms, -1 );
+    }
 }
 
 extern ( C ) @nogc nothrow {
