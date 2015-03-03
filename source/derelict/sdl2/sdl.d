@@ -94,7 +94,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_CloseAudio, "SDL_CloseAudio" );
             bindFunc( cast( void** )&SDL_CloseAudioDevice, "SDL_CloseAudioDevice" );
             //            bindFunc( cast( void** )&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected" );
-            sbindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
+            bindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
             bindFunc( cast( void** )&SDL_GetClipboardText, "SDL_GetClipboardText" );
             bindFunc( cast( void** )&SDL_HasClipboardText, "SDL_HasClipboardText" );
             bindFunc( cast( void** )&SDL_GetCPUCount, "SDL_GetCPUCount" );
