@@ -84,7 +84,7 @@ nothrow void SDL_TTF_VERSION( SDL_version* X ) {
 
 nothrow void TTF_VERSION( SDL_version* X ) { SDL_TTF_VERSION( X ); }
 
-extern ( C ) nothrow {
+extern ( C ) @nogc nothrow {
     alias da_TTF_Linked_Version = SDL_version* function();
     alias da_TTF_ByteSwappedUNICODE = void function( int );
     alias da_TTF_Init = int function();
