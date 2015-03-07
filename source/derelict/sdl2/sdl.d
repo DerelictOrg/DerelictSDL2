@@ -254,9 +254,12 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_ShowSimpleMessageBox, "SDL_ShowSimpleMessageBox" );
             bindFunc( cast( void** )&SDL_GetMouseFocus, "SDL_GetMouseFocus" );
             bindFunc( cast( void** )&SDL_GetMouseState, "SDL_GetMouseState" );
+            bindFunc( cast( void** )&SDL_GetGlobalMouseState, "SDL_GetGlobalMouseState" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseState, "SDL_GetRelativeMouseState" );
             bindFunc( cast( void** )&SDL_WarpMouseInWindow, "SDL_WarpMouseInWindow" );
+            bindFunc( cast( void** )&SDL_WarpMouseGlobal, "SDL_WarpMouseGlobal" );
             bindFunc( cast( void** )&SDL_SetRelativeMouseMode, "SDL_SetRelativeMouseMode" );
+            bindFunc( cast( void** )&SDL_CaptureMouse, "SDL_CaptureMouse" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseMode, "SDL_GetRelativeMouseMode" );
             bindFunc( cast( void** )&SDL_CreateCursor, "SDL_CreateCursor" );
             bindFunc( cast( void** )&SDL_CreateColorCursor, "SDL_CreateColorCursor" );
@@ -316,6 +319,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_RenderGetLogicalSize, "SDL_RenderGetLogicalSize" );
             bindFunc( cast( void** )&SDL_RenderSetViewport, "SDL_RenderSetViewport" );
             bindFunc( cast( void** )&SDL_RenderGetViewport, "SDL_RenderGetViewport" );
+            bindFunc( cast( void** )&SDL_RenderIsClipEnabled, "SDL_RenderIsClipEnabled" );
             bindFunc( cast( void** )&SDL_RenderSetScale, "SDL_RenderSetScale" );
             bindFunc( cast( void** )&SDL_RenderGetScale, "SDL_RenderGetScale" );
             bindFunc( cast( void** )&SDL_SetRenderDrawColor, "SDL_SetRenderDrawColor" );
@@ -480,6 +484,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetWindowBrightness, "SDL_GetWindowBrightness" );
             bindFunc( cast( void** )&SDL_SetWindowGammaRamp, "SDL_SetWindowGammaRamp" );
             bindFunc( cast( void** )&SDL_GetWindowGammaRamp, "SDL_GetWindowGammaRamp" );
+            bindFunc( cast( void** )&SDL_SetWindowHitTest, "SDL_SetWindowHitTest" );
             bindFunc( cast( void** )&SDL_DestroyWindow, "SDL_DestroyWindow" );
             bindFunc( cast( void** )&SDL_IsScreenSaverEnabled, "SDL_IsScreenSaverEnabled" );
             bindFunc( cast( void** )&SDL_EnableScreenSaver, "SDL_EnableScreenSaver" );

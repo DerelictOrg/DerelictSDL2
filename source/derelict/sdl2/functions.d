@@ -265,9 +265,12 @@ extern( C ) @nogc nothrow {
     // SDL_mouse.h
     alias da_SDL_GetMouseFocus = SDL_Window* function();
     alias da_SDL_GetMouseState = Uint32 function( int*, int* );
+    alias da_SDL_GetGlobalMouseState = Uint32 function( int*, int* );
     alias da_SDL_GetRelativeMouseState = Uint32 function( int*, int* );
     alias da_SDL_WarpMouseInWindow = void function( SDL_Window*, int, int );
+    alias da_SDL_WarpMouseGlobal = void function( int, int );
     alias da_SDL_SetRelativeMouseMode = int function( SDL_bool );
+    alias da_SDL_CaptureMouse = int function( SDL_bool );
     alias da_SDL_GetRelativeMouseMode = SDL_bool function();
     alias da_SDL_CreateCursor = SDL_Cursor* function( const( Uint8 )*, const( Uint8 )*, int, int, int, int );
     alias da_SDL_CreateColorCursor = SDL_Cursor* function( SDL_Surface*, int, int );
@@ -337,6 +340,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_RenderGetLogicalSize = void function( SDL_Renderer*, int*, int* );
     alias da_SDL_RenderSetViewport = int function( SDL_Renderer*, const( SDL_Rect )* );
     alias da_SDL_RenderGetViewport = void function( SDL_Renderer*, SDL_Rect* );
+    alias da_SDL_RenderIsClipEnabled = SDL_bool function( SDL_Renderer* );
     alias da_SDL_RenderSetScale = int function( SDL_Renderer*, float, float );
     alias da_SDL_RenderGetScale = int function( SDL_Renderer*, float*, float* );
     alias da_SDL_SetRenderDrawColor = int function( SDL_Renderer*, Uint8, Uint8, Uint8, Uint8 );
@@ -521,6 +525,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetWindowBrightness = float function( SDL_Window* );
     alias da_SDL_SetWindowGammaRamp = int function( SDL_Window*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )* );
     alias da_SDL_GetWindowGammaRamp = int function( SDL_Window*, Uint16*, Uint16*, Uint16*, Uint16* );
+    alias da_SDL_SetWindowHitTest = int function( SDL_Window*, SDL_HitTest, void* );
     alias da_SDL_DestroyWindow = void function( SDL_Window* );
     alias da_SDL_IsScreenSaverEnabled = SDL_bool function();
     alias da_SDL_EnableScreenSaver = void function();
@@ -792,9 +797,12 @@ __gshared {
 
     da_SDL_GetMouseFocus SDL_GetMouseFocus;
     da_SDL_GetMouseState SDL_GetMouseState;
+    da_SDL_GetGlobalMouseState SDL_GetGlobalMouseState;
     da_SDL_GetRelativeMouseState SDL_GetRelativeMouseState;
     da_SDL_WarpMouseInWindow SDL_WarpMouseInWindow;
+    da_SDL_WarpMouseGlobal SDL_WarpMouseGlobal;
     da_SDL_SetRelativeMouseMode SDL_SetRelativeMouseMode;
+    da_SDL_CaptureMouse SDL_CaptureMouse;
     da_SDL_GetRelativeMouseMode SDL_GetRelativeMouseMode;
     da_SDL_CreateCursor SDL_CreateCursor;
     da_SDL_CreateColorCursor SDL_CreateColorCursor;
@@ -859,6 +867,7 @@ __gshared {
     da_SDL_RenderGetLogicalSize SDL_RenderGetLogicalSize;
     da_SDL_RenderSetViewport SDL_RenderSetViewport;
     da_SDL_RenderGetViewport SDL_RenderGetViewport;
+    da_SDL_RenderIsClipEnabled SDL_RenderIsClipEnabled;
     da_SDL_RenderSetScale SDL_RenderSetScale;
     da_SDL_RenderGetScale SDL_RenderGetScale;
     da_SDL_SetRenderDrawColor SDL_SetRenderDrawColor;
@@ -1031,6 +1040,7 @@ __gshared {
     da_SDL_GetWindowBrightness SDL_GetWindowBrightness;
     da_SDL_SetWindowGammaRamp SDL_SetWindowGammaRamp;
     da_SDL_GetWindowGammaRamp SDL_GetWindowGammaRamp;
+    da_SDL_SetWindowHitTest SDL_SetWindowHitTest;
     da_SDL_DestroyWindow SDL_DestroyWindow;
     da_SDL_IsScreenSaverEnabled SDL_IsScreenSaverEnabled;
     da_SDL_EnableScreenSaver SDL_EnableScreenSaver;
