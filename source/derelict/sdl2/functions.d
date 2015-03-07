@@ -547,34 +547,36 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetPrefPath = char* function( const( char )* org, const( char )* app);
 }
 
-// SDL_audio.h
-nothrow SDL_AudioSpec* SDL_LoadWAV( const( char )* file, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* len ) {
-    return SDL_LoadWAV_RW( SDL_RWFromFile( file, "rb" ), 1, spec, audio_buf, len );
-}
+@nogc nothrow {
+    // SDL_audio.h
+    SDL_AudioSpec* SDL_LoadWAV( const( char )* file, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* len ) {
+        return SDL_LoadWAV_RW( SDL_RWFromFile( file, "rb" ), 1, spec, audio_buf, len );
+    }
 
-// SDL_events.h
-nothrow Uint8 SDL_GetEventState( Uint32 type ) {
-    return SDL_EventState( type, SDL_QUERY );
-}
+    // SDL_events.h
+    Uint8 SDL_GetEventState( Uint32 type ) {
+        return SDL_EventState( type, SDL_QUERY );
+    }
 
-// SDL_GameController.h
-nothrow int SDL_GameControllerAddMappingsFromFile( const( char )* file ) {
-    return SDL_GameControllerAddMappingsFromRW( SDL_RWFromFile( file, "rb" ), 1 );
-}
+    // SDL_GameController.h
+    int SDL_GameControllerAddMappingsFromFile( const( char )* file ) {
+        return SDL_GameControllerAddMappingsFromRW( SDL_RWFromFile( file, "rb" ), 1 );
+    }
 
-// SDL_quit.h
-nothrow bool SDL_QuitRequested() {
-    SDL_PumpEvents();
-    return SDL_PeepEvents( null, 0, SDL_PEEKEVENT, SDL_QUIT, SDL_QUIT ) > 0;
-}
+    // SDL_quit.h
+    bool SDL_QuitRequested() {
+        SDL_PumpEvents();
+        return SDL_PeepEvents( null, 0, SDL_PEEKEVENT, SDL_QUIT, SDL_QUIT ) > 0;
+    }
 
-// SDL_surface.h
-nothrow SDL_Surface* SDL_LoadBMP( const( char )* file ) {
-    return SDL_LoadBMP_RW( SDL_RWFromFile( file, "rb" ), 1 );
-}
+    // SDL_surface.h
+    SDL_Surface* SDL_LoadBMP( const( char )* file ) {
+        return SDL_LoadBMP_RW( SDL_RWFromFile( file, "rb" ), 1 );
+    }
 
-nothrow int SDL_SaveBMP( SDL_Surface* surface, const( char )* file ) {
-    return SDL_SaveBMP_RW( surface, SDL_RWFromFile( file, "wb" ), 1 );
+    int SDL_SaveBMP( SDL_Surface* surface, const( char )* file ) {
+        return SDL_SaveBMP_RW( surface, SDL_RWFromFile( file, "wb" ), 1 );
+    }
 }
 
 __gshared {
