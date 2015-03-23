@@ -2027,6 +2027,14 @@ struct SDL_SysWMmsg {
             win_ win;
         }
 
+        static if( Derelict_OS_WinRT ) {
+            // Win32
+            struct winrt_ {
+                void* window;
+            }
+            winrt_ winrt;
+        }
+
         static if( Derelict_OS_Posix ) {
             // X11 unsupported for now
             struct x11_ {
