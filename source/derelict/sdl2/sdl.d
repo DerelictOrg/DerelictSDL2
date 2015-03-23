@@ -106,6 +106,9 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_ConvertAudio, "SDL_ConvertAudio" );
             bindFunc( cast( void** )&SDL_MixAudio, "SDL_MixAudio" );
             bindFunc( cast( void** )&SDL_MixAudioFormat, "SDL_MixAudioFormat" );
+            bindFunc( cast( void** )&SDL_QueueAudio, "SDL_QueueAudio" );
+            bindFunc( cast( void** )&SDL_GetQueuedAudioSize, "SDL_GetQueuedAudioSize" );
+            bindFunc( cast( void** )&SDL_ClearQueuedAudio, "SDL_ClearQueuedAudio" );
             bindFunc( cast( void** )&SDL_LockAudio, "SDL_LockAudio" );
             bindFunc( cast( void** )&SDL_LockAudioDevice, "SDL_LockAudioDevice" );
             bindFunc( cast( void** )&SDL_UnlockAudio, "SDL_UnlockAudio" );
@@ -603,7 +606,10 @@ class DerelictSDL2Loader : SharedLibLoader {
             switch( symbolName ) {
                   // Functions added in 2.0.4
                   case "SDL_CaptureMouse": break;
+                  case "SDL_ClearQueuedAudio": break;
                   case "SDL_GetGlobalMouseState": break;
+                  case "SDL_GetQueuedAudioSize": break;
+                  case "SDL_QueueAudio": break;
                   case "SDL_RenderIsClipEnabled": break;
                   case "SDL_SetWindowHitTest": break;
                   case "SDL_WarpMouseGlobal": break;

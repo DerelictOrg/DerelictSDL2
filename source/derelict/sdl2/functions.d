@@ -68,6 +68,9 @@ extern( C ) @nogc nothrow {
     alias da_SDL_ConvertAudio = int function( SDL_AudioCVT* );
     alias da_SDL_MixAudio = void function( Uint8*, const( Uint8 )*, Uint32, int );
     alias da_SDL_MixAudioFormat = void function( Uint8*, const( Uint8 )*, SDL_AudioFormat, Uint32, int );
+    alias da_SDL_QueueAudio = int function( SDL_AudioDeviceID, const (void )*, Uint32 );
+    alias da_SDL_GetQueuedAudioSize = int function( SDL_AudioDeviceID );
+    alias da_SDL_ClearQueuedAudio = int function( SDL_AudioDeviceID );
     alias da_SDL_LockAudio = void function();
     alias da_SDL_LockAudioDevice = void function( SDL_AudioDeviceID );
     alias da_SDL_UnlockAudio = void function();
@@ -616,6 +619,9 @@ __gshared {
     da_SDL_ConvertAudio SDL_ConvertAudio;
     da_SDL_MixAudio SDL_MixAudio;
     da_SDL_MixAudioFormat SDL_MixAudioFormat;
+    da_SDL_QueueAudio SDL_QueueAudio;
+    da_SDL_GetQueuedAudioSize SDL_GetQueuedAudioSize;
+    da_SDL_ClearQueuedAudio SDL_ClearQueuedAudio;
     da_SDL_LockAudio SDL_LockAudio;
     da_SDL_LockAudioDevice SDL_LockAudioDevice;
     da_SDL_UnlockAudio SDL_UnlockAudio;
