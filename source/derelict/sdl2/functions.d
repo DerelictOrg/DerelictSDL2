@@ -435,7 +435,7 @@ extern( C ) @nogc nothrow {
     static if( Derelict_OS_Windows ) {
         alias da_SDL_Direct3D9GetAdapterIndex = int function( int );
         alias da_SDL_RenderGetD3D9Device = IDirect3DDevice9* function( SDL_Renderer* );
-        alias da_SDL_DXGIGetOutputInfo = void function ( int, int*, int* );
+        alias da_SDL_DXGIGetOutputInfo = SDL_bool function ( int, int*, int* );
     }
     static if( Derelict_OS_iOS ) {
         alias da_SDL_iPhoneSetAnimationCallback = int function( SDL_Window*, int, SDL_iPhoneAnimationCallback, void* );
