@@ -85,6 +85,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_Quit, "SDL_Quit" );
             bindFunc( cast( void** )&SDL_free, "SDL_free" );
             bindFunc( cast( void** )&SDL_SetAssertionHandler, "SDL_SetAssertionHandler" );
+            bindFunc( cast( void** )&SDL_SetGetDefaultAssertionHandler, "SDL_GetDefaultAssertionHandler" );
+            bindFunc( cast( void** )&SDL_GetAssertionHandler, "SDL_GetAssertionHandler" );
             bindFunc( cast( void** )&SDL_GetAssertionReport, "SDL_GetAssertionReport" );
             bindFunc( cast( void** )&SDL_ResetAssertionReport, "SDL_ResetAssertionReport" );
             bindFunc( cast( void** )&SDL_GetNumAudioDrivers, "SDL_GetNumAudioDrivers" );
@@ -569,6 +571,8 @@ class DerelictSDL2Loader : SharedLibLoader {
                   // Functions added in 2.0.2
                   case "SDL_HasAVX": break;
                   case "SDL_GameControllerAddMappingsFromRW": break;
+                  case "SDL_GetDefaultAssertionHandler": break;
+                  case "SDL_GetAssertionHandler": break;
                   case "SDL_GL_ResetAttributes": break;
 
                   static if( Derelict_OS_Windows ) {
