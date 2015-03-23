@@ -107,9 +107,10 @@ enum : Uint32 {
 }
 
 // SDL_assert.h
-alias SDL_assert_state = Uint32;
+alias SDL_AssertState = Uint32;
+alias SDL_assert_state = SDL_AssertState;
 
-enum : SDL_assert_state {
+enum : SDL_AssertState {
     SDL_ASSERTION_RETRY = 0,
     SDL_ASSERTION_BREAK = 1,
     SDL_ASSERTION_ABORT = 2,
@@ -117,17 +118,18 @@ enum : SDL_assert_state {
     SDL_ASSERTION_ALWAYS_IGNORE = 4
 }
 
-struct SDL_assert_data {
+struct SDL_AssertData {
     int always_ignore;
     Uint32 trigger_count;
     const(char) *condition;
     const(char) *filename;
     int linenum;
     const(char) *function_;
-    const(SDL_assert_data) *next;
+    const(SDL_AssertData) *next;
 }
+alias SDL_assert_data = SDL_AssertData;
 
-extern( C ) nothrow alias SDL_AssertionHandler = SDL_assert_state function( const(SDL_assert_data)* data, void* userdata );
+extern( C ) nothrow alias SDL_AssertionHandler = SDL_AssertState function( const(SDL_AssertData)* data, void* userdata );
 
 // SDL_audio.h
 alias SDL_AudioFormat = Uint16;
