@@ -371,6 +371,7 @@ struct SDL_MouseWheelEvent {
     Uint32 which;
     Sint32 x;
     Sint32 y;
+    Uint32 direction;
 }
 
 struct SDL_JoyAxisEvent {
@@ -1510,6 +1511,12 @@ enum {
     SDL_SYSTEM_CURSOR_NO,
     SDL_SYSTEM_CURSOR_HAND,
     SDL_NUM_SYSTEM_CURSORS
+}
+
+alias SDL_MouseWheelDirection = int;
+enum {
+    SDL_MOUSEWHEEL_NORMAL,
+    SDL_MOUSEWHEEL_FLIPPED
 }
 
 enum : Uint8 {
