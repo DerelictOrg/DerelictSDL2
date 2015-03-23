@@ -285,6 +285,8 @@ enum {
     SDL_MULTIGESTURE,
     SDL_CLIPBOARDUPDATE = 0x900,
     SDL_DROPFILE = 0x1000,
+    SDL_AUDIODEVICEADDED = 0x1100,
+    SDL_AUDIODEVICEREMOVED,
     SDL_RENDER_TARGETS_RESET = 0x2000,
     SDL_RENDER_DEVICE_RESET = 0x2001,
     SDL_USEREVENT = 0x8000,
@@ -449,6 +451,16 @@ struct SDL_ControllerDeviceEvent {
     Sint32 which;
 }
 
+struct SDL_AudioDeviceEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    Uint32 which;
+    Uint8 iscapture;
+    Uint8 padding1;
+    Uint8 padding2;
+    Uint8 padding3;
+}
+
 struct SDL_TouchFingerEvent {
     Uint32 type;
     Uint32 timestamp;
@@ -533,6 +545,7 @@ union SDL_Event {
     SDL_ControllerAxisEvent caxis;
     SDL_ControllerButtonEvent cbutton;
     SDL_ControllerDeviceEvent cdevice;
+    SDL_AudioDeviceEvent adevice;
     SDL_QuitEvent quit;
     SDL_UserEvent user;
     SDL_SysWMEvent syswm;
