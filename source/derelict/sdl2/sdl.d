@@ -131,6 +131,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_HasSSE41, "SDL_HasSSE41" );
             bindFunc( cast( void** )&SDL_HasSSE42, "SDL_HasSSE42" );
             bindFunc( cast( void** )&SDL_HasAVX, "SDL_HasAVX" );
+            bindFunc( cast( void** )&SDL_HasAVX2, "SDL_HasAVX2" );
             bindFunc( cast( void** )&SDL_GetSystemRAM, "SDL_GetSystemRAM" );
             bindFunc( cast( void** )&SDL_SetError, "SDL_SetError" );
             bindFunc( cast( void** )&SDL_GetError, "SDL_GetError" );
@@ -609,6 +610,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                   case "SDL_ClearQueuedAudio": break;
                   case "SDL_GetGlobalMouseState": break;
                   case "SDL_GetQueuedAudioSize": break;
+                  case "SDL_HasAVX2": break;
                   case "SDL_QueueAudio": break;
                   case "SDL_RenderIsClipEnabled": break;
                   case "SDL_SetWindowHitTest": break;
