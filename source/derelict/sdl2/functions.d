@@ -45,6 +45,8 @@ extern( C ) @nogc nothrow {
 
     // SDL_assert.h
     alias da_SDL_SetAssertionHandler = void function(SDL_AssertionHandler, void*);
+    alias da_SDL_GetDefaultAssertionHandler = SDL_AssertionHandler function();
+    alias da_SDL_GetAssertionHandler = SDL_AssertionHandler function(void**);
     alias da_SDL_GetAssertionReport = const(SDL_assert_data)* function();
     alias da_SDL_ResetAssertionReport = void function();
 
@@ -598,6 +600,8 @@ __gshared {
     da_SDL_free SDL_free;
 
     da_SDL_SetAssertionHandler SDL_SetAssertionHandler;
+    da_SDL_GetDefaultAssertionHandler SDL_GetDefaultAssertionHandler;
+    da_SDL_GetAssertionHandler SDL_GetAssertionHandler;
     da_SDL_GetAssertionReport SDL_GetAssertionReport;
     da_SDL_ResetAssertionReport SDL_ResetAssertionReport;
 
