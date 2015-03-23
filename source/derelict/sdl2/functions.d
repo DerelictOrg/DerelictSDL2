@@ -444,6 +444,7 @@ extern( C ) @nogc nothrow {
     static if( Derelict_OS_WinRT ) {
         alias da_SDL_WinRTGetFSPathUNICODE = const( wchar_t )* function( SDL_WinRT_Path );
         alias da_SDL_WinRTGetFSPathUTF8 = const( char )* function( SDL_WinRT_Path );
+        alias da_SDL_WinRTRunApp = int function( int function( int, char** ), void* );
     }
 
     // SDL_syswm.h
@@ -959,6 +960,7 @@ __gshared {
     static if( Derelict_OS_WinRT ) {
         da_SDL_WinRTGetFSPathUNICODE SDL_WinRTGetFSPathUNICODE;
         da_SDL_WinRTGetFSPathUTF8 SDL_WinRTGetFSPathUTF8;
+        da_SDL_WinRTRunApp SDL_WinRTRunApp;
     }
 
     da_SDL_GetWindowWMInfo SDL_GetWindowWMInfo;

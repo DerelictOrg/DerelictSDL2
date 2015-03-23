@@ -62,7 +62,10 @@ class DerelictSDL2Loader : SharedLibLoader {
       protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
             if( minVersion.major == 2 && minVersion.minor == 0 )
             {
-                  if( minVersion.patch == 1 ) {
+                  if( minVersion.patch == 2 ) {
+                        missingSymbolCallback = &allowSDL_2_0_2;
+                  }
+                  else if( minVersion.patch == 1 ) {
                         missingSymbolCallback = &allowSDL_2_0_1;
                   }
                   else if( minVersion.patch == 0 ) {
@@ -425,6 +428,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             static if( Derelict_OS_WinRT ) {
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUNICODE, "SDL_WinRTGetFSPathUNICODE" );
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUTF8, "SDL_WinRTGetFSPathUTF8" );
+                bindFunc( cast( void** )&SDL_WinRTRunApp, "SDL_WinRTRunApp" );
             }
 
             bindFunc( cast( void** )&SDL_GetWindowWMInfo, "SDL_GetWindowWMInfo" );
@@ -568,9 +572,19 @@ class DerelictSDL2Loader : SharedLibLoader {
                         case "SDL_AndroidGetInternalStoragePath": break;
                         case "SDL_AndroidGetInternalStorageState": break;
                         case "SDL_AndroidGetExternalStoragePath": break;
-                  } else static if( Derelict_OS_WinRT ) {
+                  }
+                  default: return allowSDL_2_0_2( symbolName );
+            }
+            return ShouldThrow.No;
+      }
+
+      private ShouldThrow allowSDL_2_0_2( string symbolName ) {
+            switch( symbolName ) {
+                  // Functions added in 2.0.3
+                  static if( Derelict_OS_WinRT ) {
                         case "SDL_WinRTGetFSPathUNICODE": break;
                         case "SDL_WinRTGetFSPathUTF8": break;
+                        case "SDL_WinRTRunApp": break;
                   }
                   default: return ShouldThrow.Yes;
             }
