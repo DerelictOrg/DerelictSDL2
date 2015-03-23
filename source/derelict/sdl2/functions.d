@@ -97,6 +97,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_HasSSE41 = SDL_bool function();
     alias da_SDL_HasSSE42 = SDL_bool function();
     alias da_SDL_HasAVX = SDL_bool function();
+    alias da_SDL_HasAVX2 = SDL_bool function();
     alias da_SDL_GetSystemRAM = int function();
 
     // SDL_error.h
@@ -646,6 +647,7 @@ __gshared {
     da_SDL_HasSSE41 SDL_HasSSE41;
     da_SDL_HasSSE42 SDL_HasSSE42;
     da_SDL_HasAVX SDL_HasAVX;
+    da_SDL_HasAVX2 SDL_HasAVX2;
     da_SDL_GetSystemRAM SDL_GetSystemRAM;
 
     da_SDL_SetError SDL_SetError;
