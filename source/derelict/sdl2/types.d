@@ -49,22 +49,24 @@ enum : Uint8 {
     SDL_PATCHLEVEL = 2,
 }
 
-void SDL_VERSION( SDL_version* x ) {
-    x.major = SDL_MAJOR_VERSION;
-    x.minor = SDL_MINOR_VERSION;
-    x.patch = SDL_PATCHLEVEL;
-}
+@nogc nothrow {
+    void SDL_VERSION( SDL_version* x ) {
+        x.major = SDL_MAJOR_VERSION;
+        x.minor = SDL_MINOR_VERSION;
+        x.patch = SDL_PATCHLEVEL;
+    }
 
-Uint32 SDL_VERSIONNUM( Uint8 X, Uint8 Y, Uint8 Z ) {
-    return X*1000 + Y*100 + Z;
-}
+    Uint32 SDL_VERSIONNUM( Uint8 X, Uint8 Y, Uint8 Z ) {
+        return X*1000 + Y*100 + Z;
+    }
 
-Uint32 SDL_COMPILEDVERSION() {
-    return SDL_VERSIONNUM( SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
-}
+    Uint32 SDL_COMPILEDVERSION() {
+        return SDL_VERSIONNUM( SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
+    }
 
-bool SDL_VERSION_ATLEAST( Uint8 X, Uint8 Y, Uint8 Z ) {
-    return ( SDL_COMPILEDVERSION() >= SDL_VERSIONNUM( X, Y, Z ) );
+    bool SDL_VERSION_ATLEAST( Uint8 X, Uint8 Y, Uint8 Z ) {
+        return ( SDL_COMPILEDVERSION() >= SDL_VERSIONNUM( X, Y, Z ) );
+    }
 }
 
 
@@ -84,7 +86,7 @@ alias Uint32 = uint;
 alias Sint64 = long;
 alias Uint64 = ulong;
 
-Uint32 SDL_FOURCC( char A, char B, char C, char D ) {
+@nogc nothrow Uint32 SDL_FOURCC( char A, char B, char C, char D ) {
     return ( ( A << 0 ) | ( B << 8 ) | ( C << 16 ) | ( D << 24 ) );
 }
 
@@ -137,7 +139,7 @@ enum : SDL_AudioFormat {
     SDL_AUDIO_MASK_SIGNED = 1<<15,
 }
 
-nothrow {
+@nogc nothrow {
     int SDL_AUDIO_BITSIZE( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_BITSIZE; }
     int SDL_AUDIO_ISFLOAT( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_DATATYPE; }
     int SDL_AUDIO_ISBIGENDIAN( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_ENDIAN; }
@@ -1133,7 +1135,7 @@ enum {
 alias SDL_Keycode = Sint32;
 
 enum SDLK_SCANCODE_MASK = 1<<30;
-int SDL_SCANCODE_TO_KEYCODE( int X ) {
+@nogc nothrow int SDL_SCANCODE_TO_KEYCODE( int X ) {
     return ( X | SDLK_SCANCODE_MASK );
 }
 
@@ -1465,7 +1467,7 @@ extern( C ) nothrow alias SDL_LogOutputFunction = void function( void*, int, SDL
 // SDL_mouse.h
 struct SDL_Cursor;
 
-Uint8 SDL_BUTTON( Uint8 X ) {
+@nogc nothrow Uint8 SDL_BUTTON( Uint8 X ) {
     return cast( Uint8 )( 1 << ( X - 1 ) );
 }
 
@@ -1558,44 +1560,46 @@ enum {
     SDL_PACKEDLAYOUT_1010102
 }
 
-alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
-Uint32 SDL_DEFINE_PIXELFORMAT( int type, int order, int layout, int bits, int bytes ) {
-    return ( 1<<28 ) | ( type << 24 ) | ( order << 20 ) | ( layout << 16 ) | ( bits << 8 ) | ( bytes << 0 );
-}
-
-Uint32 SDL_PIXELFLAG( Uint32 X ) { return ( X >> 28 ) & 0x0F; }
-Uint32 SDL_PIXELTYPE( Uint32 X ) { return ( X >> 24 ) & 0x0F; }
-Uint32 SDL_PIXELORDER( Uint32 X ) { return ( X >> 20 ) & 0x0F; }
-Uint32 SDL_PIXELLAYOUT( Uint32 X ) { return ( X >> 16 ) & 0x0F; }
-Uint32 SDL_BITSPERPIXEL( Uint32 X ) { return ( X >> 8 ) & 0xFF; }
-Uint32 SDL_BYTESPERPIXEL( Uint32 X ) {
-    if( SDL_ISPIXELFORMAT_FOURCC( X ) ) {
-        if( X == SDL_PIXELFORMAT_YUY2 || X == SDL_PIXELFORMAT_UYVY || X == SDL_PIXELFORMAT_YVYU )
-            return 2;
-        else
-            return 1;
-    } else {
-        return ( X >> 0 ) & 0xFF;
+alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC;
+@nogc nothrow {
+    Uint32 SDL_DEFINE_PIXELFORMAT( int type, int order, int layout, int bits, int bytes ) {
+        return ( 1<<28 ) | ( type << 24 ) | ( order << 20 ) | ( layout << 16 ) | ( bits << 8 ) | ( bytes << 0 );
     }
-}
 
-bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) {
-    if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
-        auto pixelType = SDL_PIXELTYPE( format );
-        return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 || pixelType == SDL_PIXELTYPE_INDEX8;
+    Uint32 SDL_PIXELFLAG( Uint32 X ) { return ( X >> 28 ) & 0x0F; }
+    Uint32 SDL_PIXELTYPE( Uint32 X ) { return ( X >> 24 ) & 0x0F; }
+    Uint32 SDL_PIXELORDER( Uint32 X ) { return ( X >> 20 ) & 0x0F; }
+    Uint32 SDL_PIXELLAYOUT( Uint32 X ) { return ( X >> 16 ) & 0x0F; }
+    Uint32 SDL_BITSPERPIXEL( Uint32 X ) { return ( X >> 8 ) & 0xFF; }
+    Uint32 SDL_BYTESPERPIXEL( Uint32 X ) {
+        if( SDL_ISPIXELFORMAT_FOURCC( X ) ) {
+            if( X == SDL_PIXELFORMAT_YUY2 || X == SDL_PIXELFORMAT_UYVY || X == SDL_PIXELFORMAT_YVYU )
+                return 2;
+            else
+                return 1;
+        } else {
+            return ( X >> 0 ) & 0xFF;
+        }
     }
-    return false;
-}
 
-bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) {
-    if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
-        auto pixelOrder = SDL_PIXELORDER( format );
-        return pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA || pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA;
+    bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
+            auto pixelType = SDL_PIXELTYPE( format );
+            return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 || pixelType == SDL_PIXELTYPE_INDEX8;
+        }
+        return false;
     }
-    return false;
-}
 
-bool SDL_ISPIXELFORMAT_FOURCC( Uint32 format ) { return format && !( format & 0x80000000 ); }
+    bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
+            auto pixelOrder = SDL_PIXELORDER( format );
+            return pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA || pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA;
+        }
+        return false;
+    }
+
+    bool SDL_ISPIXELFORMAT_FOURCC( Uint32 format ) { return format && !( format & 0x80000000 ); }
+}
 
 enum {
     SDL_PIXELFORMAT_UNKNOWN,
@@ -1761,11 +1765,13 @@ struct SDL_Rect {
     int w, h;
 }
 
-bool SDL_RectEmpty( const( SDL_Rect )* X ) { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
-bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) {
-    return A && B &&
-        ( A.x == B.x ) && ( A.y == B.y ) &&
-        ( A.w == B.w ) && ( A.h == B.h );
+@nogc nothrow {
+    bool SDL_RectEmpty( const( SDL_Rect )* X ) { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
+    bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) {
+        return A && B &&
+            ( A.x == B.x ) && ( A.y == B.y ) &&
+            ( A.w == B.w ) && ( A.h == B.h );
+    }
 }
 
 // SDL_render.h
@@ -1821,7 +1827,7 @@ enum {
 }
 
 struct SDL_RWops {
-    extern( C ) nothrow {
+    extern( C ) @nogc nothrow {
         Sint64 function( SDL_RWops* ) size;
         Sint64 function( SDL_RWops*, Sint64, int ) seek;
         size_t function( SDL_RWops*, void*, size_t, size_t ) read;
@@ -1874,12 +1880,14 @@ enum {
     RW_SEEK_END = 2,
 }
 
-Sint64 SDL_RWsize( SDL_RWops* ctx ) { return ctx.size( ctx ); }
-Sint64 SDL_RWseek( SDL_RWops* ctx, Sint64 offset, int whence ) { return ctx.seek( ctx, offset, whence ); }
-Sint64 SDL_RWtell( SDL_RWops* ctx ) { return ctx.seek( ctx, 0, RW_SEEK_CUR ); }
-size_t SDL_RWread( SDL_RWops* ctx, void* ptr, size_t size, size_t n ) { return ctx.read( ctx, ptr, size, n ); }
-size_t SDL_RWwrite( SDL_RWops* ctx, const( void )* ptr, size_t size, size_t n ) { return ctx.write( ctx, ptr, size, n ); }
-int SDL_RWclose( SDL_RWops* ctx ) { return ctx.close( ctx ); }
+@nogc nothrow {
+    Sint64 SDL_RWsize( SDL_RWops* ctx ) { return ctx.size( ctx ); }
+    Sint64 SDL_RWseek( SDL_RWops* ctx, Sint64 offset, int whence ) { return ctx.seek( ctx, offset, whence ); }
+    Sint64 SDL_RWtell( SDL_RWops* ctx ) { return ctx.seek( ctx, 0, RW_SEEK_CUR ); }
+    size_t SDL_RWread( SDL_RWops* ctx, void* ptr, size_t size, size_t n ) { return ctx.read( ctx, ptr, size, n ); }
+    size_t SDL_RWwrite( SDL_RWops* ctx, const( void )* ptr, size_t size, size_t n ) { return ctx.write( ctx, ptr, size, n ); }
+    int SDL_RWclose( SDL_RWops* ctx ) { return ctx.close( ctx ); }
+}
 
 // SDL_shape.h
 enum {
@@ -1896,7 +1904,7 @@ enum {
     ShapeModeColorKey
 }
 
-bool SDL_SHAPEMODEALPHA( WindowShapeMode mode ) {
+@nogc nothrow bool SDL_SHAPEMODEALPHA( WindowShapeMode mode ) {
     return mode == ShapeModeDefault || mode == ShapeModeBinarizeAlpha || mode == ShapeModeReverseBinarizeAlpha;
 }
 
@@ -1918,7 +1926,7 @@ enum {
     SDL_DONTFREE = 0x00000004,
 }
 
-bool SDL_MUSTLOCK( const( SDL_Surface )* S ) { return ( S.flags & SDL_RLEACCEL ) != 0; }
+@nogc nothrow bool SDL_MUSTLOCK( const( SDL_Surface )* S ) { return ( S.flags & SDL_RLEACCEL ) != 0; }
 
 struct SDL_BlitMap;
 struct SDL_Surface {
@@ -2075,7 +2083,7 @@ struct SDL_SysWMinfo {
 extern( C ) nothrow alias SDL_TimerCallback = Uint32 function( Uint32 interval, void* param );
 alias SDL_TimerID = int;
 
-bool SDL_TICKS_PASSED( Uint32 A, Uint32 B ) {
+@nogc nothrow bool SDL_TICKS_PASSED( Uint32 A, Uint32 B ) {
     return cast( Sint32 )( B - A ) <= 0;
 }
 
@@ -2122,14 +2130,14 @@ enum {
 }
 
 enum SDL_WINDOWPOS_UNDEFINED_MASK = 0x1FFF0000;
-Uint32 SDL_WINDOWPOS_UNDEFINED_DISPLAY( Uint32 X ) { return ( SDL_WINDOWPOS_UNDEFINED_MASK | X ); }
+@nogc nothrow Uint32 SDL_WINDOWPOS_UNDEFINED_DISPLAY( Uint32 X ) { return ( SDL_WINDOWPOS_UNDEFINED_MASK | X ); }
 enum SDL_WINDOWPOS_UNDEFINED = SDL_WINDOWPOS_UNDEFINED_DISPLAY( 0 );
-bool SDL_WINDOWPOS_ISUNDEFINED( Uint32 X ) { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_UNDEFINED_MASK; }
+@nogc nothrow bool SDL_WINDOWPOS_ISUNDEFINED( Uint32 X ) { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_UNDEFINED_MASK; }
 
 enum SDL_WINDOWPOS_CENTERED_MASK = 0x2FFF0000;
-Uint32 SDL_WINDOWPOS_CENTERED_DISPLAY( Uint32 X ) { return ( SDL_WINDOWPOS_CENTERED_MASK | X ); }
+@nogc nothrow Uint32 SDL_WINDOWPOS_CENTERED_DISPLAY( Uint32 X ) { return ( SDL_WINDOWPOS_CENTERED_MASK | X ); }
 enum SDL_WINDOWPOS_CENTERED = SDL_WINDOWPOS_CENTERED_DISPLAY( 0 );
-bool SDL_WINDOWPOS_ISCENTERED( Uint32 X ) { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_CENTERED_MASK; }
+@nogc nothrow bool SDL_WINDOWPOS_ISCENTERED( Uint32 X ) { return ( X & 0xFFFF0000 ) == SDL_WINDOWPOS_CENTERED_MASK; }
 
 alias SDL_WindowEventID = int;
 enum {

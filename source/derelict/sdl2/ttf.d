@@ -76,15 +76,17 @@ alias TTF_GetError = SDL_GetError;
 
 struct TTF_Font;
 
-nothrow void SDL_TTF_VERSION( SDL_version* X ) {
-    X.major = SDL_TTF_MAJOR_VERSION;
-    X.minor = SDL_TTF_MINOR_VERSION;
-    X.patch = SDL_TTF_PATCHLEVEL;
+@nogc nothrow {
+    void SDL_TTF_VERSION( SDL_version* X ) {
+        X.major = SDL_TTF_MAJOR_VERSION;
+        X.minor = SDL_TTF_MINOR_VERSION;
+        X.patch = SDL_TTF_PATCHLEVEL;
+    }
+
+    void TTF_VERSION( SDL_version* X ) { SDL_TTF_VERSION( X ); }
 }
 
-nothrow void TTF_VERSION( SDL_version* X ) { SDL_TTF_VERSION( X ); }
-
-extern ( C ) nothrow {
+extern ( C ) @nogc nothrow {
     alias da_TTF_Linked_Version = SDL_version* function();
     alias da_TTF_ByteSwappedUNICODE = void function( int );
     alias da_TTF_Init = int function();
