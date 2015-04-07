@@ -210,7 +210,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_JoystickNumBalls = int function( SDL_Joystick* );
     alias da_SDL_JoystickNumHats = int function( SDL_Joystick* );
     alias da_SDL_JoystickNumButtons = int function( SDL_Joystick* );
-    alias da_SDL_JoystickUpdate = int function();
+    alias da_SDL_JoystickUpdate = void function();
     alias da_SDL_JoystickEventState = int function( int );
     alias da_SDL_JoystickGetAxis = Sint16 function( SDL_Joystick*, int );
     alias da_SDL_JoystickGetHat = Uint8 function( SDL_Joystick*, int );
