@@ -107,9 +107,10 @@ enum : Uint32 {
 }
 
 // SDL_assert.h
-alias SDL_assert_state = Uint32;
+alias SDL_AssertState = Uint32;
+alias SDL_assert_state = SDL_AssertState;
 
-enum : SDL_assert_state {
+enum : SDL_AssertState {
     SDL_ASSERTION_RETRY = 0,
     SDL_ASSERTION_BREAK = 1,
     SDL_ASSERTION_ABORT = 2,
@@ -117,17 +118,18 @@ enum : SDL_assert_state {
     SDL_ASSERTION_ALWAYS_IGNORE = 4
 }
 
-struct SDL_assert_data {
+struct SDL_AssertData {
     int always_ignore;
     Uint32 trigger_count;
     const(char) *condition;
     const(char) *filename;
     int linenum;
     const(char) *function_;
-    const(SDL_assert_data) *next;
+    const(SDL_AssertData) *next;
 }
+alias SDL_assert_data = SDL_AssertData;
 
-extern( C ) nothrow alias SDL_AssertionHandler = SDL_assert_state function( const(SDL_assert_data)* data, void* userdata );
+extern( C ) nothrow alias SDL_AssertionHandler = SDL_AssertState function( const(SDL_AssertData)* data, void* userdata );
 
 // SDL_audio.h
 alias SDL_AudioFormat = Uint16;
@@ -283,7 +285,10 @@ enum {
     SDL_MULTIGESTURE,
     SDL_CLIPBOARDUPDATE = 0x900,
     SDL_DROPFILE = 0x1000,
+    SDL_AUDIODEVICEADDED = 0x1100,
+    SDL_AUDIODEVICEREMOVED,
     SDL_RENDER_TARGETS_RESET = 0x2000,
+    SDL_RENDER_DEVICE_RESET = 0x2001,
     SDL_USEREVENT = 0x8000,
     SDL_LASTEVENT = 0xFFFF
 }
@@ -366,6 +371,7 @@ struct SDL_MouseWheelEvent {
     Uint32 which;
     Sint32 x;
     Sint32 y;
+    Uint32 direction;
 }
 
 struct SDL_JoyAxisEvent {
@@ -444,6 +450,16 @@ struct SDL_ControllerDeviceEvent {
     Uint32 type;
     Uint32 timestamp;
     Sint32 which;
+}
+
+struct SDL_AudioDeviceEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    Uint32 which;
+    Uint8 iscapture;
+    Uint8 padding1;
+    Uint8 padding2;
+    Uint8 padding3;
 }
 
 struct SDL_TouchFingerEvent {
@@ -530,6 +546,7 @@ union SDL_Event {
     SDL_ControllerAxisEvent caxis;
     SDL_ControllerButtonEvent cbutton;
     SDL_ControllerDeviceEvent cdevice;
+    SDL_AudioDeviceEvent adevice;
     SDL_QuitEvent quit;
     SDL_UserEvent user;
     SDL_SysWMEvent syswm;
@@ -752,12 +769,15 @@ enum : string
     SDL_HINT_RENDER_DRIVER = "SDL_RENDER_DRIVER",
     SDL_HINT_RENDER_OPENGL_SHADERS = "SDL_RENDER_OPENGL_SHADERS",
     SDL_HINT_RENDER_DIRECT3D_THREADSAFE = "SDL_RENDER_DIRECT3D_THREADSAFE",
+    SDL_HINT_RENDER_DIRECT3D11_DEBUG = "SDL_RENDER_DIRECT3D11_DEBUG",
     SDL_HINT_RENDER_SCALE_QUALITY = "SDL_RENDER_SCALE_QUALITY",
     SDL_HINT_RENDER_VSYNC = "SDL_RENDER_VSYNC",
     SDL_HINT_VIDEO_ALLOW_SCREENSAVER = "SDL_VIDEO_ALLOW_SCREENSAVER",
     SDL_HINT_VIDEO_X11_XVIDMODE = "SDL_VIDEO_X11_XVIDMODE",
     SDL_HINT_VIDEO_X11_XINERAMA = "SDL_VIDEO_X11_XINERAMA",
     SDL_HINT_VIDEO_X11_XRANDR = "SDL_VIDEO_X11_XRANDR",
+    SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN = "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN",
+    SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP = "SDL_WINDOWS_ENABLE_MESSAGELOOP",
     SDL_HINT_GRAB_KEYBOARD = "SDL_GRAB_KEYBOARD",
     SDL_HINT_MOUSE_RELATIVE_MODE_WARP = "SDL_MOUSE_RELATIVE_MODE_WARP",
     SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS = "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS",
@@ -765,6 +785,7 @@ enum : string
     SDL_HINT_ORIENTATIONS = "SDL_IOS_ORIENTATIONS",
     SDL_HINT_ACCELEROMETER_AS_JOYSTICK = "SDL_ACCELEROMETER_AS_JOYSTICK",
     SDL_HINT_XINPUT_ENABLED = "SDL_XINPUT_ENABLED",
+    SDL_HINT_XINPUT_USE_OLD_JOYSTICK_MAPPING = "SDL_XINPUT_USE_OLD_JOYSTICK_MAPPING",
     SDL_HINT_GAMECONTROLLERCONFIG = "SDL_GAMECONTROLLERCONFIG",
     SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS",
     SDL_HINT_ALLOW_TOPMOST = "SDL_ALLOW_TOPMOST",
@@ -773,7 +794,13 @@ enum : string
     SDL_HINT_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK = "SDL_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK",
     SDL_HINT_VIDEO_WIN_D3DCOMPILER = "SDL_VIDEO_WIN_D3DCOMPILER",
     SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT = "SDL_VIDEO_WINDOW_SHARE_PIXEL_FORMAT",
+    SDL_HINT_WINRT_PRIVACY_POLICY_URL = "SDL_WINRT_PRIVACY_POLICY_URL",
+    SDL_HINT_WINRT_PRIVACY_POLICY_LABEL = "SDL_WINRT_PRIVACY_POLICY_LABEL",
+    SDL_HINT_WINRT_HANDLE_BACK_BUTTON = "SDL_WINRT_HANDLE_BACK_BUTTON",
     SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES = "SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES",
+    SDL_HINT_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION = "SDL_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION",
+    SDL_HINT_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION = "SDL_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION",
+    SDL_HINT_IME_INTERNAL_EDITING = "SDL_IME_INTERNAL_EDITING",
 }
 
 alias SDL_HintPriority = int;
@@ -1488,6 +1515,12 @@ enum {
     SDL_NUM_SYSTEM_CURSORS
 }
 
+alias SDL_MouseWheelDirection = int;
+enum {
+    SDL_MOUSEWHEEL_NORMAL,
+    SDL_MOUSEWHEEL_FLIPPED
+}
+
 enum : Uint8 {
     SDL_BUTTON_LEFT = 1,
     SDL_BUTTON_MIDDLE = 2,
@@ -1994,6 +2027,14 @@ struct SDL_SysWMmsg {
             win_ win;
         }
 
+        static if( Derelict_OS_WinRT ) {
+            // Win32
+            struct winrt_ {
+                void* window;
+            }
+            winrt_ winrt;
+        }
+
         static if( Derelict_OS_Posix ) {
             // X11 unsupported for now
             struct x11_ {
@@ -2127,6 +2168,7 @@ enum {
     SDL_WINDOW_FULLSCREEN_DESKTOP = SDL_WINDOW_FULLSCREEN | 0x00001000,
     SDL_WINDOW_FOREIGN = 0x00000800,
     SDL_WINDOW_ALLOW_HIGHDPI = 0x00002000,
+    SDL_WINDOW_MOUSE_CAPTURE = 0x00004000,
 }
 
 enum SDL_WINDOWPOS_UNDEFINED_MASK = 0x1FFF0000;
@@ -2186,6 +2228,7 @@ enum {
     SDL_GL_CONTEXT_PROFILE_MASK,
     SDL_GL_SHARE_WITH_CURRENT_CONTEXT,
     SDL_GL_FRAMEBUFFER_SRGB_CAPABLE,
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR,
 }
 
 alias SDL_GLprofile = int;
@@ -2202,3 +2245,24 @@ enum {
     SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG = 0x0004,
     SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008,
 }
+
+alias SDL_GLcontextReleaseFlag = int;
+enum {
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE = 0x0000,
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH = 0x0001,
+}
+
+alias SDL_HitTestResult = int;
+enum {
+    SDL_HITTEST_NORMAL,
+    SDL_HITTEST_DRAGGABLE,
+    SDL_HITTEST_RESIZE_TOPLEFT,
+    SDL_HITTEST_RESIZE_TOP,
+    SDL_HITTEST_RESIZE_TOPRIGHT,
+    SDL_HITTEST_RESIZE_RIGHT,
+    SDL_HITTEST_RESIZE_BOTTOMRIGHT,
+    SDL_HITTEST_RESIZE_BOTTOM,
+    SDL_HITTEST_RESIZE_BOTTOMLEFT,
+    SDL_HITTEST_RESIZE_LEFT,
+}
+extern( C ) nothrow alias SDL_HitTest = SDL_HitTestResult function( SDL_Window*, const( SDL_Point )*, void* );
