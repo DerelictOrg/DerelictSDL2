@@ -57,6 +57,10 @@ private extern( C ) nothrow alias da_SDL_SetMainReady = void function();
 class DerelictSDL2Loader : SharedLibLoader {
       public this() {
             super( libNames );
+
+            // TODO Remove me when SDL 2.0.4 is released!!!!!!!!!!
+            // This is a temporary to allow support for 2.0.4 wihtout breaking existing code.
+            missingSymbolCallback = &allowSDL_2_0_3;
       }
 
       protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
