@@ -60,8 +60,7 @@ class DerelictSDL2Loader : SharedLibLoader {
       }
 
       protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
-            if( minVersion.major == 2 && minVersion.minor == 0 )
-            {
+            if( minVersion.major == 2 && minVersion.minor == 0 ) {
                   if( minVersion.patch == 3 ) {
                         missingSymbolCallback = &allowSDL_2_0_3;
                   }
@@ -85,7 +84,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_Quit, "SDL_Quit" );
             bindFunc( cast( void** )&SDL_free, "SDL_free" );
             bindFunc( cast( void** )&SDL_SetAssertionHandler, "SDL_SetAssertionHandler" );
-            bindFunc( cast( void** )&SDL_SetGetDefaultAssertionHandler, "SDL_GetDefaultAssertionHandler" );
+            bindFunc( cast( void** )&SDL_GetDefaultAssertionHandler, "SDL_GetDefaultAssertionHandler" );
             bindFunc( cast( void** )&SDL_GetAssertionHandler, "SDL_GetAssertionHandler" );
             bindFunc( cast( void** )&SDL_GetAssertionReport, "SDL_GetAssertionReport" );
             bindFunc( cast( void** )&SDL_ResetAssertionReport, "SDL_ResetAssertionReport" );
@@ -595,14 +594,16 @@ class DerelictSDL2Loader : SharedLibLoader {
       }
 
       private ShouldThrow allowSDL_2_0_2( string symbolName ) {
-            switch( symbolName ) {
-                  // Functions added in 2.0.3
-                  static if( Derelict_OS_WinRT ) {
-                        case "SDL_WinRTGetFSPathUNICODE": break;
-                        case "SDL_WinRTGetFSPathUTF8": break;
-                        case "SDL_WinRTRunApp": break;
+            static if( Derelict_OS_WinRT ) {
+                  switch( symbolName ) {
+                        // Functions added in 2.0.3
+                        static if( Derelict_OS_WinRT ) {
+                              case "SDL_WinRTGetFSPathUNICODE": break;
+                              case "SDL_WinRTGetFSPathUTF8": break;
+                              case "SDL_WinRTRunApp": break;
+                        }
+                        default: return allowSDL_2_0_3( symbolName );
                   }
-                  default: return allowSDL_2_0_3( symbolName );
             }
             return ShouldThrow.No;
       }
