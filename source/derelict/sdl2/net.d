@@ -185,6 +185,8 @@ __gshared {
 
 class DerelictSDL2NetLoader: SharedLibLoader {
     public this() {
+      import std.stdio;
+      writeln("DerelictSDL2 loader, libnames are ", libNames);
         super( libNames );
     }
 
