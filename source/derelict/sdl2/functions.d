@@ -314,6 +314,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_CreateSoftwareRenderer = SDL_Renderer* function( SDL_Surface* );
     alias da_SDL_GetRenderer = SDL_Renderer* function( SDL_Window* );
     alias da_SDL_GetRendererInfo = int function( SDL_Renderer*, SDL_RendererInfo* );
+    alias da_SDL_GetRendererOutputSize = int function( SDL_Renderer*, int*, int*);
     alias da_SDL_CreateTexture = SDL_Texture* function( SDL_Renderer*, Uint32, int, int, int );
     alias da_SDL_CreateTextureFromSurface = SDL_Texture* function( SDL_Renderer*, SDL_Surface* );
     alias da_SDL_QueryTexture = int function( SDL_Texture*, Uint32*, int*, int*, int* );
@@ -805,6 +806,7 @@ __gshared {
     da_SDL_CreateSoftwareRenderer SDL_CreateSoftwareRenderer;
     da_SDL_GetRenderer SDL_GetRenderer;
     da_SDL_GetRendererInfo SDL_GetRendererInfo;
+    da_SDL_GetRendererOutputSize SDL_GetRendererOutputSize;
     da_SDL_CreateTexture SDL_CreateTexture;
     da_SDL_CreateTextureFromSurface SDL_CreateTextureFromSurface;
     da_SDL_QueryTexture SDL_QueryTexture;
