@@ -138,7 +138,7 @@ enum : SDL_AudioFormat {
     SDL_AUDIO_MASK_SIGNED = 1<<15,
 }
 
-nothrow {
+@nogc nothrow {
     int SDL_AUDIO_BITSIZE( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_BITSIZE; }
     int SDL_AUDIO_ISFLOAT( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_DATATYPE; }
     int SDL_AUDIO_ISBIGENDIAN( SDL_AudioFormat x ) { return x & SDL_AUDIO_MASK_ENDIAN; }
@@ -1559,7 +1559,7 @@ enum {
     SDL_PACKEDLAYOUT_1010102
 }
 
-alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
+alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC;
 @nogc nothrow {
     Uint32 SDL_DEFINE_PIXELFORMAT( int type, int order, int layout, int bits, int bytes ) {
         return ( 1<<28 ) | ( type << 24 ) | ( order << 20 ) | ( layout << 16 ) | ( bits << 8 ) | ( bytes << 0 );
@@ -1764,7 +1764,7 @@ struct SDL_Rect {
     int w, h;
 }
 
-@nogc nothrow  {
+@nogc nothrow {
     bool SDL_RectEmpty( const( SDL_Rect )* X ) { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
     bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) {
         return A && B &&
