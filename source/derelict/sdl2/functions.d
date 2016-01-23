@@ -126,6 +126,10 @@ extern( C ) @nogc nothrow {
     alias da_SDL_EventState = Uint8 function( Uint32, int );
     alias da_SDL_RegisterEvents = Uint32 function( int );
 
+    // SDL_filesystem.h
+    alias da_SDL_GetBasePath = char* function();
+    alias da_SDL_GetPrefPath = char* function( const( char )* org, const( char )* app);
+
     // SDL_gamecontroller.h
     alias da_SDL_GameControllerAddMappingsFromRW = int function( SDL_RWops*, int );
     alias da_SDL_GameControllerAddMapping = int function( const( char )* );
@@ -134,6 +138,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_IsGameController = SDL_bool function( int );
     alias da_SDL_GameControllerNameForIndex = const( char )* function( int );
     alias da_SDL_GameControllerOpen = SDL_GameController* function( int );
+    alias da_SDL_GameControllerFromInstanceID = SDL_GameController* function( SDL_JoystickID );
     alias da_SDL_GameControllerName = const( char )* function( SDL_GameController* );
     alias da_SDL_GameControllerGetAttached = SDL_bool function( SDL_GameController* );
     alias da_SDL_GameControllerGetJoystick = SDL_Joystick* function( SDL_GameController* );
@@ -195,16 +200,11 @@ extern( C ) @nogc nothrow {
     alias da_SDL_DelHintCallback = void function( const( char )*, SDL_HintCallback, void* );
     alias da_SDL_ClearHints = void function();
 
-    // SDL_input.h
-    alias da_SDL_RedetectInputDevices = int function();
-    alias da_SDL_GetNumInputDevices = int function();
-    alias da_SDL_GetInputDeviceName = const( char )* function( int );
-    alias da_SDL_IsDeviceDisconnected = int function( int );
-
     // SDL_joystick.h
     alias da_SDL_NumJoysticks = int function();
     alias da_SDL_JoystickNameForIndex = const( char )* function( int );
     alias da_SDL_JoystickOpen = SDL_Joystick* function( int );
+    alias da_SDL_JoystickFromInstanceID = SDL_Joystick* function( SDL_JoystickID );
     alias da_SDL_JoystickName = const( char )* function( SDL_Joystick* );
     alias da_SDL_JoystickGetDeviceGUID = JoystickGUID function( int );
     alias da_SDL_JoystickGetGUID = JoystickGUID function( SDL_Joystick* );
@@ -223,6 +223,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_JoystickGetBall = int function( SDL_Joystick*, int, int*, int* );
     alias da_SDL_JoystickGetButton = Uint8 function( SDL_Joystick*, int );
     alias da_SDL_JoystickClose = void function( SDL_Joystick* );
+    alias da_SDL_JoystickCurrentPowerLevel = SDL_JoystickPowerLevel function( SDL_Joystick* );
 
     // SDL_keyboard.h
     alias da_SDL_GetKeyboardFocus = SDL_Window* function();
@@ -489,6 +490,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetNumVideoDisplays = int function();
     alias da_SDL_GetDisplayName = const( char )* function( int );
     alias da_SDL_GetDisplayBounds = int function( int, SDL_Rect* );
+    alias da_SDL_GetDisplayDPI = int function( int, float*, float*, float* );
     alias da_SDL_GetNumDisplayModes = int function( int );
     alias da_SDL_GetDisplayMode = int function( int, int, SDL_DisplayMode* );
     alias da_SDL_GetDesktopDisplayMode = int function( int, SDL_DisplayMode* );
@@ -529,6 +531,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_UpdateWindowSurfaceRects = int function( SDL_Window*, SDL_Rect*, int );
     alias da_SDL_SetWindowGrab = void function( SDL_Window*, SDL_bool );
     alias da_SDL_GetWindowGrab = SDL_bool function( SDL_Window* );
+    alias da_SDL_GetGrabbedWindow = SDL_Window* function();
     alias da_SDL_SetWindowBrightness = int function( SDL_Window*, float );
     alias da_SDL_GetWindowBrightness = float function( SDL_Window* );
     alias da_SDL_SetWindowGammaRamp = int function( SDL_Window*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )* );
@@ -554,10 +557,6 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GL_GetSwapInterval = int function();
     alias da_SDL_GL_SwapWindow = void function( SDL_Window* );
     alias da_SDL_GL_DeleteContext = void function( SDL_GLContext );
-
-    // SDL_filesystem.h
-    alias da_SDL_GetBasePath = char* function();
-    alias da_SDL_GetPrefPath = char* function( const( char )* org, const( char )* app);
 }
 
 @nogc nothrow {
@@ -684,6 +683,7 @@ __gshared {
     da_SDL_IsGameController SDL_IsGameController;
     da_SDL_GameControllerNameForIndex SDL_GameControllerNameForIndex;
     da_SDL_GameControllerOpen SDL_GameControllerOpen;
+    da_SDL_GameControllerFromInstanceID SDL_GameControllerFromInstanceID;
     da_SDL_GameControllerName SDL_GameControllerName;
     da_SDL_GameControllerGetAttached SDL_GameControllerGetAttached;
     da_SDL_GameControllerGetJoystick SDL_GameControllerGetJoystick;
@@ -742,15 +742,11 @@ __gshared {
     da_SDL_DelHintCallback SDL_DelHintCallback;
     da_SDL_ClearHints SDL_ClearHints;
 
-//    da_SDL_RedetectInputDevices SDL_RedetectInputDevices;
-//    da_SDL_GetNumInputDevices SDL_GetNumInputDevices;
-//    da_SDL_GetInputDeviceName SDL_GetInputDeviceName;
-    da_SDL_IsDeviceDisconnected SDL_IsDeviceDisconnected;
-
     da_SDL_NumJoysticks SDL_NumJoysticks;
     da_SDL_JoystickNameForIndex SDL_JoystickNameForIndex;
     da_SDL_JoystickOpen SDL_JoystickOpen;
     da_SDL_JoystickName SDL_JoystickName;
+    da_SDL_JoystickFromInstanceID SDL_JoystickFromInstanceID;
     da_SDL_JoystickGetDeviceGUID SDL_JoystickGetDeviceGUID;
     da_SDL_JoystickGetGUID SDL_JoystickGetGUID;
     da_SDL_JoystickGetGUIDString SDL_JoystickGetGUIDString;
@@ -768,6 +764,7 @@ __gshared {
     da_SDL_JoystickGetBall SDL_JoystickGetBall;
     da_SDL_JoystickGetButton SDL_JoystickGetButton;
     da_SDL_JoystickClose SDL_JoystickClose;
+    da_SDL_JoystickCurrentPowerLevel SDL_JoystickCurrentPowerLevel;
 
     da_SDL_GetKeyboardFocus SDL_GetKeyboardFocus;
     da_SDL_GetKeyboardState SDL_GetKeyboardState;
@@ -1012,6 +1009,7 @@ __gshared {
     da_SDL_GetNumVideoDisplays SDL_GetNumVideoDisplays;
     da_SDL_GetDisplayName SDL_GetDisplayName;
     da_SDL_GetDisplayBounds SDL_GetDisplayBounds;
+    da_SDL_GetDisplayDPI SDL_GetDisplayDPI;
     da_SDL_GetNumDisplayModes SDL_GetNumDisplayModes;
     da_SDL_GetDisplayMode SDL_GetDisplayMode;
     da_SDL_GetDesktopDisplayMode SDL_GetDesktopDisplayMode;
@@ -1052,6 +1050,7 @@ __gshared {
     da_SDL_UpdateWindowSurfaceRects SDL_UpdateWindowSurfaceRects;
     da_SDL_SetWindowGrab SDL_SetWindowGrab;
     da_SDL_GetWindowGrab SDL_GetWindowGrab;
+    da_SDL_GetGrabbedWindow SDL_GetGrabbedWindow;
     da_SDL_SetWindowBrightness SDL_SetWindowBrightness;
     da_SDL_GetWindowBrightness SDL_GetWindowBrightness;
     da_SDL_SetWindowGammaRamp SDL_SetWindowGammaRamp;

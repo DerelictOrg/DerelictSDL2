@@ -57,10 +57,6 @@ private extern( C ) nothrow alias da_SDL_SetMainReady = void function();
 class DerelictSDL2Loader : SharedLibLoader {
       public this() {
             super( libNames );
-
-            // TODO Remove me when SDL 2.0.4 is released!!!!!!!!!!
-            // This is a temporary to allow support for 2.0.4 wihtout breaking existing code.
-            missingSymbolCallback = &allowSDL_2_0_3;
       }
 
       protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
@@ -165,6 +161,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_IsGameController, "SDL_IsGameController" );
             bindFunc( cast( void** )&SDL_GameControllerNameForIndex, "SDL_GameControllerNameForIndex" );
             bindFunc( cast( void** )&SDL_GameControllerOpen, "SDL_GameControllerOpen" );
+            bindFunc( cast( void** )&SDL_GameControllerFromInstanceID, "SDL_GameControllerFromInstanceID" );
             bindFunc( cast( void** )&SDL_GameControllerName, "SDL_GameControllerName" );
             bindFunc( cast( void** )&SDL_GameControllerGetAttached, "SDL_GameControllerGetAttached" );
             bindFunc( cast( void** )&SDL_GameControllerGetJoystick, "SDL_GameControllerGetJoystick" );
@@ -219,14 +216,11 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_AddHintCallback, "SDL_AddHintCallback" );
             bindFunc( cast( void** )&SDL_DelHintCallback, "SDL_DelHintCallback" );
             bindFunc( cast( void** )&SDL_ClearHints, "SDL_ClearHints" );
-            //bindFunc( cast( void** )&SDL_RedetectInputDevices, "SDL_RedetectInputDevices" );
-            //bindFunc( cast( void** )&SDL_GetNumInputDevices, "SDL_GetNumInputDevices" );
-            //bindFunc( cast( void** )&SDL_GetInputDeviceName, "SDL_GetInputDeviceName" );
-            //bindFunc( cast( void** )&SDL_IsDeviceDisconnected, "SDL_IsDeviceDisconnected" );
             bindFunc( cast( void** )&SDL_NumJoysticks, "SDL_NumJoysticks" );
             bindFunc( cast( void** )&SDL_JoystickNameForIndex, "SDL_JoystickNameForIndex" );
             bindFunc( cast( void** )&SDL_JoystickOpen, "SDL_JoystickOpen" );
             bindFunc( cast( void** )&SDL_JoystickName, "SDL_JoystickName" );
+            bindFunc( cast( void** )&SDL_JoystickFromInstanceID, "SDL_JoystickFromInstanceID" );
             bindFunc( cast( void** )&SDL_JoystickGetDeviceGUID, "SDL_JoystickGetDeviceGUID" );
             bindFunc( cast( void** )&SDL_JoystickGetGUID, "SDL_JoystickGetGUID" );
             bindFunc( cast( void** )&SDL_JoystickGetGUIDString, "SDL_JoystickGetGUIDString" );
@@ -244,6 +238,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_JoystickGetBall, "SDL_JoystickGetBall" );
             bindFunc( cast( void** )&SDL_JoystickGetButton, "SDL_JoystickGetButton" );
             bindFunc( cast( void** )&SDL_JoystickClose, "SDL_JoystickClose" );
+            bindFunc( cast( void** )&SDL_JoystickCurrentPowerLevel, "SDL_JoystickCurrentPowerLevel" );
             bindFunc( cast( void** )&SDL_GetKeyboardFocus, "SDL_GetKeyboardFocus" );
             bindFunc( cast( void** )&SDL_GetKeyboardState, "SDL_GetKeyboardState" );
             bindFunc( cast( void** )&SDL_GetModState, "SDL_GetModState" );
@@ -470,6 +465,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetNumVideoDisplays, "SDL_GetNumVideoDisplays" );
             bindFunc( cast( void** )&SDL_GetDisplayName, "SDL_GetDisplayName" );
             bindFunc( cast( void** )&SDL_GetDisplayBounds, "SDL_GetDisplayBounds" );
+            bindFunc( cast( void** )&SDL_GetDisplayDPI, "SDL_GetDisplayDPI" );
             bindFunc( cast( void** )&SDL_GetNumDisplayModes, "SDL_GetNumDisplayModes" );
             bindFunc( cast( void** )&SDL_GetDisplayMode, "SDL_GetDisplayMode" );
             bindFunc( cast( void** )&SDL_GetDesktopDisplayMode, "SDL_GetDesktopDisplayMode" );
@@ -510,6 +506,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_UpdateWindowSurfaceRects, "SDL_UpdateWindowSurfaceRects" );
             bindFunc( cast( void** )&SDL_SetWindowGrab, "SDL_SetWindowGrab" );
             bindFunc( cast( void** )&SDL_GetWindowGrab, "SDL_GetWindowGrab" );
+            bindFunc( cast( void** )&SDL_GetGrabbedWindow, "SDL_GetGrabbedWindow" );
             bindFunc( cast( void** )&SDL_SetWindowBrightness, "SDL_SetWindowBrightness" );
             bindFunc( cast( void** )&SDL_GetWindowBrightness, "SDL_GetWindowBrightness" );
             bindFunc( cast( void** )&SDL_SetWindowGammaRamp, "SDL_SetWindowGammaRamp" );
@@ -618,9 +615,14 @@ class DerelictSDL2Loader : SharedLibLoader {
                   // Functions added in 2.0.4
                   case "SDL_CaptureMouse": break;
                   case "SDL_ClearQueuedAudio": break;
+                  case "SDL_GameControllerFromInstanceID": break;
+                  case "SDL_GetDisplayDPI": break;
                   case "SDL_GetGlobalMouseState": break;
+                  case "SDL_GetGrabbedWindow": break;
                   case "SDL_GetQueuedAudioSize": break;
                   case "SDL_HasAVX2": break;
+                  case "SDL_JoystickCurrentPowerLevel": break;
+                  case "SDL_JoystickFromInstanceID": break;
                   case "SDL_QueueAudio": break;
                   case "SDL_RenderIsClipEnabled": break;
                   case "SDL_SetWindowHitTest": break;

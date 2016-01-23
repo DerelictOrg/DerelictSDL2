@@ -46,7 +46,7 @@ struct SDL_version {
 enum : Uint8 {
     SDL_MAJOR_VERSION = 2,
     SDL_MINOR_VERSION = 0,
-    SDL_PATCHLEVEL = 2,
+    SDL_PATCHLEVEL = 4,
 }
 
 void SDL_VERSION( SDL_version* x ) {
@@ -260,6 +260,7 @@ enum {
     SDL_KEYUP,
     SDL_TEXTEDITING,
     SDL_TEXTINPUT,
+    SDL_KEYMAPCHANGED, 
     SDL_MOUSEMOTION = 0x400,
     SDL_MOUSEBUTTONDOWN,
     SDL_MOUSEBUTTONUP,
@@ -776,6 +777,7 @@ enum : string
     SDL_HINT_VIDEO_X11_XVIDMODE = "SDL_VIDEO_X11_XVIDMODE",
     SDL_HINT_VIDEO_X11_XINERAMA = "SDL_VIDEO_X11_XINERAMA",
     SDL_HINT_VIDEO_X11_XRANDR = "SDL_VIDEO_X11_XRANDR",
+    SDL_HINT_VIDEO_X11_NET_WM_PING = "SDL_VIDEO_X11_NET_WM_PING",
     SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN = "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN",
     SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP = "SDL_WINDOWS_ENABLE_MESSAGELOOP",
     SDL_HINT_GRAB_KEYBOARD = "SDL_GRAB_KEYBOARD",
@@ -790,6 +792,7 @@ enum : string
     SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS",
     SDL_HINT_ALLOW_TOPMOST = "SDL_ALLOW_TOPMOST",
     SDL_HINT_TIMER_RESOLUTION = "SDL_TIMER_RESOLUTION",
+    SDL_HINT_THREAD_STACK_SIZE = "SDL_THREAD_STACK_SIZE",
     SDL_HINT_VIDEO_HIGHDPI_DISABLED = "SDL_VIDEO_HIGHDPI_DISABLED",
     SDL_HINT_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK = "SDL_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK",
     SDL_HINT_VIDEO_WIN_D3DCOMPILER = "SDL_VIDEO_WIN_D3DCOMPILER",
@@ -798,9 +801,14 @@ enum : string
     SDL_HINT_WINRT_PRIVACY_POLICY_LABEL = "SDL_WINRT_PRIVACY_POLICY_LABEL",
     SDL_HINT_WINRT_HANDLE_BACK_BUTTON = "SDL_WINRT_HANDLE_BACK_BUTTON",
     SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES = "SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES",
+    SDL_HINT_MAC_BACKGROUND_APP = "SDL_MAC_BACKGROUND_APP",
     SDL_HINT_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION = "SDL_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION",
     SDL_HINT_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION = "SDL_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION",
     SDL_HINT_IME_INTERNAL_EDITING = "SDL_IME_INTERNAL_EDITING",
+    SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH = "SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH",
+    SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT = "SDL_EMSCRIPTEN_KEYBOARD_ELEMENT",
+    SDL_HINT_NO_SIGNAL_HANDLERS = "SDL_NO_SIGNAL_HANDLERS",
+    SDL_HINT_WINDOWS_NO_CLOSE_ON_ALT_F4 = "SDL_WINDOWS_NO_CLOSE_ON_ALT_F4",
 }
 
 alias SDL_HintPriority = int;
@@ -824,6 +832,17 @@ struct SDL_JoystickGUID {
 }
 
 alias SDL_JoystickID = Sint32;
+
+alias SDL_JoystickPowerLevel = int;
+enum {
+    SDL_JOYSTICK_POWER_UNKNOWN = -1,
+    SDL_JOYSTICK_POWER_EMPTY,
+    SDL_JOYSTICK_POWER_LOW,
+    SDL_JOYSTICK_POWER_MEDIUM,
+    SDL_JOYSTICK_POWER_FULL,
+    SDL_JOYSTICK_POWER_WIRED,
+    SDL_JOYSTICK_POWER_MAX
+}
 
 enum : Uint8 {
     SDL_HAT_CENTERED = 0x00,
@@ -1605,7 +1624,7 @@ alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
     Uint32 SDL_PIXELLAYOUT( Uint32 X ) { return ( X >> 16 ) & 0x0F; }
     Uint32 SDL_BITSPERPIXEL( Uint32 X ) { return ( X >> 8 ) & 0xFF; }
     Uint32 SDL_BYTESPERPIXEL( Uint32 X ) {
-        if( SDL_ISPIXELFORMAT_FOURCC( X ) ) {
+        if( SDL_ISPIXELFORMAT_FOURCC( X )) {
             if( X == SDL_PIXELFORMAT_YUY2 || X == SDL_PIXELFORMAT_UYVY || X == SDL_PIXELFORMAT_YVYU )
                 return 2;
             else
@@ -1616,17 +1635,42 @@ alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
     }
 
     bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) {
-        if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
             auto pixelType = SDL_PIXELTYPE( format );
-            return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 || pixelType == SDL_PIXELTYPE_INDEX8;
+            return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 ||
+                   pixelType == SDL_PIXELTYPE_INDEX8;
         }
         return false;
     }
 
+    bool SDL_ISPIXELFORMAT_PACKED( Uint32 format ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
+            auto pixelType = SDL_PIXELTYPE( format );
+            return pixelType == SDL_PIXELTYPE_PACKED8 || pixelType == SDL_PIXELTYPE_PACKED16 ||
+                   pixelType == SDL_PIXELTYPE_PACKED32;
+        }
+        return false;
+    }
+
+    bool SDL_ISPIXELFORMAT_ARRAY( Uint32 format ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
+            auto pixelType = SDL_PIXELTYPE( format );
+            return pixelType == SDL_PIXELTYPE_ARRAYU8 || pixelType == SDL_PIXELTYPE_ARRAYU16 ||
+                   pixelType == SDL_PIXELTYPE_ARRAYU32 || pixelType == SDL_PIXELTYPE_ARRAYF16 ||
+                   pixelType == SDL_PIXELTYPE_ARRAYF32;
+        } 
+        return false;
+    }
+
     bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) {
-        if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
             auto pixelOrder = SDL_PIXELORDER( format );
-            return pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA || pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA;
+            return (( SDL_ISPIXELFORMAT_PACKED( format ) &&
+                   ( pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA ||
+                     pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA )) ||
+                   ( SDL_ISPIXELFORMAT_ARRAY( format ) &&
+                   ( pixelOrder == SDL_ARRAYORDER_ARGB || pixelOrder == SDL_ARRAYORDER_RGBA ||
+                     pixelOrder == SDL_ARRAYORDER_ABGR || pixelOrder == SDL_ARRAYORDER_BGRA )));
         }
         return false;
     }
@@ -1735,8 +1779,12 @@ enum {
     SDL_PIXELFORMAT_UYVY =
         SDL_DEFINE_PIXELFOURCC( 'U', 'Y', 'V', 'Y' ),
     SDL_PIXELFORMAT_YVYU =
-        SDL_DEFINE_PIXELFOURCC( 'Y', 'V', 'Y', 'U' )
-}
+        SDL_DEFINE_PIXELFOURCC( 'Y', 'V', 'Y', 'U' ),
+    SDL_PIXELFORMAT_NV12 =
+        SDL_DEFINE_PIXELFOURCC( 'N', 'V', '1', '2' ),
+    SDL_PIXELFORMAT_NV21 =
+        SDL_DEFINE_PIXELFOURCC( 'N', 'V', '2', '1' )
+}   
 
 static assert( SDL_PIXELFORMAT_BGRX8888 == 0x16661804 );
 
@@ -1799,6 +1847,10 @@ struct SDL_Rect {
 }
 
 @nogc nothrow {
+    bool SDL_PointInRect(const SDL_Point *p, const SDL_Rect *r) {
+        return (( p.x >= r.x ) && ( p.x < ( r.x + r.w )) &&
+                ( p.y >= r.y ) && ( p.y < ( r.y + r.h )));
+    }
     bool SDL_RectEmpty( const( SDL_Rect )* X ) { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
     bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) {
         return A && B &&
@@ -2010,6 +2062,7 @@ enum {
     SDL_SYSWM_WAYLAND,
     SDL_SYSWM_MIR,
     SDL_SYSWM_WINRT,
+    SDL_SYSWM_ANDROID,
 }
 
 struct SDL_SysWMmsg {
@@ -2035,6 +2088,14 @@ struct SDL_SysWMmsg {
             winrt_ winrt;
         }
 
+        static if( Derelict_OS_Mac ) {
+            // OS X Cocoa
+            struct cocoa_ {
+                int dummy;
+            }
+            cocoa_ cocoa;
+        }
+
         static if( Derelict_OS_Posix ) {
             // X11 unsupported for now
             struct x11_ {
@@ -2051,6 +2112,8 @@ struct SDL_SysWMmsg {
             }
             dfb_ dfb;
         }
+
+        int dummy;
     }
     msg_ msg;
 }
@@ -2265,4 +2328,4 @@ enum {
     SDL_HITTEST_RESIZE_BOTTOMLEFT,
     SDL_HITTEST_RESIZE_LEFT,
 }
-extern( C ) nothrow alias SDL_HitTest = SDL_HitTestResult function( SDL_Window*, const( SDL_Point )*, void* );
+extern( C ) @nogc nothrow alias SDL_HitTest = SDL_HitTestResult function( SDL_Window*, const( SDL_Point )*, void* );
