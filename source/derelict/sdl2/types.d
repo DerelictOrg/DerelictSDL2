@@ -33,7 +33,7 @@ private {
     import derelict.util.system;
 
     static if( Derelict_OS_Windows ) import derelict.util.wintypes;
-    else static if( Derelict_OS_Posix ) import derelict.util.xtypes;
+    static if( Derelict_OS_Posix ) import derelict.util.xtypes;
 }
 
 // SDL_version.h
@@ -46,16 +46,16 @@ struct SDL_version {
 enum : Uint8 {
     SDL_MAJOR_VERSION = 2,
     SDL_MINOR_VERSION = 0,
-    SDL_PATCHLEVEL = 2,
+    SDL_PATCHLEVEL = 4,
+}
+
+void SDL_VERSION( SDL_version* x ) {
+    x.major = SDL_MAJOR_VERSION;
+    x.minor = SDL_MINOR_VERSION;
+    x.patch = SDL_PATCHLEVEL;
 }
 
 @nogc nothrow {
-    void SDL_VERSION( SDL_version* x ) {
-        x.major = SDL_MAJOR_VERSION;
-        x.minor = SDL_MINOR_VERSION;
-        x.patch = SDL_PATCHLEVEL;
-    }
-
     Uint32 SDL_VERSIONNUM( Uint8 X, Uint8 Y, Uint8 Z ) {
         return X*1000 + Y*100 + Z;
     }
@@ -107,9 +107,10 @@ enum : Uint32 {
 }
 
 // SDL_assert.h
-alias SDL_assert_state = Uint32;
+alias SDL_AssertState = Uint32;
+alias SDL_assert_state = SDL_AssertState;
 
-enum : SDL_assert_state {
+enum : SDL_AssertState {
     SDL_ASSERTION_RETRY = 0,
     SDL_ASSERTION_BREAK = 1,
     SDL_ASSERTION_ABORT = 2,
@@ -117,17 +118,18 @@ enum : SDL_assert_state {
     SDL_ASSERTION_ALWAYS_IGNORE = 4
 }
 
-struct SDL_assert_data {
+struct SDL_AssertData {
     int always_ignore;
     Uint32 trigger_count;
     const(char) *condition;
     const(char) *filename;
     int linenum;
     const(char) *function_;
-    const(SDL_assert_data) *next;
+    const(SDL_AssertData) *next;
 }
+alias SDL_assert_data = SDL_AssertData;
 
-extern( C ) nothrow alias SDL_AssertionHandler = SDL_assert_state function( const(SDL_assert_data)* data, void* userdata );
+extern( C ) nothrow alias SDL_AssertionHandler = SDL_AssertState function( const(SDL_AssertData)* data, void* userdata );
 
 // SDL_audio.h
 alias SDL_AudioFormat = Uint16;
@@ -258,6 +260,7 @@ enum {
     SDL_KEYUP,
     SDL_TEXTEDITING,
     SDL_TEXTINPUT,
+    SDL_KEYMAPCHANGED, 
     SDL_MOUSEMOTION = 0x400,
     SDL_MOUSEBUTTONDOWN,
     SDL_MOUSEBUTTONUP,
@@ -283,7 +286,10 @@ enum {
     SDL_MULTIGESTURE,
     SDL_CLIPBOARDUPDATE = 0x900,
     SDL_DROPFILE = 0x1000,
+    SDL_AUDIODEVICEADDED = 0x1100,
+    SDL_AUDIODEVICEREMOVED,
     SDL_RENDER_TARGETS_RESET = 0x2000,
+    SDL_RENDER_DEVICE_RESET = 0x2001,
     SDL_USEREVENT = 0x8000,
     SDL_LASTEVENT = 0xFFFF
 }
@@ -366,6 +372,7 @@ struct SDL_MouseWheelEvent {
     Uint32 which;
     Sint32 x;
     Sint32 y;
+    Uint32 direction;
 }
 
 struct SDL_JoyAxisEvent {
@@ -444,6 +451,16 @@ struct SDL_ControllerDeviceEvent {
     Uint32 type;
     Uint32 timestamp;
     Sint32 which;
+}
+
+struct SDL_AudioDeviceEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    Uint32 which;
+    Uint8 iscapture;
+    Uint8 padding1;
+    Uint8 padding2;
+    Uint8 padding3;
 }
 
 struct SDL_TouchFingerEvent {
@@ -530,6 +547,7 @@ union SDL_Event {
     SDL_ControllerAxisEvent caxis;
     SDL_ControllerButtonEvent cbutton;
     SDL_ControllerDeviceEvent cdevice;
+    SDL_AudioDeviceEvent adevice;
     SDL_QuitEvent quit;
     SDL_UserEvent user;
     SDL_SysWMEvent syswm;
@@ -752,12 +770,16 @@ enum : string
     SDL_HINT_RENDER_DRIVER = "SDL_RENDER_DRIVER",
     SDL_HINT_RENDER_OPENGL_SHADERS = "SDL_RENDER_OPENGL_SHADERS",
     SDL_HINT_RENDER_DIRECT3D_THREADSAFE = "SDL_RENDER_DIRECT3D_THREADSAFE",
+    SDL_HINT_RENDER_DIRECT3D11_DEBUG = "SDL_RENDER_DIRECT3D11_DEBUG",
     SDL_HINT_RENDER_SCALE_QUALITY = "SDL_RENDER_SCALE_QUALITY",
     SDL_HINT_RENDER_VSYNC = "SDL_RENDER_VSYNC",
     SDL_HINT_VIDEO_ALLOW_SCREENSAVER = "SDL_VIDEO_ALLOW_SCREENSAVER",
     SDL_HINT_VIDEO_X11_XVIDMODE = "SDL_VIDEO_X11_XVIDMODE",
     SDL_HINT_VIDEO_X11_XINERAMA = "SDL_VIDEO_X11_XINERAMA",
     SDL_HINT_VIDEO_X11_XRANDR = "SDL_VIDEO_X11_XRANDR",
+    SDL_HINT_VIDEO_X11_NET_WM_PING = "SDL_VIDEO_X11_NET_WM_PING",
+    SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN = "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN",
+    SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP = "SDL_WINDOWS_ENABLE_MESSAGELOOP",
     SDL_HINT_GRAB_KEYBOARD = "SDL_GRAB_KEYBOARD",
     SDL_HINT_MOUSE_RELATIVE_MODE_WARP = "SDL_MOUSE_RELATIVE_MODE_WARP",
     SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS = "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS",
@@ -765,15 +787,28 @@ enum : string
     SDL_HINT_ORIENTATIONS = "SDL_IOS_ORIENTATIONS",
     SDL_HINT_ACCELEROMETER_AS_JOYSTICK = "SDL_ACCELEROMETER_AS_JOYSTICK",
     SDL_HINT_XINPUT_ENABLED = "SDL_XINPUT_ENABLED",
+    SDL_HINT_XINPUT_USE_OLD_JOYSTICK_MAPPING = "SDL_XINPUT_USE_OLD_JOYSTICK_MAPPING",
     SDL_HINT_GAMECONTROLLERCONFIG = "SDL_GAMECONTROLLERCONFIG",
     SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS",
     SDL_HINT_ALLOW_TOPMOST = "SDL_ALLOW_TOPMOST",
     SDL_HINT_TIMER_RESOLUTION = "SDL_TIMER_RESOLUTION",
+    SDL_HINT_THREAD_STACK_SIZE = "SDL_THREAD_STACK_SIZE",
     SDL_HINT_VIDEO_HIGHDPI_DISABLED = "SDL_VIDEO_HIGHDPI_DISABLED",
     SDL_HINT_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK = "SDL_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK",
     SDL_HINT_VIDEO_WIN_D3DCOMPILER = "SDL_VIDEO_WIN_D3DCOMPILER",
     SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT = "SDL_VIDEO_WINDOW_SHARE_PIXEL_FORMAT",
+    SDL_HINT_WINRT_PRIVACY_POLICY_URL = "SDL_WINRT_PRIVACY_POLICY_URL",
+    SDL_HINT_WINRT_PRIVACY_POLICY_LABEL = "SDL_WINRT_PRIVACY_POLICY_LABEL",
+    SDL_HINT_WINRT_HANDLE_BACK_BUTTON = "SDL_WINRT_HANDLE_BACK_BUTTON",
     SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES = "SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES",
+    SDL_HINT_MAC_BACKGROUND_APP = "SDL_MAC_BACKGROUND_APP",
+    SDL_HINT_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION = "SDL_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION",
+    SDL_HINT_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION = "SDL_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION",
+    SDL_HINT_IME_INTERNAL_EDITING = "SDL_IME_INTERNAL_EDITING",
+    SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH = "SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH",
+    SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT = "SDL_EMSCRIPTEN_KEYBOARD_ELEMENT",
+    SDL_HINT_NO_SIGNAL_HANDLERS = "SDL_NO_SIGNAL_HANDLERS",
+    SDL_HINT_WINDOWS_NO_CLOSE_ON_ALT_F4 = "SDL_WINDOWS_NO_CLOSE_ON_ALT_F4",
 }
 
 alias SDL_HintPriority = int;
@@ -797,6 +832,17 @@ struct SDL_JoystickGUID {
 }
 
 alias SDL_JoystickID = Sint32;
+
+alias SDL_JoystickPowerLevel = int;
+enum {
+    SDL_JOYSTICK_POWER_UNKNOWN = -1,
+    SDL_JOYSTICK_POWER_EMPTY,
+    SDL_JOYSTICK_POWER_LOW,
+    SDL_JOYSTICK_POWER_MEDIUM,
+    SDL_JOYSTICK_POWER_FULL,
+    SDL_JOYSTICK_POWER_WIRED,
+    SDL_JOYSTICK_POWER_MAX
+}
 
 enum : Uint8 {
     SDL_HAT_CENTERED = 0x00,
@@ -1488,6 +1534,12 @@ enum {
     SDL_NUM_SYSTEM_CURSORS
 }
 
+alias SDL_MouseWheelDirection = int;
+enum {
+    SDL_MOUSEWHEEL_NORMAL,
+    SDL_MOUSEWHEEL_FLIPPED
+}
+
 enum : Uint8 {
     SDL_BUTTON_LEFT = 1,
     SDL_BUTTON_MIDDLE = 2,
@@ -1560,7 +1612,7 @@ enum {
     SDL_PACKEDLAYOUT_1010102
 }
 
-alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC;
+alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
 @nogc nothrow {
     Uint32 SDL_DEFINE_PIXELFORMAT( int type, int order, int layout, int bits, int bytes ) {
         return ( 1<<28 ) | ( type << 24 ) | ( order << 20 ) | ( layout << 16 ) | ( bits << 8 ) | ( bytes << 0 );
@@ -1572,7 +1624,7 @@ alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC;
     Uint32 SDL_PIXELLAYOUT( Uint32 X ) { return ( X >> 16 ) & 0x0F; }
     Uint32 SDL_BITSPERPIXEL( Uint32 X ) { return ( X >> 8 ) & 0xFF; }
     Uint32 SDL_BYTESPERPIXEL( Uint32 X ) {
-        if( SDL_ISPIXELFORMAT_FOURCC( X ) ) {
+        if( SDL_ISPIXELFORMAT_FOURCC( X )) {
             if( X == SDL_PIXELFORMAT_YUY2 || X == SDL_PIXELFORMAT_UYVY || X == SDL_PIXELFORMAT_YVYU )
                 return 2;
             else
@@ -1583,17 +1635,42 @@ alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC;
     }
 
     bool SDL_ISPIXELFORMAT_INDEXED( Uint32 format ) {
-        if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
             auto pixelType = SDL_PIXELTYPE( format );
-            return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 || pixelType == SDL_PIXELTYPE_INDEX8;
+            return pixelType == SDL_PIXELTYPE_INDEX1 || pixelType == SDL_PIXELTYPE_INDEX4 ||
+                   pixelType == SDL_PIXELTYPE_INDEX8;
         }
         return false;
     }
 
+    bool SDL_ISPIXELFORMAT_PACKED( Uint32 format ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
+            auto pixelType = SDL_PIXELTYPE( format );
+            return pixelType == SDL_PIXELTYPE_PACKED8 || pixelType == SDL_PIXELTYPE_PACKED16 ||
+                   pixelType == SDL_PIXELTYPE_PACKED32;
+        }
+        return false;
+    }
+
+    bool SDL_ISPIXELFORMAT_ARRAY( Uint32 format ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
+            auto pixelType = SDL_PIXELTYPE( format );
+            return pixelType == SDL_PIXELTYPE_ARRAYU8 || pixelType == SDL_PIXELTYPE_ARRAYU16 ||
+                   pixelType == SDL_PIXELTYPE_ARRAYU32 || pixelType == SDL_PIXELTYPE_ARRAYF16 ||
+                   pixelType == SDL_PIXELTYPE_ARRAYF32;
+        } 
+        return false;
+    }
+
     bool SDL_ISPIXELFORMAT_ALPHA( Uint32 format ) {
-        if( !SDL_ISPIXELFORMAT_FOURCC( format ) ) {
+        if( !SDL_ISPIXELFORMAT_FOURCC( format )) {
             auto pixelOrder = SDL_PIXELORDER( format );
-            return pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA || pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA;
+            return (( SDL_ISPIXELFORMAT_PACKED( format ) &&
+                   ( pixelOrder == SDL_PACKEDORDER_ARGB || pixelOrder == SDL_PACKEDORDER_RGBA ||
+                     pixelOrder == SDL_PACKEDORDER_ABGR || pixelOrder == SDL_PACKEDORDER_BGRA )) ||
+                   ( SDL_ISPIXELFORMAT_ARRAY( format ) &&
+                   ( pixelOrder == SDL_ARRAYORDER_ARGB || pixelOrder == SDL_ARRAYORDER_RGBA ||
+                     pixelOrder == SDL_ARRAYORDER_ABGR || pixelOrder == SDL_ARRAYORDER_BGRA )));
         }
         return false;
     }
@@ -1702,8 +1779,12 @@ enum {
     SDL_PIXELFORMAT_UYVY =
         SDL_DEFINE_PIXELFOURCC( 'U', 'Y', 'V', 'Y' ),
     SDL_PIXELFORMAT_YVYU =
-        SDL_DEFINE_PIXELFOURCC( 'Y', 'V', 'Y', 'U' )
-}
+        SDL_DEFINE_PIXELFOURCC( 'Y', 'V', 'Y', 'U' ),
+    SDL_PIXELFORMAT_NV12 =
+        SDL_DEFINE_PIXELFOURCC( 'N', 'V', '1', '2' ),
+    SDL_PIXELFORMAT_NV21 =
+        SDL_DEFINE_PIXELFOURCC( 'N', 'V', '2', '1' )
+}   
 
 static assert( SDL_PIXELFORMAT_BGRX8888 == 0x16661804 );
 
@@ -1766,6 +1847,10 @@ struct SDL_Rect {
 }
 
 @nogc nothrow {
+    bool SDL_PointInRect(const SDL_Point *p, const SDL_Rect *r) {
+        return (( p.x >= r.x ) && ( p.x < ( r.x + r.w )) &&
+                ( p.y >= r.y ) && ( p.y < ( r.y + r.h )));
+    }
     bool SDL_RectEmpty( const( SDL_Rect )* X ) { return !X || ( X.w <= 0 ) || ( X.h <= 0 ); }
     bool SDL_RectEquals( const( SDL_Rect )* A, const( SDL_Rect )* B ) {
         return A && B &&
@@ -1977,6 +2062,7 @@ enum {
     SDL_SYSWM_WAYLAND,
     SDL_SYSWM_MIR,
     SDL_SYSWM_WINRT,
+    SDL_SYSWM_ANDROID,
 }
 
 struct SDL_SysWMmsg {
@@ -1992,6 +2078,22 @@ struct SDL_SysWMmsg {
                 LPARAM lParam;
             }
             win_ win;
+        }
+
+        static if( Derelict_OS_WinRT ) {
+            // Win32
+            struct winrt_ {
+                void* window;
+            }
+            winrt_ winrt;
+        }
+
+        static if( Derelict_OS_Mac ) {
+            // OS X Cocoa
+            struct cocoa_ {
+                int dummy;
+            }
+            cocoa_ cocoa;
         }
 
         static if( Derelict_OS_Posix ) {
@@ -2010,6 +2112,8 @@ struct SDL_SysWMmsg {
             }
             dfb_ dfb;
         }
+
+        int dummy;
     }
     msg_ msg;
 }
@@ -2127,6 +2231,7 @@ enum {
     SDL_WINDOW_FULLSCREEN_DESKTOP = SDL_WINDOW_FULLSCREEN | 0x00001000,
     SDL_WINDOW_FOREIGN = 0x00000800,
     SDL_WINDOW_ALLOW_HIGHDPI = 0x00002000,
+    SDL_WINDOW_MOUSE_CAPTURE = 0x00004000,
 }
 
 enum SDL_WINDOWPOS_UNDEFINED_MASK = 0x1FFF0000;
@@ -2186,6 +2291,7 @@ enum {
     SDL_GL_CONTEXT_PROFILE_MASK,
     SDL_GL_SHARE_WITH_CURRENT_CONTEXT,
     SDL_GL_FRAMEBUFFER_SRGB_CAPABLE,
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR,
 }
 
 alias SDL_GLprofile = int;
@@ -2202,3 +2308,24 @@ enum {
     SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG = 0x0004,
     SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008,
 }
+
+alias SDL_GLcontextReleaseFlag = int;
+enum {
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE = 0x0000,
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH = 0x0001,
+}
+
+alias SDL_HitTestResult = int;
+enum {
+    SDL_HITTEST_NORMAL,
+    SDL_HITTEST_DRAGGABLE,
+    SDL_HITTEST_RESIZE_TOPLEFT,
+    SDL_HITTEST_RESIZE_TOP,
+    SDL_HITTEST_RESIZE_TOPRIGHT,
+    SDL_HITTEST_RESIZE_RIGHT,
+    SDL_HITTEST_RESIZE_BOTTOMRIGHT,
+    SDL_HITTEST_RESIZE_BOTTOM,
+    SDL_HITTEST_RESIZE_BOTTOMLEFT,
+    SDL_HITTEST_RESIZE_LEFT,
+}
+extern( C ) @nogc nothrow alias SDL_HitTest = SDL_HitTestResult function( SDL_Window*, const( SDL_Point )*, void* );

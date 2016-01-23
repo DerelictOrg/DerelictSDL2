@@ -28,21 +28,22 @@ DEALINGS IN THE SOFTWARE.
 module derelict.sdl2.sdl;
 
 public {
-    import derelict.sdl2.types;
-    import derelict.sdl2.functions;
+      import derelict.sdl2.functions,
+             derelict.sdl2.types;
+      import derelict.util.loader;
 }
 
 private {
-    import derelict.util.loader;
-    import derelict.util.system;
+      import derelict.util.exception,
+             derelict.util.system;
 
-    static if( Derelict_OS_Windows )
+      static if( Derelict_OS_Windows )
         enum libNames = "SDL2.dll";
-    else static if( Derelict_OS_Mac )
+      else static if( Derelict_OS_Mac )
         enum libNames = "/usr/local/lib/libSDL2.dylib, /usr/local/lib/libSDL2/libSDL2.dylib, ../Frameworks/SDL2.framework/SDL2, /Library/Frameworks/SDL2.framework/SDL2, /System/Library/Frameworks/SDL2.framework/SDL2";
-    else static if( Derelict_OS_Posix )
+      else static if( Derelict_OS_Posix )
         enum libNames = "libSDL2.so, libSDL2-2.0.so, libSDL2-2.0.so.0, /usr/local/lib/libSDL2.so, /usr/local/lib/libSDL2-2.0.so, /usr/local/lib/libSDL2-2.0.so.0";
-    else
+      else
         static assert( 0, "Need to implement SDL2 libNames for this operating system." );
 }
 
@@ -58,6 +59,23 @@ class DerelictSDL2Loader : SharedLibLoader {
             super( libNames );
       }
 
+      protected override void configureMinimumVersion( SharedLibVersion minVersion ) {
+            if( minVersion.major == 2 && minVersion.minor == 0 ) {
+                  if( minVersion.patch == 3 ) {
+                        missingSymbolCallback = &allowSDL_2_0_3;
+                  }
+                  else if( minVersion.patch == 2 ) {
+                        missingSymbolCallback = &allowSDL_2_0_2;
+                  }
+                  else if( minVersion.patch == 1 ) {
+                        missingSymbolCallback = &allowSDL_2_0_1;
+                  }
+                  else if( minVersion.patch == 0 ) {
+                        missingSymbolCallback = &allowSDL_2_0_0;
+                  }
+            }
+      }
+
       protected override void loadSymbols() {
             bindFunc( cast( void** )&SDL_Init, "SDL_Init" );
             bindFunc( cast( void** )&SDL_InitSubSystem, "SDL_InitSubSystem" );
@@ -66,6 +84,8 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_Quit, "SDL_Quit" );
             bindFunc( cast( void** )&SDL_free, "SDL_free" );
             bindFunc( cast( void** )&SDL_SetAssertionHandler, "SDL_SetAssertionHandler" );
+            bindFunc( cast( void** )&SDL_GetDefaultAssertionHandler, "SDL_GetDefaultAssertionHandler" );
+            bindFunc( cast( void** )&SDL_GetAssertionHandler, "SDL_GetAssertionHandler" );
             bindFunc( cast( void** )&SDL_GetAssertionReport, "SDL_GetAssertionReport" );
             bindFunc( cast( void** )&SDL_ResetAssertionReport, "SDL_ResetAssertionReport" );
             bindFunc( cast( void** )&SDL_GetNumAudioDrivers, "SDL_GetNumAudioDrivers" );
@@ -87,13 +107,16 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_ConvertAudio, "SDL_ConvertAudio" );
             bindFunc( cast( void** )&SDL_MixAudio, "SDL_MixAudio" );
             bindFunc( cast( void** )&SDL_MixAudioFormat, "SDL_MixAudioFormat" );
+            bindFunc( cast( void** )&SDL_QueueAudio, "SDL_QueueAudio" );
+            bindFunc( cast( void** )&SDL_GetQueuedAudioSize, "SDL_GetQueuedAudioSize" );
+            bindFunc( cast( void** )&SDL_ClearQueuedAudio, "SDL_ClearQueuedAudio" );
             bindFunc( cast( void** )&SDL_LockAudio, "SDL_LockAudio" );
             bindFunc( cast( void** )&SDL_LockAudioDevice, "SDL_LockAudioDevice" );
             bindFunc( cast( void** )&SDL_UnlockAudio, "SDL_UnlockAudio" );
             bindFunc( cast( void** )&SDL_UnlockAudioDevice, "SDL_UnlockAudioDevice" );
             bindFunc( cast( void** )&SDL_CloseAudio, "SDL_CloseAudio" );
             bindFunc( cast( void** )&SDL_CloseAudioDevice, "SDL_CloseAudioDevice" );
-            //            bindFunc( cast( void** )&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected" );
+            //bindFunc( cast( void** )&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected" );
             bindFunc( cast( void** )&SDL_SetClipboardText, "SDL_SetClipboardText" );
             bindFunc( cast( void** )&SDL_GetClipboardText, "SDL_GetClipboardText" );
             bindFunc( cast( void** )&SDL_HasClipboardText, "SDL_HasClipboardText" );
@@ -109,6 +132,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_HasSSE41, "SDL_HasSSE41" );
             bindFunc( cast( void** )&SDL_HasSSE42, "SDL_HasSSE42" );
             bindFunc( cast( void** )&SDL_HasAVX, "SDL_HasAVX" );
+            bindFunc( cast( void** )&SDL_HasAVX2, "SDL_HasAVX2" );
             bindFunc( cast( void** )&SDL_GetSystemRAM, "SDL_GetSystemRAM" );
             bindFunc( cast( void** )&SDL_SetError, "SDL_SetError" );
             bindFunc( cast( void** )&SDL_GetError, "SDL_GetError" );
@@ -137,6 +161,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_IsGameController, "SDL_IsGameController" );
             bindFunc( cast( void** )&SDL_GameControllerNameForIndex, "SDL_GameControllerNameForIndex" );
             bindFunc( cast( void** )&SDL_GameControllerOpen, "SDL_GameControllerOpen" );
+            bindFunc( cast( void** )&SDL_GameControllerFromInstanceID, "SDL_GameControllerFromInstanceID" );
             bindFunc( cast( void** )&SDL_GameControllerName, "SDL_GameControllerName" );
             bindFunc( cast( void** )&SDL_GameControllerGetAttached, "SDL_GameControllerGetAttached" );
             bindFunc( cast( void** )&SDL_GameControllerGetJoystick, "SDL_GameControllerGetJoystick" );
@@ -191,14 +216,11 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_AddHintCallback, "SDL_AddHintCallback" );
             bindFunc( cast( void** )&SDL_DelHintCallback, "SDL_DelHintCallback" );
             bindFunc( cast( void** )&SDL_ClearHints, "SDL_ClearHints" );
-            //            bindFunc( cast( void** )&SDL_RedetectInputDevices, "SDL_RedetectInputDevices" );
-            //            bindFunc( cast( void** )&SDL_GetNumInputDevices, "SDL_GetNumInputDevices" );
-            //            bindFunc( cast( void** )&SDL_GetInputDeviceName, "SDL_GetInputDeviceName" );
-            //            bindFunc( cast( void** )&SDL_IsDeviceDisconnected, "SDL_IsDeviceDisconnected" );
             bindFunc( cast( void** )&SDL_NumJoysticks, "SDL_NumJoysticks" );
             bindFunc( cast( void** )&SDL_JoystickNameForIndex, "SDL_JoystickNameForIndex" );
             bindFunc( cast( void** )&SDL_JoystickOpen, "SDL_JoystickOpen" );
             bindFunc( cast( void** )&SDL_JoystickName, "SDL_JoystickName" );
+            bindFunc( cast( void** )&SDL_JoystickFromInstanceID, "SDL_JoystickFromInstanceID" );
             bindFunc( cast( void** )&SDL_JoystickGetDeviceGUID, "SDL_JoystickGetDeviceGUID" );
             bindFunc( cast( void** )&SDL_JoystickGetGUID, "SDL_JoystickGetGUID" );
             bindFunc( cast( void** )&SDL_JoystickGetGUIDString, "SDL_JoystickGetGUIDString" );
@@ -216,6 +238,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_JoystickGetBall, "SDL_JoystickGetBall" );
             bindFunc( cast( void** )&SDL_JoystickGetButton, "SDL_JoystickGetButton" );
             bindFunc( cast( void** )&SDL_JoystickClose, "SDL_JoystickClose" );
+            bindFunc( cast( void** )&SDL_JoystickCurrentPowerLevel, "SDL_JoystickCurrentPowerLevel" );
             bindFunc( cast( void** )&SDL_GetKeyboardFocus, "SDL_GetKeyboardFocus" );
             bindFunc( cast( void** )&SDL_GetKeyboardState, "SDL_GetKeyboardState" );
             bindFunc( cast( void** )&SDL_GetModState, "SDL_GetModState" );
@@ -254,9 +277,12 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_ShowSimpleMessageBox, "SDL_ShowSimpleMessageBox" );
             bindFunc( cast( void** )&SDL_GetMouseFocus, "SDL_GetMouseFocus" );
             bindFunc( cast( void** )&SDL_GetMouseState, "SDL_GetMouseState" );
+            bindFunc( cast( void** )&SDL_GetGlobalMouseState, "SDL_GetGlobalMouseState" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseState, "SDL_GetRelativeMouseState" );
             bindFunc( cast( void** )&SDL_WarpMouseInWindow, "SDL_WarpMouseInWindow" );
+            bindFunc( cast( void** )&SDL_WarpMouseGlobal, "SDL_WarpMouseGlobal" );
             bindFunc( cast( void** )&SDL_SetRelativeMouseMode, "SDL_SetRelativeMouseMode" );
+            bindFunc( cast( void** )&SDL_CaptureMouse, "SDL_CaptureMouse" );
             bindFunc( cast( void** )&SDL_GetRelativeMouseMode, "SDL_GetRelativeMouseMode" );
             bindFunc( cast( void** )&SDL_CreateCursor, "SDL_CreateCursor" );
             bindFunc( cast( void** )&SDL_CreateColorCursor, "SDL_CreateColorCursor" );
@@ -294,7 +320,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_CreateSoftwareRenderer, "SDL_CreateSoftwareRenderer" );
             bindFunc( cast( void** )&SDL_GetRenderer, "SDL_GetRenderer" );
             bindFunc( cast( void** )&SDL_GetRendererInfo, "SDL_GetRendererInfo" );
-            bindFunc( cast( void** )&SDL_GetRendererOutputSize, "SDL_GetRendererOutputSize");
+            bindFunc( cast( void** )&SDL_GetRendererOutputSize, "SDL_GetRendererOutputSize" );
             bindFunc( cast( void** )&SDL_CreateTexture, "SDL_CreateTexture" );
             bindFunc( cast( void** )&SDL_CreateTextureFromSurface, "SDL_CreateTextureFromSurface" );
             bindFunc( cast( void** )&SDL_QueryTexture, "SDL_QueryTexture" );
@@ -317,6 +343,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_RenderGetLogicalSize, "SDL_RenderGetLogicalSize" );
             bindFunc( cast( void** )&SDL_RenderSetViewport, "SDL_RenderSetViewport" );
             bindFunc( cast( void** )&SDL_RenderGetViewport, "SDL_RenderGetViewport" );
+            bindFunc( cast( void** )&SDL_RenderIsClipEnabled, "SDL_RenderIsClipEnabled" );
             bindFunc( cast( void** )&SDL_RenderSetScale, "SDL_RenderSetScale" );
             bindFunc( cast( void** )&SDL_RenderGetScale, "SDL_RenderGetScale" );
             bindFunc( cast( void** )&SDL_SetRenderDrawColor, "SDL_SetRenderDrawColor" );
@@ -413,6 +440,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             static if( Derelict_OS_WinRT ) {
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUNICODE, "SDL_WinRTGetFSPathUNICODE" );
                 bindFunc( cast( void** )&SDL_WinRTGetFSPathUTF8, "SDL_WinRTGetFSPathUTF8" );
+                bindFunc( cast( void** )&SDL_WinRTRunApp, "SDL_WinRTRunApp" );
             }
 
             bindFunc( cast( void** )&SDL_GetWindowWMInfo, "SDL_GetWindowWMInfo" );
@@ -437,6 +465,7 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_GetNumVideoDisplays, "SDL_GetNumVideoDisplays" );
             bindFunc( cast( void** )&SDL_GetDisplayName, "SDL_GetDisplayName" );
             bindFunc( cast( void** )&SDL_GetDisplayBounds, "SDL_GetDisplayBounds" );
+            bindFunc( cast( void** )&SDL_GetDisplayDPI, "SDL_GetDisplayDPI" );
             bindFunc( cast( void** )&SDL_GetNumDisplayModes, "SDL_GetNumDisplayModes" );
             bindFunc( cast( void** )&SDL_GetDisplayMode, "SDL_GetDisplayMode" );
             bindFunc( cast( void** )&SDL_GetDesktopDisplayMode, "SDL_GetDesktopDisplayMode" );
@@ -477,10 +506,12 @@ class DerelictSDL2Loader : SharedLibLoader {
             bindFunc( cast( void** )&SDL_UpdateWindowSurfaceRects, "SDL_UpdateWindowSurfaceRects" );
             bindFunc( cast( void** )&SDL_SetWindowGrab, "SDL_SetWindowGrab" );
             bindFunc( cast( void** )&SDL_GetWindowGrab, "SDL_GetWindowGrab" );
+            bindFunc( cast( void** )&SDL_GetGrabbedWindow, "SDL_GetGrabbedWindow" );
             bindFunc( cast( void** )&SDL_SetWindowBrightness, "SDL_SetWindowBrightness" );
             bindFunc( cast( void** )&SDL_GetWindowBrightness, "SDL_GetWindowBrightness" );
             bindFunc( cast( void** )&SDL_SetWindowGammaRamp, "SDL_SetWindowGammaRamp" );
             bindFunc( cast( void** )&SDL_GetWindowGammaRamp, "SDL_GetWindowGammaRamp" );
+            bindFunc( cast( void** )&SDL_SetWindowHitTest, "SDL_SetWindowHitTest" );
             bindFunc( cast( void** )&SDL_DestroyWindow, "SDL_DestroyWindow" );
             bindFunc( cast( void** )&SDL_IsScreenSaverEnabled, "SDL_IsScreenSaverEnabled" );
             bindFunc( cast( void** )&SDL_EnableScreenSaver, "SDL_EnableScreenSaver" );
@@ -512,12 +543,93 @@ class DerelictSDL2Loader : SharedLibLoader {
             // I've wrapped it in a try/catch because it seem the function is
             // not always exported on Linux. See issue #153
             // https://github.com/aldacron/Derelict3/issues/153
-            import derelict.util.exception;
             try {
                   da_SDL_SetMainReady setReady;
                   bindFunc( cast( void** )&setReady, "SDL_SetMainReady" );
                   setReady();
             } catch(  DerelictException de  ) {}
+      }
+
+      private ShouldThrow allowSDL_2_0_0( string symbolName ) {
+            switch( symbolName ) {
+                  // Functions added in 2.0.1
+                  case "SDL_free": break;
+                  case "SDL_SetAssertionHandler": break;
+                  case "SDL_GetAssertionReport": break;
+                  case "SDL_ResetAssertionReport": break;
+                  case "SDL_GetSystemRAM": break;
+                  case "SDL_UpdateYUVTexture": break;
+                  case "SDL_GL_GetDrawableSize": break;
+                  case "SDL_GetBasePath": break;
+                  case "SDL_GetPrefPath": break;
+                  default: return allowSDL_2_0_1( symbolName );
+            }
+            return ShouldThrow.No;
+      }
+
+      private ShouldThrow allowSDL_2_0_1( string symbolName ) {
+            switch( symbolName ) {
+                  // Functions added in 2.0.2
+                  case "SDL_HasAVX": break;
+                  case "SDL_GameControllerAddMappingsFromRW": break;
+                  case "SDL_GetDefaultAssertionHandler": break;
+                  case "SDL_GetAssertionHandler": break;
+                  case "SDL_GL_ResetAttributes": break;
+
+                  static if( Derelict_OS_Windows ) {
+                        case "SDL_Direct3D9GetAdapterIndex": break;
+                        case "SDL_RenderGetD3D9Device": break;
+                        case "SDL_DXGIGetOutputInfo": break;
+                  } else static if( Derelict_OS_iOS ) {
+                        case "SDL_iPhoneSetAnimationCallback": break;
+                        case "SDL_iPhoneSetEventPump": break;
+                  } else static if( Derelict_OS_Android ) {
+                        case "SDL_AndroidGetJNIEnv": break;
+                        case "SDL_AndroidGetActivity": break;
+                        case "SDL_AndroidGetInternalStoragePath": break;
+                        case "SDL_AndroidGetInternalStorageState": break;
+                        case "SDL_AndroidGetExternalStoragePath": break;
+                  }
+                  default: return allowSDL_2_0_2( symbolName );
+            }
+            return ShouldThrow.No;
+      }
+
+      private ShouldThrow allowSDL_2_0_2( string symbolName ) {
+            static if( Derelict_OS_WinRT ) {
+                  switch( symbolName ) {
+                        // Functions added in 2.0.3
+                        static if( Derelict_OS_WinRT ) {
+                              case "SDL_WinRTGetFSPathUNICODE": break;
+                              case "SDL_WinRTGetFSPathUTF8": break;
+                              case "SDL_WinRTRunApp": break;
+                        }
+                        default: return allowSDL_2_0_3( symbolName );
+                  }
+            }
+            return ShouldThrow.No;
+      }
+
+      private ShouldThrow allowSDL_2_0_3( string symbolName ) {
+            switch( symbolName ) {
+                  // Functions added in 2.0.4
+                  case "SDL_CaptureMouse": break;
+                  case "SDL_ClearQueuedAudio": break;
+                  case "SDL_GameControllerFromInstanceID": break;
+                  case "SDL_GetDisplayDPI": break;
+                  case "SDL_GetGlobalMouseState": break;
+                  case "SDL_GetGrabbedWindow": break;
+                  case "SDL_GetQueuedAudioSize": break;
+                  case "SDL_HasAVX2": break;
+                  case "SDL_JoystickCurrentPowerLevel": break;
+                  case "SDL_JoystickFromInstanceID": break;
+                  case "SDL_QueueAudio": break;
+                  case "SDL_RenderIsClipEnabled": break;
+                  case "SDL_SetWindowHitTest": break;
+                  case "SDL_WarpMouseGlobal": break;
+                  default: return ShouldThrow.Yes;
+            }
+            return ShouldThrow.No;
       }
 }
 
