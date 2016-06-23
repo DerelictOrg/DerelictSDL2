@@ -32,7 +32,7 @@ private {
     import core.stdc.stdio;
     import derelict.util.system;
 
-    static if( Derelict_OS_Windows ) import derelict.util.wintypes;
+    static if( Derelict_OS_Windows ) import core.sys.windows.windows;
     static if( Derelict_OS_Posix ) import derelict.util.xtypes;
 }
 
@@ -260,7 +260,7 @@ enum {
     SDL_KEYUP,
     SDL_TEXTEDITING,
     SDL_TEXTINPUT,
-    SDL_KEYMAPCHANGED, 
+    SDL_KEYMAPCHANGED,
     SDL_MOUSEMOTION = 0x400,
     SDL_MOUSEBUTTONDOWN,
     SDL_MOUSEBUTTONUP,
@@ -1658,7 +1658,7 @@ alias SDL_DEFINE_PIXELFOURCC = SDL_FOURCC ;
             return pixelType == SDL_PIXELTYPE_ARRAYU8 || pixelType == SDL_PIXELTYPE_ARRAYU16 ||
                    pixelType == SDL_PIXELTYPE_ARRAYU32 || pixelType == SDL_PIXELTYPE_ARRAYF16 ||
                    pixelType == SDL_PIXELTYPE_ARRAYF32;
-        } 
+        }
         return false;
     }
 
@@ -1784,7 +1784,7 @@ enum {
         SDL_DEFINE_PIXELFOURCC( 'N', 'V', '1', '2' ),
     SDL_PIXELFORMAT_NV21 =
         SDL_DEFINE_PIXELFOURCC( 'N', 'V', '2', '1' )
-}   
+}
 
 static assert( SDL_PIXELFORMAT_BGRX8888 == 0x16661804 );
 
