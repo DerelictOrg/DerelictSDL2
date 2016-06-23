@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.sdl2.types;
 
-import core.stdc.config;
+import core.stdc.config,
        core.stdc.stdio;
 import derelict.util.system;
 
@@ -2127,7 +2127,7 @@ struct SDL_SysWMinfo {
     union info_ {
         static if(Derelict_OS_Windows) {
             struct win_ {
-               HWND window;
+               void* window;
             }
             win_ win;
         }
