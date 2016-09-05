@@ -119,7 +119,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_WaitEventTimeout = int function( SDL_Event*, int );
     alias da_SDL_PushEvent = int function( SDL_Event* );
     alias da_SDL_SetEventFilter = void function( SDL_EventFilter, void* );
-    alias da_SDL_GetEventFilter = void function( SDL_EventFilter*, void** );
+    alias da_SDL_GetEventFilter = SDL_bool function( SDL_EventFilter*, void** );
     alias da_SDL_AddEventWatch = void function( SDL_EventFilter, void* );
     alias da_SDL_DelEventWatch = void function( SDL_EventFilter, void* );
     alias da_SDL_FilterEvents = void function( SDL_EventFilter, void* );
