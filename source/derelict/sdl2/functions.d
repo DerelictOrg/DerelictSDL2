@@ -178,7 +178,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_HapticEffectSupported = int function( SDL_Haptic*, SDL_HapticEffect* );
     alias da_SDL_HapticNewEffect = int function( SDL_Haptic*, SDL_HapticEffect* );
     alias da_SDL_HapticUpdateEffect = int function( SDL_Haptic*, int, SDL_HapticEffect* );
-    alias da_SDL_HapticRunEffect = int function( SDL_Haptic*, int, SDL_HapticEffect* );
+    alias da_SDL_HapticRunEffect = int function( SDL_Haptic*, int, Uint32 );
     alias da_SDL_HapticStopEffect = int function( SDL_Haptic*, int );
     alias da_SDL_HapticDestroyEffect = int function( SDL_Haptic*, int );
     alias da_SDL_HapticGetEffectStatus = int function( SDL_Haptic*, int );
