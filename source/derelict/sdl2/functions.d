@@ -338,7 +338,7 @@ extern( C ) @nogc nothrow {
     alias da_SDL_UpdateTexture = int function( SDL_Texture*, const( SDL_Rect )*, const( void )*, int );
     alias da_SDL_UpdateYUVTexture = int function( SDL_Texture*, const( SDL_Rect )*, const( Uint8 )*, int, const( Uint8 )*, int, const( Uint8 )*, int );
     alias da_SDL_LockTexture = int function( SDL_Texture*, const( SDL_Rect )*, void**, int* );
-    alias da_SDL_UnlockTexture = int function( SDL_Texture* );
+    alias da_SDL_UnlockTexture = void function( SDL_Texture* );
     alias da_SDL_RenderTargetSupported = SDL_bool function( SDL_Renderer* );
     alias da_SDL_SetRenderTarget = int function( SDL_Renderer*, SDL_Texture* );
     alias da_SDL_GetRenderTarget = SDL_Texture* function( SDL_Renderer* );
@@ -534,8 +534,8 @@ extern( C ) @nogc nothrow {
     alias da_SDL_GetGrabbedWindow = SDL_Window* function();
     alias da_SDL_SetWindowBrightness = int function( SDL_Window*, float );
     alias da_SDL_GetWindowBrightness = float function( SDL_Window* );
-    alias da_SDL_SetWindowGammaRamp = int function( SDL_Window*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )* );
-    alias da_SDL_GetWindowGammaRamp = int function( SDL_Window*, Uint16*, Uint16*, Uint16*, Uint16* );
+    alias da_SDL_SetWindowGammaRamp = int function( SDL_Window*, const( Uint16 )*, const( Uint16 )*, const( Uint16 )* );
+    alias da_SDL_GetWindowGammaRamp = int function( SDL_Window*, Uint16*, Uint16*, Uint16* );
     alias da_SDL_SetWindowHitTest = int function( SDL_Window*, SDL_HitTest, void* );
     alias da_SDL_DestroyWindow = void function( SDL_Window* );
     alias da_SDL_IsScreenSaverEnabled = SDL_bool function();
