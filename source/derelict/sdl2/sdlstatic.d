@@ -25,7 +25,7 @@ ARISING FROM,OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 */
-module derelict.sdl2.funcstatic.sdlstatic;
+module derelict.sdl2.sdlstatic;
 
 import core.stdc.stdio,
        core.stdc.stdarg;

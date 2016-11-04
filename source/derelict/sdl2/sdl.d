@@ -30,6 +30,6 @@ module derelict.sdl2.sdl;
 public:
 version(Derelict_Static) version = DerelictSDL2_Static;
 version(DerelictSDL2_Static)
-      import derelict.sdl2.funcstatic.sdlstatic;
+      import derelict.sdl2.sdlstatic;
 else
-      import derelict.sdl2.funcdynamic.sdldynload;
+      import derelict.sdl2.dynload;

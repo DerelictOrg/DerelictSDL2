@@ -31,7 +31,6 @@ private {
     import derelict.util.loader;
     import derelict.util.system;
     import derelict.sdl2.types;
-    import derelict.sdl2.functions;
 
     static if( Derelict_OS_Windows )
         enum libNames = "SDL2_mixer.dll";
