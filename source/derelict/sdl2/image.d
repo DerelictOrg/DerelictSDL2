@@ -30,13 +30,19 @@ module derelict.sdl2.image;
 import derelict.sdl2.types;
 
 version(Derelict_Static) version = DerelictSDL2_Static;
+
+version(DerelictSDL2_Static)
+    import derelict.sdl2.sdlstatic : SDL_GetError, SDL_SetError;
+else
+    import derelict.sdl2.sdldynamic : SDL_GetError, SDL_SetError;
+
+alias IMG_SetError = SDL_SetError;
+alias IMG_GetError = SDL_GetError;
+
 version(DerelictSDL2_Static) {
     import derelict.util.loader,
            derelict.util.exception,
            derelict.util.system;
-
-    alias IMG_SetError = SDL_SetError;
-    alias IMG_GetError = SDL_GetError;
 
     enum : Uint8 {
         SDL_IMAGE_MAJOR_VERSION     = 2,

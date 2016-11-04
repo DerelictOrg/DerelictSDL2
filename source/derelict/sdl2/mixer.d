@@ -32,6 +32,11 @@ private {
     import derelict.util.system;
     import derelict.sdl2.types;
 
+    version(DerelictSDL2_Static)
+        import derelict.sdl2.sdlstatic;
+    else
+        import derelict.sdl2.sdldynamic;
+
     static if( Derelict_OS_Windows )
         enum libNames = "SDL2_mixer.dll";
     else static if( Derelict_OS_Mac )

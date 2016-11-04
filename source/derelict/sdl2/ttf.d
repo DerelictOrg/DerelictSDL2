@@ -33,7 +33,11 @@ private {
     import derelict.util.loader;
     import derelict.util.system;
     import derelict.sdl2.types;
-    import derelict.sdl2.functions;
+
+    version(DerelictSDL2_Static)
+        import derelict.sdl2.sdlstatic : SDL_GetError, SDL_SetError;
+    else
+        import derelict.sdl2.sdldynamic : SDL_GetError, SDL_SetError;
 
     static if( Derelict_OS_Windows )
         enum libNames = "SDL2_ttf.dll";

@@ -32,4 +32,4 @@ version(Derelict_Static) version = DerelictSDL2_Static;
 version(DerelictSDL2_Static)
       import derelict.sdl2.sdlstatic;
 else
-      import derelict.sdl2.dynload;
+      import derelict.sdl2.sdldynload;
