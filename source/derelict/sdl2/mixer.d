@@ -27,9 +27,10 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.sdl2.mixer;
 
-import derelict.sdl2.types;
+import derelict.sdl2.config,
+       derelict.sdl2.types;
 
-version(DerelictSDL2_Static)
+static if(staticCore)
     import derelict.sdl2.sdlstatic;
 else
     import derelict.sdl2.sdldynamic;
@@ -129,7 +130,7 @@ extern(C) nothrow {
     }
 }
 
-version(DerelicSDL2_Static) {
+static if(staticMixer) {
     extern(System) @nogc nothrow {
         const(SDL_version)* Mix_Linked_Version();
         int Mix_Init(int);

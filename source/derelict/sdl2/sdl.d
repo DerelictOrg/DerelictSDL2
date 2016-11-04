@@ -27,9 +27,10 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.sdl2.sdl;
 
+import derelict.sdl2.config;
+
 public:
-version(Derelict_Static) version = DerelictSDL2_Static;
-version(DerelictSDL2_Static)
+static if(staticCore)
       import derelict.sdl2.sdlstatic;
 else
       import derelict.sdl2.sdldynload;

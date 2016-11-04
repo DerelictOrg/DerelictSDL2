@@ -27,10 +27,10 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.sdl2.image;
 
-import derelict.sdl2.types;
+import derelict.sdl2.config,
+       derelict.sdl2.types;
 
-version(Derelict_Static) version = DerelictSDL2_Static;
-version(DerelictSDL2_Static)
+static if(staticCore)
     import derelict.sdl2.sdlstatic : SDL_GetError, SDL_SetError;
 else
     import derelict.sdl2.sdldynamic : SDL_GetError, SDL_SetError;
@@ -57,7 +57,7 @@ enum {
     IMG_INIT_WEBP   = 0x00000008,
 }
 
-version(DerelictSDL2_Static) {
+static if(staticImage) {
     extern(System) @nogc nothrow {
         int IMG_Init(int);
         int IMG_Quit();
