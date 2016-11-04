@@ -97,6 +97,9 @@ version(DerelictSDL2_Static) {
         SDL_Surface* IMG_LoadXPM_RW(SDL_RWops*);
         SDL_Surface* IMG_LoadXV_RW(SDL_RWops*);
         SDL_Surface* IMG_LoadWEBP_RW(SDL_RWops*);
+        SDL_Surface* IMG_ReadXPMFromArray(char**);
+        int IMG_SavePNG(SDL_Surface*,const(char)*);
+        int IMG_SavePNG_RW(SDL_Surface*,SDL_RWops*,int);
     }
 }
 else {
