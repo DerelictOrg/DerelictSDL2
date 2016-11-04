@@ -205,7 +205,7 @@ static if(staticMixer) {
     }
 }
 else {
-    import derelict.util.loader.
+    import derelict.util.loader,
            derelict.util.system;
 
     extern(C) @nogc nothrow {
