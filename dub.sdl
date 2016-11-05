@@ -5,4 +5,16 @@ authors "Mike Parker"
 license "Boost"
 targetPath "lib"
 targetName "DerelictSDL2"
-dependency "derelict-util" version="3.0.0"
+
+/* This is needed even when compiling the static binding,
+   as some modules require derelict.util.system on the import path */
+dependency "derelict-util" version="3.0.0-alpha.1"
+
+configuration "derelict-sdl2-dynamic" {
+    excludedSourceFiles "source/derelict/sdl2/internal/*_static.d"
+}
+
+configuration "derelict-sdl2-static" {
+    excludedSourceFiles "source/derelict/sdl2/internal/*_dyn*.d"
+    versions "DerelictSDL2_Static"
+}
