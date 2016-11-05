@@ -31,8 +31,8 @@ import derelict.sdl2.config;
 static if(staticGPU) {
     import core.stdc.config,
            core.stdc.stdarg;
-    import derelict.sdl2.types;
-    import derelict.sdl2.internal.gputypes;
+    import derelict.sdl2.internal.gpu_types,
+           derelict.sdl2.internal.sdl_types;
 
     extern(System) @nogc nothrow {
         SDL_version GPU_GetLinkedVersion();
