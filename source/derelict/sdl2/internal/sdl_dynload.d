@@ -25,11 +25,11 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 */
-module derelict.sdl2.sdldynload;
+module derelict.sdl2.internal.sdl_dynload;
 
 public {
-      import derelict.sdl2.sdldynamic,
-             derelict.sdl2.types;
+      import derelict.sdl2.internal.sdl_dynamic,
+             derelict.sdl2.internal.sdl_types;
       import derelict.util.loader;
 }
 

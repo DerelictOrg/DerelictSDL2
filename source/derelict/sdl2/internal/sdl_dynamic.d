@@ -25,14 +25,12 @@ ARISING FROM,OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 */
-module derelict.sdl2.sdldynamic;
+module derelict.sdl2.internal.sdl_dynamic;
 
-private {
-    import core.stdc.stdio;
-    import core.stdc.stdarg;
-    import derelict.util.system;
-    import derelict.sdl2.types;
-}
+import core.stdc.stdarg,
+       core.stdc.stdio;
+import derelict.util.system;
+import derelict.sdl2.internal.sdl_types;
 
 extern(C) @nogc nothrow {
     // SDL.h

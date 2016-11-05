@@ -28,7 +28,7 @@ DEALINGS IN THE SOFTWARE.
 module derelict.sdl2.internal.gpu_types;
 
 import core.stdc.stdarg : va_list;
-import derelict.sdl2.types;
+import derelict.sdl2.internal.sdl_types;
 
 version(DerelictSDL2GPU_UseIntBool)
     alias GPU_bool = int;

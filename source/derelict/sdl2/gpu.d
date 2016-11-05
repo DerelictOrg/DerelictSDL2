@@ -29,11 +29,9 @@ module derelict.sdl2.gpu;
 
 import derelict.sdl2.config;
 
-static if(staticGPU) {
-    public import derelict.sdl2.internal.gpu_static;
-}
-else {
-    public import derelict.sdl2.internal.gpu_dynload;
-}
-
-public import derelict.sdl2.internal.gpu_types;
+public:
+import derelict.sdl2.internal.gpu_types;
+static if(staticGPU)
+    import derelict.sdl2.internal.gpu_static;
+else
+    import derelict.sdl2.internal.gpu_dynload;

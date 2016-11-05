@@ -28,7 +28,7 @@ DEALINGS IN THE SOFTWARE.
 module derelict.sdl2.net;
 
 import derelict.sdl2.config,
-       derelict.sdl2.types;
+       derelict.sdl2.internal.sdl_types;
 
 alias SDLNet_Version = SDL_version;
 

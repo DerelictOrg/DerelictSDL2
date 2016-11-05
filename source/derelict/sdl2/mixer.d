@@ -28,12 +28,12 @@ DEALINGS IN THE SOFTWARE.
 module derelict.sdl2.mixer;
 
 import derelict.sdl2.config,
-       derelict.sdl2.types;
+       derelict.sdl2.internal.sdl_types;
 
 static if(staticCore)
-    import derelict.sdl2.sdlstatic;
+    import derelict.sdl2.internal.sdl_static;
 else
-    import derelict.sdl2.sdldynamic;
+    import derelict.sdl2.internal.sdl_dynamic;
 
 alias Mix_SetError = SDL_SetError;
 alias Mix_GetError = SDL_GetError;

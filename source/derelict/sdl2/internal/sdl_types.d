@@ -25,7 +25,7 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 */
-module derelict.sdl2.types;
+module derelict.sdl2.internal.sdl_types;
 
 import core.stdc.config,
        core.stdc.stdio;

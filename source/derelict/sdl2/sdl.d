@@ -30,10 +30,11 @@ module derelict.sdl2.sdl;
 import derelict.sdl2.config;
 
 public:
+import derelict.sdl2.internal.sdl_types;
 static if(staticCore)
-      import derelict.sdl2.sdlstatic;
+      import derelict.sdl2.internal.sdl_static;
 else
-      import derelict.sdl2.sdldynload;
+      import derelict.sdl2.internal.sdl_dynload;
 
 
 alias SDL_BlitSurface = SDL_UpperBlit;
