@@ -4,7 +4,7 @@ Boost Software License - Version 1.0 - August 17th,2003
 
 Permission is hereby granted,free of charge,to any person or organization
 obtaining a copy of the software and accompanying documentation covered by
-this license (the "Software") to use,reproduce,display,distribute,
+this license(the "Software") to use,reproduce,display,distribute,
 execute,and transmit the Software,and to prepare derivative works of the
 Software,and to permit third-parties to whom the Software is furnished to
 do so,all subject to the following:
@@ -25,42 +25,15 @@ ARISING FROM,OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 */
-module derelict.sdl2.config;
+module derelict.sdl2.gpu;
 
-version(Derelict_Static) version = DerelictSDL2_Static;
+import derelict.sdl2.config;
 
-version(DerelictSDL2_Static) {
-    version = DerelictSDL2Core_Static;
-    version = DerelictSDL2GPU_Static;
-    version = DerelictSDL2Image_Static;
-    version = DerelictSDL2Mixer_Static;
-    version = DerelictSDL2Net_Static;
-    version = DerelictSDL2TTF_Static;
+static if(staticGPU) {
+    public import derelict.sdl2.internal.gpu_static;
+}
+else {
+    public import derelict.sdl2.internal.gpu_dynload;
 }
 
-version(DerelictSDL2Core_Static)
-    enum staticCore = true;
-else enum staticCore = false;
-
-version(DerelictSDL2GPU_Static)
-    enum staticGPU = true;
-else enum staticGPU = false;
-
-version(DerelictSDL2Image_Static)
-    enum staticImage = true;
-else enum staticImage = false;
-
-
-version(DerelictSDL2Mixer_Static)
-    enum staticMixer = true;
-else enum staticMixer = false;
-
-
-version(DerelictSDL2Net_Static)
-    enum staticNet = true;
-else enum staticNet = false;
-
-
-version(DerelictSDL2TTF_Static)
-    enum staticTTF = true;
-else enum staticTTF = false;
+public import derelict.sdl2.internal.gpu_types;
