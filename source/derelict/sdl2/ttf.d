@@ -31,7 +31,7 @@ import core.stdc.config;
 import derelict.sdl2.config,
        derelict.sdl2.internal.sdl_types;
 
-static if(staticCore)
+static if(staticSDL)
     import derelict.sdl2.internal.sdl_static : SDL_GetError,SDL_SetError;
 else
     import derelict.sdl2.internal.sdl_dynamic : SDL_GetError,SDL_SetError;

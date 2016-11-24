@@ -30,7 +30,7 @@ module derelict.sdl2.mixer;
 import derelict.sdl2.config,
        derelict.sdl2.internal.sdl_types;
 
-static if(staticCore)
+static if(staticSDL)
     import derelict.sdl2.internal.sdl_static;
 else
     import derelict.sdl2.internal.sdl_dynamic;

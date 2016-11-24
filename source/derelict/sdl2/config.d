@@ -39,8 +39,8 @@ version(DerelictSDL2_Static) {
 }
 
 version(DerelictSDL2Core_Static)
-    enum staticCore = true;
-else enum staticCore = false;
+    enum staticSDL = true;
+else enum staticSDL = false;
 
 version(DerelictSDL2GPU_Static)
     enum staticGPU = true;
