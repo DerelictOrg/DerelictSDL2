@@ -276,12 +276,12 @@ extern(System) @nogc nothrow {
     int SDL_GetNumRenderDrivers();
     int SDL_GetRenderDriverInfo(int,SDL_RendererInfo*);
     int SDL_CreateWindowAndRenderer(int,int,Uint32,SDL_Window**,SDL_Renderer**);
-    SDL_Renderer* SDL_CreateRenderer(SDL_Window*,int,Uint32);
+    SDL_Renderer* SDL_CreateRenderer(SDL_Window*,int,SDL_RendererFlags);
     SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface*);
     SDL_Renderer* SDL_GetRenderer(SDL_Window*);
     int SDL_GetRendererInfo(SDL_Renderer*,SDL_RendererInfo*);
     int SDL_GetRendererOutputSize(SDL_Renderer*,int*,int*);
-    SDL_Texture* SDL_CreateTexture(SDL_Renderer*,Uint32,int,int,int);
+    SDL_Texture* SDL_CreateTexture(SDL_Renderer*,Uint32,SDL_TextureAccess,int,int);
     SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer*,SDL_Surface*);
     int SDL_QueryTexture(SDL_Texture*,Uint32*,int*,int*,int*);
     int SDL_SetTextureColorMod(SDL_Texture*,Uint8,Uint8,Uint8);
@@ -438,11 +438,11 @@ extern(System) @nogc nothrow {
     int SDL_SetWindowDisplayMode(SDL_Window*,const(SDL_DisplayMode)*);
     int SDL_GetWindowDisplayMode(SDL_Window*,SDL_DisplayMode*);
     Uint32 SDL_GetWindowPixelFormat(SDL_Window*);
-    SDL_Window* SDL_CreateWindow(const(char)*,int,int,int,int,Uint32);
+    SDL_Window* SDL_CreateWindow(const(char)*,int,int,int,int,SDL_WindowFlags);
     SDL_Window* SDL_CreateWindowFrom(const(void)*);
     Uint32 SDL_GetWindowID(SDL_Window*);
     SDL_Window* SDL_GetWindowFromID(Uint32);
-    Uint32 SDL_GetWindowFlags(SDL_Window*);
+    SDL_WindowFlags SDL_GetWindowFlags(SDL_Window*);
     void SDL_SetWindowTitle(SDL_Window*,const(char)*);
     const(char)* SDL_GetWindowTitle(SDL_Window*);
     void SDL_SetWindowIcon(SDL_Window*,SDL_Surface*);

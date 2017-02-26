@@ -8,7 +8,7 @@ targetName "DerelictSDL2"
 
 /* This is needed even when compiling the static binding,
    as some modules require derelict.util.system on the import path */
-dependency "derelict-util" version="3.0.0-alpha.1"
+dependency "derelict-util" version="3.0.0-alpha.2"
 
 configuration "derelict-sdl2-dynamic" {
     excludedSourceFiles "source/derelict/sdl2/internal/*_static.d"
