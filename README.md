@@ -3,7 +3,7 @@ DerelictSDL2
 
 Dynamic bindings to [SDL 2][1] version 2.0.5, [SDL2_image][2], [SDL2_mixer][3], [SDL2_ttf][4], and [SDL2_net][5] for the D Programming Language.
 
-Please see the [DerelictSDL2 documentation][6] and the page [Using Derelict][7] for information on how to build DerelictSDL2 and load the SDL2 libraries at run time. In the meantime, here's some sample code.
+Please see the [DerelictSDL2 documentation][6] and the sections on [Compiling and Linking][7] and [The Derelict Loader][8], in the Derelict documentation, for information on how to build DerelictSDL2 and load the SDL2 libraries at run time. In the meantime, here's some sample code.
 
 ```D
 // This example shows how to import all of the DerelictSDL2 bindings. Of course,
@@ -45,7 +45,8 @@ void main() {
 [4]: http://www.libsdl.org/projects/SDL_ttf/
 [5]: http://www.libsdl.org/projects/SDL_net/
 [6]: http://derelictorg.github.io/packages/sdl2.html
-[7]: http://derelictorg.github.io/using.html
+[7]: http://derelictorg.github.io/building/overview/
+[8]: http://derelictorg.github.io/loading/loader/
 
 
 
