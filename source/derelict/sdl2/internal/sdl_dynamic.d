@@ -492,7 +492,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_GetDisplayName = const(char)* function(int);
     alias da_SDL_GetDisplayBounds = int function(int,SDL_Rect*);
     alias da_SDL_GetDisplayDPI = int function(int,float*,float*,float*);
-    alias da_SDL_GetDisplayUsableBounds = int function(SDL_DisplayMode*,SDL_Rect*);
+    alias da_SDL_GetDisplayUsableBounds = int function(int,SDL_Rect*);
     alias da_SDL_GetNumDisplayModes = int function(int);
     alias da_SDL_GetDisplayMode = int function(int,int,SDL_DisplayMode*);
     alias da_SDL_GetDesktopDisplayMode = int function(int,SDL_DisplayMode*);

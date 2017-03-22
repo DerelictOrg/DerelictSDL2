@@ -428,7 +428,7 @@ extern(System) @nogc nothrow {
     const(char)* SDL_GetDisplayName(int);
     int SDL_GetDisplayBounds(int,SDL_Rect*);
     int SDL_GetDisplayDPI(int,float*,float*,float*);
-    int SDL_GetDisplayUsableBounds(SDL_DisplayMode*,SDL_Rect*);
+    int SDL_GetDisplayUsableBounds(int,SDL_Rect*);
     int SDL_GetNumDisplayModes(int);
     int SDL_GetDisplayMode(int,int,SDL_DisplayMode*);
     int SDL_GetDesktopDisplayMode(int,SDL_DisplayMode*);
