@@ -640,7 +640,7 @@ class DerelictSDL2Loader : SharedLibLoader {
                   case "SDL_RenderIsClipEnabled": break;
                   case "SDL_SetWindowHitTest": break;
                   case "SDL_WarpMouseGlobal": break;
-                  default: return allowSDL_2_0_4;
+                  default: return allowSDL_2_0_4(symbolName);
             }
             return ShouldThrow.No;
       }
