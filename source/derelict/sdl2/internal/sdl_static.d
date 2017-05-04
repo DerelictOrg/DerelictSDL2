@@ -271,7 +271,7 @@ extern(System) @nogc nothrow {
     SDL_bool SDL_HasIntersection(const(SDL_Rect)*,const(SDL_Rect)*);
     SDL_bool SDL_IntersectRect(const(SDL_Rect)*,const(SDL_Rect)*,SDL_Rect*);
     void SDL_UnionRect(const(SDL_Rect)*,const(SDL_Rect)*,SDL_Rect*);
-    void SDL_EnclosePoints(const(SDL_Point)*,int,const(SDL_Rect)*,SDL_Rect*);
+    SDL_bool SDL_EnclosePoints(const(SDL_Point)*,int,const(SDL_Rect)*,SDL_Rect*);
     SDL_bool SDL_IntersectRectAndLine(const(SDL_Rect)*,int*,int*,int*,int*);
     int SDL_GetNumRenderDrivers();
     int SDL_GetRenderDriverInfo(int,SDL_RendererInfo*);
