@@ -91,7 +91,7 @@ extern ( C ) @nogc nothrow {
     alias da_TTF_ByteSwappedUNICODE = void function( int );
     alias da_TTF_Init = int function();
     alias da_TTF_OpenFont = TTF_Font * function ( const( char )*, int );
-    alias da_TTF_OpenFontIndex = TTF_Font * function ( const( char )*, int, c_long  );
+    alias da_TTF_OpenFontIndex = TTF_Font * function ( const( char )*, int, c_long );
     alias da_TTF_OpenFontRW = TTF_Font * function ( SDL_RWops*, int, int );
     alias da_TTF_OpenFontIndexRW = TTF_Font * function ( SDL_RWops*, int, int, c_long );
     alias da_TTF_GetFontStyle = int function ( const( TTF_Font )* );
@@ -106,7 +106,7 @@ extern ( C ) @nogc nothrow {
     alias da_TTF_FontLineSkip = int function( const( TTF_Font )* );
     alias da_TTF_GetFontKerning = int function( const( TTF_Font )* );
     alias da_TTF_SetFontKerning = void function( TTF_Font*, int );
-    alias da_TTF_FontFaces = int function( const( TTF_Font )* );
+    alias da_TTF_FontFaces = c_long function( const( TTF_Font )* );
     alias da_TTF_FontFaceIsFixedWidth = int function( const( TTF_Font )* );
     alias da_TTF_FontFaceFamilyName = char* function( const( TTF_Font )* );
     alias da_TTF_FontFaceStyleName = char* function( const( TTF_Font )* );
