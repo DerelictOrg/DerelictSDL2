@@ -316,7 +316,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_HasIntersection = SDL_bool function(const(SDL_Rect)*,const(SDL_Rect)*);
     alias da_SDL_IntersectRect = SDL_bool function(const(SDL_Rect)*,const(SDL_Rect)*,SDL_Rect*);
     alias da_SDL_UnionRect = void function(const(SDL_Rect)*,const(SDL_Rect)*,SDL_Rect*);
-    alias da_SDL_EnclosePoints = void function(const(SDL_Point)*,int,const(SDL_Rect)*,SDL_Rect*);
+    alias da_SDL_EnclosePoints = SDL_bool function(const(SDL_Point)*,int,const(SDL_Rect)*,SDL_Rect*);
     alias da_SDL_IntersectRectAndLine = SDL_bool function(const(SDL_Rect)*,int*,int*,int*,int*);
 
     // SDL_Render.h
