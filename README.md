@@ -44,7 +44,7 @@ void main() {
 [3]: http://www.libsdl.org/projects/SDL_mixer/
 [4]: http://www.libsdl.org/projects/SDL_ttf/
 [5]: http://www.libsdl.org/projects/SDL_net/
-[6]: http://derelictorg.github.io/packages/sdl2.html
+[6]: http://derelictorg.github.io/packages/sdl2/
 [7]: http://derelictorg.github.io/building/overview/
 [8]: http://derelictorg.github.io/loading/loader/
 
