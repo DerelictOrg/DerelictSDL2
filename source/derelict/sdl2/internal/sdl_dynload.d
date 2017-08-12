@@ -52,7 +52,10 @@ protected:
       override void configureMinimumVersion(SharedLibVersion minVersion)
       {
             if(minVersion.major == 2 && minVersion.minor == 0) {
-                  if(minVersion.patch == 3) {
+                  if(minVersion.patch == 4) {
+                        missingSymbolCallback = &allowSDL_2_0_4;
+                  }
+                  else if(minVersion.patch == 3) {
                         missingSymbolCallback = &allowSDL_2_0_3;
                   }
                   else if(minVersion.patch == 2) {
@@ -636,7 +639,7 @@ private:
                   case "SDL_RenderIsClipEnabled": break;
                   case "SDL_SetWindowHitTest": break;
                   case "SDL_WarpMouseGlobal": break;
-                  default: return ShouldThrow.Yes;
+                  default: return allowSDL_2_0_4(symbolName);
             }
             return ShouldThrow.No;
       }
