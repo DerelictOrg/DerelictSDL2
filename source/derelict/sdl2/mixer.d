@@ -112,8 +112,14 @@ struct Mix_Music;
 string MIX_EFFECTSMAXSPEED = "MIX_EFFECTSMAXSPEED";
 
 extern(C) nothrow {
-    alias Mix_EffectFunc_t = void function(int chan,void* stream,int len,void* udata);
-    alias Mix_EffectDone_t = void function(int chan,void* udata);
+    alias Mix_EffectFunc_t = void function(int,void*,int,void*);
+    alias Mix_EffectDone_t = void function(int,void*);
+
+    // These aren't in SDL_mixer.h and are just here as a convenient and
+    // visible means to add the proper attributes these callbacks.
+    alias callbackI = void function(int);
+    alias callbackVUi8I = void function(void*,Uint8*,int);
+    alias callbackN = void function();
 }
 
 @nogc nothrow {
@@ -151,11 +157,11 @@ static if(staticMixer) {
         int Mix_GetNumMusicDecoders();
         const(char)* Mix_GetMusicDecoder(int);
         Mix_MusicType Mix_GetMusicType(const(Mix_Music)*);
-        void Mix_SetPostMix(void function(void*,Uint8*,int),void*);
-        void Mix_HookMusic(void function(void*,Uint8*,int),void*);
-        void Mix_HookMusicFinished(void function());
+        void Mix_SetPostMix(callbackVUi8I,void*);
+        void Mix_HookMusic(callbackVUi8I,void*);
+        void Mix_HookMusicFinished(callbackN);
         void* Mix_GetMusicHookData();
-        void Mix_ChannelFinished(void function(int channel));
+        void Mix_ChannelFinished(callbackI);
         int Mix_RegisterEffect(int,Mix_EffectFunc_t,Mix_EffectDone_t,void*);
         int Mix_UnregisterEffect(int,Mix_EffectFunc_t);
         int Mix_UnregisterAllEffects(int);
@@ -228,11 +234,11 @@ else {
         alias da_Mix_GetNumMusicDecoders = int function();
         alias da_Mix_GetMusicDecoder = const(char)* function(int);
         alias da_Mix_GetMusicType = Mix_MusicType function(const(Mix_Music)*);
-        alias da_Mix_SetPostMix = void function(void function(void*,Uint8*,int),void*);
-        alias da_Mix_HookMusic = void function(void function(void*,Uint8*,int),void*);
-        alias da_Mix_HookMusicFinished = void function(void function());
+        alias da_Mix_SetPostMix = void function(callbackVUi8I,void*);
+        alias da_Mix_HookMusic = void function(callbackVUi8I,void*);
+        alias da_Mix_HookMusicFinished = void function(callbackN);
         alias da_Mix_GetMusicHookData = void* function();
-        alias da_Mix_ChannelFinished = void function(void function(int channel));
+        alias da_Mix_ChannelFinished = void function(callbackI);
         alias da_Mix_RegisterEffect = int function(int,Mix_EffectFunc_t,Mix_EffectDone_t,void*);
         alias da_Mix_UnregisterEffect = int function(int,Mix_EffectFunc_t);
         alias da_Mix_UnregisterAllEffects = int function(int);
