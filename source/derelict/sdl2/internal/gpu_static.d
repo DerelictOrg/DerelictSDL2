@@ -34,7 +34,7 @@ static if(staticGPU) {
     import derelict.sdl2.internal.gpu_types,
            derelict.sdl2.internal.sdl_types;
 
-    extern(System) @nogc nothrow {
+    extern(C) @nogc nothrow {
         SDL_version GPU_GetLinkedVersion();
         uint GPU_GetInitWindow();
         void GPU_SetPreInitFlags(GPU_InitFlagEnum);

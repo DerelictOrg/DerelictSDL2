@@ -78,7 +78,7 @@ struct TTF_Font;
 }
 
 static if(staticTTF) {
-    extern(System) @nogc nothrow {
+    extern(C) @nogc nothrow {
         SDL_version* TTF_Linked_Version();
         void TTF_ByteSwappedUNICODE(int);
         int TTF_Init();

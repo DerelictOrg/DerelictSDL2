@@ -137,7 +137,7 @@ extern(C) nothrow {
 }
 
 static if(staticMixer) {
-    extern(System) @nogc nothrow {
+    extern(C) @nogc nothrow {
         const(SDL_version)* Mix_Linked_Version();
         int Mix_Init(int);
         void Mix_Quit();

@@ -32,7 +32,7 @@ import core.stdc.stdarg,
 import derelict.util.system;
 import derelict.sdl2.internal.sdl_types;
 
-extern(System) @nogc nothrow {
+extern(C) @nogc nothrow {
     int SDL_Init(Uint32);
     int SDL_InitSubSystem(Uint32);
     void SDL_QuitSubSystem(Uint32);

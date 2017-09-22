@@ -58,7 +58,7 @@ enum {
 }
 
 static if(staticImage) {
-    extern(System) @nogc nothrow {
+    extern(C) @nogc nothrow {
         int IMG_Init(int);
         int IMG_Quit();
         const(SDL_version)* IMG_Linked_Version();

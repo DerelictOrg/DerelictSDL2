@@ -97,7 +97,7 @@ alias SDLNet_GenericSocket = _SDLNet_GenericSocket*;
 }
 
 static if(staticNet) {
-    extern(System) @nogc nothrow {
+    extern(C) @nogc nothrow {
         const(SDLNet_Version)* SDLNet_Linked_Version();
         int SDLNet_Init();
         void SDLNet_Quit();
