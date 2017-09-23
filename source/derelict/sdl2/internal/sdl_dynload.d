@@ -150,6 +150,8 @@ protected:
             bindFunc(cast(void**)&SDL_FilterEvents, "SDL_FilterEvents");
             bindFunc(cast(void**)&SDL_EventState, "SDL_EventState");
             bindFunc(cast(void**)&SDL_RegisterEvents, "SDL_RegisterEvents");
+            bindFunc(cast(void**)&SDL_GetBasePath, "SDL_GetBasePath");
+            bindFunc(cast(void**)&SDL_GetPrefPath, "SDL_GetPrefPath");
             bindFunc(cast(void**)&SDL_GameControllerAddMappingsFromRW, "SDL_GameControllerAddMappingsFromRW");
             bindFunc(cast(void**)&SDL_GameControllerAddMapping, "SDL_GameControllerAddMapping");
             bindFunc(cast(void**)&SDL_GameControllerMappingForGUID, "SDL_GameControllerMappingForGUID");
@@ -540,8 +542,6 @@ protected:
             bindFunc(cast(void**)&SDL_GL_SwapWindow, "SDL_GL_SwapWindow");
             bindFunc(cast(void**)&SDL_GL_DeleteContext, "SDL_GL_DeleteContext");
             bindFunc(cast(void**)&SDL_GL_GetDrawableSize, "SDL_GL_GetDrawableSize");
-            bindFunc(cast(void**)&SDL_GetBasePath, "SDL_GetBasePath", false);
-            bindFunc(cast(void**)&SDL_GetPrefPath, "SDL_GetPrefPath", false);
 
             // SDL_init will fail if SDL_SetMainReady has not been called.
             // Since there's no SDL_main on the D side, it needs to be handled
