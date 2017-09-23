@@ -828,10 +828,6 @@ extern(C) nothrow alias SDL_HintCallback = void function(void*, const(char)*, co
 // SDL_joystick.h
 struct SDL_Joystick;
 
-struct JoystickGUID {
-    Uint8[16] data;
-}
-
 struct SDL_JoystickGUID {
     Uint8[16] data;
 }
@@ -2081,6 +2077,7 @@ enum SDL_SYSWM_TYPE {
     SDL_SYSWM_MIR,
     SDL_SYSWM_WINRT,
     SDL_SYSWM_ANDROID,
+    SDL_SYSWM_VIVANTE,
 }
 mixin(MakeEnum!SDL_SYSWM_TYPE);
 
@@ -2153,6 +2150,7 @@ struct SDL_SysWMinfo {
         static if(Derelict_OS_Windows) {
             struct win_ {
                void* window;
+               void* hdc;
             }
             win_ win;
         }
@@ -2332,26 +2330,26 @@ enum SDL_GLattr {
 }
 mixin(MakeEnum!SDL_GLattr);
 
-alias SDL_GLprofile = int;
-enum  {
+enum SDL_GLprofile {
     SDL_GL_CONTEXT_PROFILE_CORE = 0x0001,
     SDL_GL_CONTEXT_PROFILE_COMPATIBILITY = 0x0002,
     SDL_GL_CONTEXT_PROFILE_ES = 0x0004,
 }
+mixin(MakeEnum!SDL_GLprofile);
 
-alias SDL_GLcontextFlag = int;
-enum {
+enum SDL_GLcontextFlag {
     SDL_GL_CONTEXT_DEBUG_FLAG = 0x0001,
     SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG = 0x0002,
     SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG = 0x0004,
     SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008,
 }
+mixin(MakeEnum!SDL_GLcontextFlag);
 
-alias SDL_GLcontextReleaseFlag = int;
-enum {
+enum SDL_GLcontextReleaseFlag {
     SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE = 0x0000,
     SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH = 0x0001,
 }
+mixin(MakeEnum!SDL_GLcontextReleaseFlag);
 
 enum SDL_HitTestResult {
     SDL_HITTEST_NORMAL,

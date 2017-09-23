@@ -651,7 +651,10 @@ __gshared {
     da_SDL_DelEventWatch SDL_DelEventWatch;
     da_SDL_FilterEvents SDL_FilterEvents;
     da_SDL_EventState SDL_EventState;
-    da_SDL_RegisterEvents SDL_RegisterEvents;
+    da_SDL_RegisterEvents SDL_RegisterEvents;    
+
+    da_SDL_GetBasePath SDL_GetBasePath;
+    da_SDL_GetPrefPath SDL_GetPrefPath;
 
     da_SDL_GameControllerAddMappingsFromRW SDL_GameControllerAddMappingsFromRW;
     da_SDL_GameControllerAddMapping SDL_GameControllerAddMapping;
@@ -1065,8 +1068,5 @@ __gshared {
     da_SDL_GL_GetSwapInterval SDL_GL_GetSwapInterval;
     da_SDL_GL_SwapWindow SDL_GL_SwapWindow;
     da_SDL_GL_DeleteContext SDL_GL_DeleteContext;
-
-    da_SDL_GetBasePath SDL_GetBasePath;
-    da_SDL_GetPrefPath SDL_GetPrefPath;
 }
 
