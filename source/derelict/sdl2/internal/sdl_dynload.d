@@ -52,20 +52,14 @@ protected:
       override void configureMinimumVersion(SharedLibVersion minVersion)
       {
             if(minVersion.major == 2 && minVersion.minor == 0) {
-                  if(minVersion.patch == 4) {
-                        missingSymbolCallback = &allowSDL_2_0_4;
-                  }
-                  else if(minVersion.patch == 3) {
-                        missingSymbolCallback = &allowSDL_2_0_3;
-                  }
-                  else if(minVersion.patch == 2) {
-                        missingSymbolCallback = &allowSDL_2_0_2;
-                  }
-                  else if(minVersion.patch == 1) {
-                        missingSymbolCallback = &allowSDL_2_0_1;
-                  }
-                  else if(minVersion.patch == 0) {
-                        missingSymbolCallback = &allowSDL_2_0_0;
+                  switch(minVersion.patch) {
+                        case 5: missingSymbolCallback = &allowSDL_2_0_5; break;
+                        case 4: missingSymbolCallback = &allowSDL_2_0_4; break;
+                        case 3: missingSymbolCallback = &allowSDL_2_0_3; break;
+                        case 2: missingSymbolCallback = &allowSDL_2_0_2; break;
+                        case 1: missingSymbolCallback = &allowSDL_2_0_1; break;
+                        case 0: missingSymbolCallback = &allowSDL_2_0_0; break;
+                        default: break;
                   }
             }
       }
@@ -113,6 +107,7 @@ protected:
             bindFunc(cast(void**)&SDL_CloseAudio, "SDL_CloseAudio");
             bindFunc(cast(void**)&SDL_CloseAudioDevice, "SDL_CloseAudioDevice");
             //bindFunc(cast(void**)&SDL_AudioDeviceConnected, "SDL_AudioDeviceConnected");
+            bindFunc(cast(void**)&SDL_ComposeCustomBlendMode, "SDL_ComposeCustomBlendMode");
             bindFunc(cast(void**)&SDL_SetClipboardText, "SDL_SetClipboardText");
             bindFunc(cast(void**)&SDL_GetClipboardText, "SDL_GetClipboardText");
             bindFunc(cast(void**)&SDL_HasClipboardText, "SDL_HasClipboardText");
@@ -129,6 +124,7 @@ protected:
             bindFunc(cast(void**)&SDL_HasSSE42, "SDL_HasSSE42");
             bindFunc(cast(void**)&SDL_HasAVX, "SDL_HasAVX");
             bindFunc(cast(void**)&SDL_HasAVX2, "SDL_HasAVX2");
+            bindFunc(cast(void**)&SDL_HasNEON, "SDL_HasNEON");
             bindFunc(cast(void**)&SDL_GetSystemRAM, "SDL_GetSystemRAM");
             bindFunc(cast(void**)&SDL_SetError, "SDL_SetError");
             bindFunc(cast(void**)&SDL_GetError, "SDL_GetError");
@@ -150,8 +146,12 @@ protected:
             bindFunc(cast(void**)&SDL_FilterEvents, "SDL_FilterEvents");
             bindFunc(cast(void**)&SDL_EventState, "SDL_EventState");
             bindFunc(cast(void**)&SDL_RegisterEvents, "SDL_RegisterEvents");
+            bindFunc(cast(void**)&SDL_GetBasePath, "SDL_GetBasePath");
+            bindFunc(cast(void**)&SDL_GetPrefPath, "SDL_GetPrefPath");
             bindFunc(cast(void**)&SDL_GameControllerAddMappingsFromRW, "SDL_GameControllerAddMappingsFromRW");
             bindFunc(cast(void**)&SDL_GameControllerAddMapping, "SDL_GameControllerAddMapping");
+            bindFunc(cast(void**)&SDL_GameControllerNumMappings, "SDL_GameControllerNumMappings");
+            bindFunc(cast(void**)&SDL_GameControllerMappingForIndex, "SDL_GameControllerMappingForIndex");
             bindFunc(cast(void**)&SDL_GameControllerMappingForGUID, "SDL_GameControllerMappingForGUID");
             bindFunc(cast(void**)&SDL_GameControllerMapping, "SDL_GameControllerMapping");
             bindFunc(cast(void**)&SDL_IsGameController, "SDL_IsGameController");
@@ -159,6 +159,9 @@ protected:
             bindFunc(cast(void**)&SDL_GameControllerOpen, "SDL_GameControllerOpen");
             bindFunc(cast(void**)&SDL_GameControllerFromInstanceID, "SDL_GameControllerFromInstanceID");
             bindFunc(cast(void**)&SDL_GameControllerName, "SDL_GameControllerName");
+            bindFunc(cast(void**)&SDL_GameControllerGetVendor, "SDL_GameControllerGetVendor");
+            bindFunc(cast(void**)&SDL_GameControllerGetProduct, "SDL_GameControllerGetProduct");
+            bindFunc(cast(void**)&SDL_GameControllerGetProductVersion, "SDL_GameControllerGetProductVersion");
             bindFunc(cast(void**)&SDL_GameControllerGetAttached, "SDL_GameControllerGetAttached");
             bindFunc(cast(void**)&SDL_GameControllerGetJoystick, "SDL_GameControllerGetJoystick");
             bindFunc(cast(void**)&SDL_GameControllerEventState, "SDL_GameControllerEventState");
@@ -215,11 +218,20 @@ protected:
             bindFunc(cast(void**)&SDL_ClearHints, "SDL_ClearHints");
             bindFunc(cast(void**)&SDL_NumJoysticks, "SDL_NumJoysticks");
             bindFunc(cast(void**)&SDL_JoystickNameForIndex, "SDL_JoystickNameForIndex");
+            bindFunc(cast(void**)&SDL_JoystickGetDeviceGUID, "SDL_JoystickGetDeviceGUID");
+            bindFunc(cast(void**)&SDL_JoystickGetDeviceVendor, "SDL_JoystickGetDeviceVendor");
+            bindFunc(cast(void**)&SDL_JoystickGetDeviceProduct, "SDL_JoystickGetDeviceProduct");
+            bindFunc(cast(void**)&SDL_JoystickGetDeviceProductVersion, "SDL_JoystickGetDeviceProductVersion");
+            bindFunc(cast(void**)&SDL_JoystickGetDeviceType, "SDL_JoystickGetDeviceType");
+            bindFunc(cast(void**)&SDL_JoystickGetDeviceInstanceID, "SDL_JoystickGetDeviceInstanceID");
             bindFunc(cast(void**)&SDL_JoystickOpen, "SDL_JoystickOpen");
             bindFunc(cast(void**)&SDL_JoystickName, "SDL_JoystickName");
             bindFunc(cast(void**)&SDL_JoystickFromInstanceID, "SDL_JoystickFromInstanceID");
-            bindFunc(cast(void**)&SDL_JoystickGetDeviceGUID, "SDL_JoystickGetDeviceGUID");
             bindFunc(cast(void**)&SDL_JoystickGetGUID, "SDL_JoystickGetGUID");
+            bindFunc(cast(void**)&SDL_JoystickGetVendor, "SDL_JoystickGetVendor");
+            bindFunc(cast(void**)&SDL_JoystickGetProduct, "SDL_JoystickGetProduct");
+            bindFunc(cast(void**)&SDL_JoystickGetProductVersion, "SDL_JoystickGetProductVersion");
+            bindFunc(cast(void**)&SDL_JoystickGetType, "SDL_JoystickGetType");
             bindFunc(cast(void**)&SDL_JoystickGetGUIDString, "SDL_JoystickGetGUIDString");
             bindFunc(cast(void**)&SDL_JoystickGetGUIDFromString, "SDL_JoystickGetGUIDFromString");
             bindFunc(cast(void**)&SDL_JoystickGetAttached, "SDL_JoystickGetAttached");
@@ -372,6 +384,7 @@ protected:
             bindFunc(cast(void**)&SDL_RWFromConstMem, "SDL_RWFromConstMem");
             bindFunc(cast(void**)&SDL_AllocRW, "SDL_AllocRW");
             bindFunc(cast(void**)&SDL_FreeRW, "SDL_FreeRW");
+            bindFunc(cast(void**)&SDL_LoadFile_RW, "SDL_LoadFile_RW");
             bindFunc(cast(void**)&SDL_ReadU8, "SDL_ReadU8");
             bindFunc(cast(void**)&SDL_ReadLE16, "SDL_ReadLE16");
             bindFunc(cast(void**)&SDL_ReadBE16, "SDL_ReadBE16");
@@ -411,6 +424,7 @@ protected:
             bindFunc(cast(void**)&SDL_GetSurfaceBlendMode, "SDL_GetSurfaceBlendMode");
             bindFunc(cast(void**)&SDL_SetClipRect, "SDL_SetClipRect");
             bindFunc(cast(void**)&SDL_GetClipRect, "SDL_GetClipRect");
+            bindFunc(cast(void**)&SDL_DuplicateSurface, "SDL_DuplicateSurface");
             bindFunc(cast(void**)&SDL_ConvertSurface, "SDL_ConvertSurface");
             bindFunc(cast(void**)&SDL_ConvertSurfaceFormat, "SDL_ConvertSurfaceFormat");
             bindFunc(cast(void**)&SDL_ConvertPixels, "SDL_ConvertPixels");
@@ -539,9 +553,13 @@ protected:
             bindFunc(cast(void**)&SDL_GL_GetSwapInterval, "SDL_GL_GetSwapInterval");
             bindFunc(cast(void**)&SDL_GL_SwapWindow, "SDL_GL_SwapWindow");
             bindFunc(cast(void**)&SDL_GL_DeleteContext, "SDL_GL_DeleteContext");
-            bindFunc(cast(void**)&SDL_GL_GetDrawableSize, "SDL_GL_GetDrawableSize");
-            bindFunc(cast(void**)&SDL_GetBasePath, "SDL_GetBasePath", false);
-            bindFunc(cast(void**)&SDL_GetPrefPath, "SDL_GetPrefPath", false);
+            bindFunc(cast(void**)&SDL_GL_GetDrawableSize, "SDL_GL_GetDrawableSize");            
+            bindFunc(cast(void**)&SDL_Vulkan_LoadLibrary, "SDL_Vulkan_LoadLibrary");
+            bindFunc(cast(void**)&SDL_Vulkan_GetVkGetInstanceProcAddr, "SDL_Vulkan_GetVkGetInstanceProcAddr");
+            bindFunc(cast(void**)&SDL_Vulkan_UnloadLibrary, "SDL_Vulkan_UnloadLibrary");
+            bindFunc(cast(void**)&SDL_Vulkan_GetInstanceExtensions, "SDL_Vulkan_GetInstanceExtensions");
+            bindFunc(cast(void**)&SDL_Vulkan_CreateSurface, "SDL_Vulkan_CreateSurface");
+            bindFunc(cast(void**)&SDL_Vulkan_GetDrawableSize, "SDL_Vulkan_GetDrawableSize");
 
             // SDL_init will fail if SDL_SetMainReady has not been called.
             // Since there's no SDL_main on the D side, it needs to be handled
@@ -661,6 +679,39 @@ private:
                   case "SDL_GetWindowOpacity": break;
                   case "SDL_SetWindowModalFor": break;
                   case "SDL_SetWindowInputFocus": break;
+                  default: return ShouldThrow.Yes;
+            }
+            return ShouldThrow.No;
+      }
+
+      ShouldThrow allowSDL_2_0_5(string symbolName)
+      {
+            switch(symbolName) {
+                  // Functions added in 2.0.6
+                  case "SDL_ComposeCustomBlendMode": break;
+                  case "SDL_HasNEON": break;
+                  case "SDL_GameControllerNumMappings": break;
+                  case "SDL_GameControllerMappingForIndex": break;
+                  case "SDL_GameControllerGetVendor": break;
+                  case "SDL_GameControllerGetProduct": break;
+                  case "SDL_GameControllerGetProductVersion": break;
+                  case "SDL_JoystickGetDeviceVendor": break;
+                  case "SDL_JoystickGetDeviceProduct": break;
+                  case "SDL_JoystickGetDeviceProductVersion": break;
+                  case "SDL_JoystickGetDeviceType": break;
+                  case "SDL_JoystickGetDeviceInstanceID": break;
+                  case "SDL_JoystickGetVendor": break;
+                  case "SDL_JoystickGetProduct": break;
+                  case "SDL_JoystickGetProductVersion": break;
+                  case "SDL_JoystickGetType": break;
+                  case "SDL_LoadFile_RW": break;
+                  case "SDL_DuplicateSurface": break;
+                  case "SDL_Vulkan_LoadLibrary": break;
+                  case "SDL_Vulkan_GetVkGetInstanceProcAddr": break;
+                  case "SDL_Vulkan_UnloadLibrary": break;
+                  case "SDL_Vulkan_GetInstanceExtensions": break;
+                  case "SDL_Vulkan_CreateSurface": break;
+                  case "SDL_Vulkan_GetDrawableSize": break;
                   default: return ShouldThrow.Yes;
             }
             return ShouldThrow.No;

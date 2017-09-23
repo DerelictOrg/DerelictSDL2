@@ -32,9 +32,9 @@ import derelict.sdl2.config;
 public:
 import derelict.sdl2.internal.sdl_types;
 static if(staticSDL)
-      import derelict.sdl2.internal.sdl_static;
+    import derelict.sdl2.internal.sdl_static;
 else
-      import derelict.sdl2.internal.sdl_dynload;
+    import derelict.sdl2.internal.sdl_dynload;
 
 
 alias SDL_BlitSurface = SDL_UpperBlit;
@@ -60,6 +60,11 @@ alias SDL_BlitScaled = SDL_UpperBlitScaled;
     bool SDL_QuitRequested() {
         SDL_PumpEvents();
         return SDL_PeepEvents(null,0,SDL_PEEKEVENT,SDL_QUIT,SDL_QUIT) > 0;
+    }
+
+    // SDL_rwops.h
+    void* SDL_LoadFile(const(char)* file, size_t dataSize) {
+        return SDL_LoadFile_RW(SDL_RWFromFile(file, "rb"),dataSize,1);
     }
 
     // SDL_surface.h
