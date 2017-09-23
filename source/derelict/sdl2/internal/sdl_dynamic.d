@@ -206,10 +206,10 @@ extern(C) @nogc nothrow {
     alias da_SDL_JoystickOpen = SDL_Joystick* function(int);
     alias da_SDL_JoystickFromInstanceID = SDL_Joystick* function(SDL_JoystickID);
     alias da_SDL_JoystickName = const(char)* function(SDL_Joystick*);
-    alias da_SDL_JoystickGetDeviceGUID = JoystickGUID function(int);
-    alias da_SDL_JoystickGetGUID = JoystickGUID function(SDL_Joystick*);
-    alias da_SDL_JoystickGetGUIDString = char* function(JoystickGUID);
-    alias da_SDL_JoystickGetGUIDFromString = JoystickGUID function(const(char)*);
+    alias da_SDL_JoystickGetDeviceGUID = SDL_JoystickGUID function(int);
+    alias da_SDL_JoystickGetGUID = SDL_JoystickGUID function(SDL_Joystick*);
+    alias da_SDL_JoystickGetGUIDString = char* function(SDL_JoystickGUID);
+    alias da_SDL_JoystickGetGUIDFromString = SDL_JoystickGUID function(const(char)*);
     alias da_SDL_JoystickGetAttached = SDL_bool function(SDL_Joystick*);
     alias da_SDL_JoystickInstanceID = SDL_JoystickID function(SDL_Joystick*);
     alias da_SDL_JoystickNumAxes = int function(SDL_Joystick*);
