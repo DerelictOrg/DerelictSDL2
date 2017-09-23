@@ -181,10 +181,10 @@ extern(C) @nogc nothrow {
     SDL_Joystick* SDL_JoystickOpen(int);
     SDL_Joystick* SDL_JoystickFromInstanceID(SDL_JoystickID);
     const(char)* SDL_JoystickName(SDL_Joystick*);
-    JoystickGUID SDL_JoystickGetDeviceGUID(int);
-    JoystickGUID SDL_JoystickGetGUID(SDL_Joystick*);
-    char* SDL_JoystickGetGUIDString(JoystickGUID);
-    JoystickGUID SDL_JoystickGetGUIDFromString(const(char)*);
+    SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int);
+    SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick*);
+    char* SDL_JoystickGetGUIDString(SDL_JoystickGUID);
+    SDL_JoystickGUID SDL_JoystickGetGUIDFromString(const(char)*);
     SDL_bool SDL_JoystickGetAttached(SDL_Joystick*);
     SDL_JoystickID SDL_JoystickInstanceID(SDL_Joystick*);
     int SDL_JoystickNumAxes(SDL_Joystick*);
