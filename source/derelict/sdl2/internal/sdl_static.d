@@ -212,7 +212,7 @@ extern(C) @nogc nothrow {
     // SDL_joystick.h
     int SDL_NumJoysticks();
     const(char)* SDL_JoystickNameForIndex(int);
-    JoystickGUID SDL_JoystickGetDeviceGUID(int);
+    SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int);
     Uint16 SDL_JoystickGetDeviceVendor(int);
     Uint16 SDL_JoystickGetDeviceProduct(int);
     Uint16 SDL_JoystickGetDeviceProductVersion(int);
@@ -221,13 +221,13 @@ extern(C) @nogc nothrow {
     SDL_Joystick* SDL_JoystickOpen(int);
     SDL_Joystick* SDL_JoystickFromInstanceID(SDL_JoystickID);
     const(char)* SDL_JoystickName(SDL_Joystick*);
-    JoystickGUID SDL_JoystickGetGUID(SDL_Joystick*);
+    SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick*);
     Uint16 SDL_JoystickGetVendor(SDL_Joystick*);
     Uint16 SDL_JoystickGetProduct(SDL_Joystick*);
     Uint16 SDL_JoystickGetProductVersion(SDL_Joystick*);
     SDL_JoystickType SDL_JoystickGetType(SDL_Joystick*);
-    char* SDL_JoystickGetGUIDString(JoystickGUID);
-    JoystickGUID SDL_JoystickGetGUIDFromString(const(char)*);
+    char* SDL_JoystickGetGUIDString(SDL_JoystickGUID);
+    SDL_JoystickGUID SDL_JoystickGetGUIDFromString(const(char)*);
     SDL_bool SDL_JoystickGetAttached(SDL_Joystick*);
     SDL_JoystickID SDL_JoystickInstanceID(SDL_Joystick*);
     int SDL_JoystickNumAxes(SDL_Joystick*);
