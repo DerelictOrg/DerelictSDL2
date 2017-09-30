@@ -145,9 +145,9 @@ extern(C) @nogc nothrow {
     SDL_GameController* SDL_GameControllerOpen(int);
     SDL_GameController* SDL_GameControllerFromInstanceID(SDL_JoystickID);
     const(char)* SDL_GameControllerName(SDL_GameController*);
-    Uint16 GameControllerGetVendor(SDL_GameController*)
-    Uint16 SDL_GameControllerGetProduct(SDL_GameController*)
-    Uint16 SDL_GameControllerGetProductVersion(SDL_GameController*)
+    Uint16 GameControllerGetVendor(SDL_GameController*);
+    Uint16 SDL_GameControllerGetProduct(SDL_GameController*);
+    Uint16 SDL_GameControllerGetProductVersion(SDL_GameController*);
     SDL_bool SDL_GameControllerGetAttached(SDL_GameController*);
     SDL_Joystick* SDL_GameControllerGetJoystick(SDL_GameController*);
     int SDL_GameControllerEventState(int);
