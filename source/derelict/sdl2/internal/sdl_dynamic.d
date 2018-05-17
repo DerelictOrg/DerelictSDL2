@@ -590,7 +590,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_Vulkan_LoadLibrary = int function(const(char)*);
     alias da_SDL_Vulkan_GetVkGetInstanceProcAddr = void* function();
     alias da_SDL_Vulkan_UnloadLibrary = void function();
-    alias da_SDL_Vulkan_GetInstanceExtensions = SDL_bool function(SDL_Window*,uint,const(char)**);
+    alias da_SDL_Vulkan_GetInstanceExtensions = SDL_bool function(SDL_Window*,uint*,const(char)**);
     alias da_SDL_Vulkan_CreateSurface = SDL_bool function(SDL_Window*,void*,void*);
     alias da_SDL_Vulkan_GetDrawableSize = void function(SDL_Window*,int*,int*);
 }

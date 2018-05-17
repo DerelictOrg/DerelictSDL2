@@ -589,7 +589,7 @@ extern(C) @nogc nothrow {
     int SDL_Vulkan_LoadLibrary(const(char)*);
     void* SDL_Vulkan_GetVkGetInstanceProcAddr();
     void SDL_Vulkan_UnloadLibrary();
-    SDL_bool SDL_Vulkan_GetInstanceExtensions(SDL_Window*,uint,const(char)**);
+    SDL_bool SDL_Vulkan_GetInstanceExtensions(SDL_Window*,uint*,const(char)**);
     SDL_bool SDL_Vulkan_CreateSurface(SDL_Window*,void*,void*);
     void SDL_Vulkan_GetDrawableSize(SDL_Window*,int*,int*);
 }
