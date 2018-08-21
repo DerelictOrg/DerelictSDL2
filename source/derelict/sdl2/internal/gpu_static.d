@@ -169,7 +169,7 @@ static if(staticGPU) {
         void GPU_MatrixTranslate(float*,float,float,float);
         void GPU_MatrixScale(float*,float,float,float);
         void GPU_MatrixRotate(float*,float,float,float,float);
-        void GPU_Multiply4x4(float*,float*,float*);
+        void GPU_MatrixMultiply(float*,const(float)*,const(float)*);
         void GPU_MultiplyAndAssign(float*,float*);
         const(char)* GPU_GetMatrixString(float*);
         float* GPU_GetCurrentMatrix();

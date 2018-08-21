@@ -175,7 +175,7 @@ static if(!staticGPU) {
             bindFunc(cast(void**)&GPU_MatrixTranslate, "GPU_MatrixTranslate");
             bindFunc(cast(void**)&GPU_MatrixScale, "GPU_MatrixScale");
             bindFunc(cast(void**)&GPU_MatrixRotate, "GPU_MatrixRotate");
-            bindFunc(cast(void**)&GPU_Multiply4x4, "GPU_Multiply4x4");
+            bindFunc(cast(void**)&GPU_MatrixMultiply, "GPU_MatrixMultiply");
             bindFunc(cast(void**)&GPU_MultiplyAndAssign, "GPU_MultiplyAndAssign");
             bindFunc(cast(void**)&GPU_GetMatrixString, "GPU_GetMatrixString");
             bindFunc(cast(void**)&GPU_GetCurrentMatrix, "GPU_GetCurrentMatrix");
