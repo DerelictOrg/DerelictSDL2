@@ -171,7 +171,7 @@ static if(!staticGPU) {
         alias da_GPU_MatrixTranslate = void function(float*,float,float,float);
         alias da_GPU_MatrixScale = void function(float*,float,float,float);
         alias da_GPU_MatrixRotate = void function(float*,float,float,float,float);
-        alias da_GPU_Multiply4x4 = void function(float*,float*,float*);
+        alias da_GPU_MatrixMultiply = void function(float*,const(float)*,const(float)*);
         alias da_GPU_MultiplyAndAssign = void function(float*,float*);
         alias da_GPU_GetMatrixString = const(char)* function(float*);
         alias da_GPU_GetCurrentMatrix = float* function();
@@ -405,7 +405,7 @@ static if(!staticGPU) {
         da_GPU_MatrixTranslate GPU_MatrixTranslate;
         da_GPU_MatrixScale GPU_MatrixScale;
         da_GPU_MatrixRotate GPU_MatrixRotate;
-        da_GPU_Multiply4x4 GPU_Multiply4x4;
+        da_GPU_MatrixMultiply GPU_MatrixMultiply;
         da_GPU_MultiplyAndAssign GPU_MultiplyAndAssign;
         da_GPU_GetMatrixString GPU_GetMatrixString;
         da_GPU_GetCurrentMatrix GPU_GetCurrentMatrix;
