@@ -66,6 +66,13 @@ extern(C) @nogc nothrow {
     alias da_SDL_FreeWAV = void function(Uint8*);
     alias da_SDL_BuildAudioCVT = int function(SDL_AudioCVT*,SDL_AudioFormat,Uint8,int,SDL_AudioFormat,Uint8,int);
     alias da_SDL_ConvertAudio = int function(SDL_AudioCVT*);
+    alias da_SDL_NewAudioStream = SDL_AudioStream* function(const(SDL_AudioFormat),const(Uint8),const(int),const(SDL_AudioFormat),const(Uint8),const(int));
+    alias da_SDL_AudioStreamPut = int function(SDL_AudioStream*,const(void*),int);
+    alias da_SDL_AudioStreamGet = int function(SDL_AudioStream*,void*,int);
+    alias da_SDL_AudioStreamAvailable = int function(SDL_AudioStream*);
+    alias da_SDL_AudioStreamFlush = int function(SDL_AudioStream*);
+    alias da_SDL_AudioStreamClear = void function(SDL_AudioStream*);
+    alias da_SDL_FreeAudioStream = void function(SDL_AudioStream*);
     alias da_SDL_MixAudio = void function(Uint8*,const(Uint8)*,Uint32,int);
     alias da_SDL_MixAudioFormat = void function(Uint8*,const(Uint8)*,SDL_AudioFormat,Uint32,int);
     alias da_SDL_QueueAudio = int function(SDL_AudioDeviceID,const (void)*,Uint32);
@@ -84,6 +91,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_SetClipboardText = int function(const(char)*);
     alias da_SDL_GetClipboardText = char* function();
     alias da_SDL_HasClipboardText = SDL_bool function();
+    alias da_SDL_ComposeCustomBlendMode = SDL_BlendMode function(SDL_BlendFactor,SDL_BlendFactor,SDL_BlendOperation,SDL_BlendFactor,SDL_BlendFactor,SDL_BlendOperation);
 
     // SDL_cpuinfo.h
     alias da_SDL_GetCPUCount = int function();
@@ -99,6 +107,8 @@ extern(C) @nogc nothrow {
     alias da_SDL_HasSSE42 = SDL_bool function();
     alias da_SDL_HasAVX = SDL_bool function();
     alias da_SDL_HasAVX2 = SDL_bool function();
+    alias da_SDL_HasAVX512F = SDL_bool function();
+    alias da_SDL_HasNEON = SDL_bool function();
     alias da_SDL_GetSystemRAM = int function();
 
     // SDL_error.h
@@ -132,13 +142,20 @@ extern(C) @nogc nothrow {
     // SDL_gamecontroller.h
     alias da_SDL_GameControllerAddMappingsFromRW = int function(SDL_RWops*,int);
     alias da_SDL_GameControllerAddMapping = int function(const(char)*);
+    alias da_SDL_GameControllerNumMappings = int function();
+    alias da_SDL_GameControllerMappingForIndex = char* function(int);
     alias da_SDL_GameControllerMappingForGUID = char* function(SDL_JoystickGUID);
     alias da_SDL_GameControllerMapping = char* function(SDL_GameController*);
     alias da_SDL_IsGameController = SDL_bool function(int);
     alias da_SDL_GameControllerNameForIndex = const(char)* function(int);
+    alias da_SDL_GameControllerMappingForDeviceIndex = char* function(int);
     alias da_SDL_GameControllerOpen = SDL_GameController* function(int);
     alias da_SDL_GameControllerFromInstanceID = SDL_GameController* function(SDL_JoystickID);
     alias da_SDL_GameControllerName = const(char)* function(SDL_GameController*);
+    alias da_SDL_GameControllerGetPlayerIndex = int function(SDL_GameController*);
+    alias da_SDL_GameControllerGetVendor = Uint16 function(SDL_GameController*);
+    alias da_SDL_GameControllerGetProduct = Uint16 function(SDL_GameController*);
+    alias da_SDL_GameControllerGetProductVersion = Uint16 function(SDL_GameController*);
     alias da_SDL_GameControllerGetAttached = SDL_bool function(SDL_GameController*);
     alias da_SDL_GameControllerGetJoystick = SDL_Joystick* function(SDL_GameController*);
     alias da_SDL_GameControllerEventState = int function(int);
@@ -151,6 +168,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_GameControllerGetStringForButton = const(char)* function(SDL_GameControllerButton);
     alias da_SDL_GameControllerGetBindForButton = SDL_GameControllerButtonBind function(SDL_GameController*,SDL_GameControllerButton);
     alias da_SDL_GameControllerGetButton = Uint8 function(SDL_GameController*,SDL_GameControllerButton);
+    alias da_SDL_GameControllerRumble = int function(SDL_GameController*,Uint16,Uint16,Uint32);
     alias da_SDL_GameControllerClose = void function(SDL_GameController*);
 
     // SDL_gesture.h
@@ -201,13 +219,26 @@ extern(C) @nogc nothrow {
     alias da_SDL_ClearHints = void function();
 
     // SDL_joystick.h
+    alias da_SDL_LockJoysticks = void function();
+    alias da_SDL_UnlockJoysticks = void function();
     alias da_SDL_NumJoysticks = int function();
     alias da_SDL_JoystickNameForIndex = const(char)* function(int);
+    alias da_SDL_JoystickGetDevicePlayerIndex = int function(int);
+    alias da_SDL_JoystickGetDeviceGUID = SDL_JoystickGUID function(int);
+    alias da_SDL_JoystickGetDeviceVendor = Uint16 function(int);
+    alias da_SDL_JoystickGetDeviceProduct = Uint16 function(int);
+    alias da_SDL_JoystickGetDeviceProductVersion = Uint16 function(int);
+    alias da_SDL_JoystickGetDeviceType = SDL_JoystickType function(int);
+    alias da_SDL_JoystickGetDeviceInstanceID = SDL_JoystickID function(int);
     alias da_SDL_JoystickOpen = SDL_Joystick* function(int);
     alias da_SDL_JoystickFromInstanceID = SDL_Joystick* function(SDL_JoystickID);
     alias da_SDL_JoystickName = const(char)* function(SDL_Joystick*);
-    alias da_SDL_JoystickGetDeviceGUID = SDL_JoystickGUID function(int);
+    alias da_SDL_JoystickGetPlayerIndex int function(SDL_Joystick*);
     alias da_SDL_JoystickGetGUID = SDL_JoystickGUID function(SDL_Joystick*);
+    alias da_SDL_JoystickGetVendor = Uint16 function(SDL_Joystick*);
+    alias da_SDL_JoystickGetProduct = Uint16 function(SDL_Joystick*);
+    alias da_SDL_JoystickGetProductVersion = Uint16 function(SDL_Joystick*);
+    alias da_SDL_JoystickGetType = SDL_JoystickType function(SDL_Joystick*);
     alias da_SDL_JoystickGetGUIDString = char* function(SDL_JoystickGUID);
     alias da_SDL_JoystickGetGUIDFromString = SDL_JoystickGUID function(const(char)*);
     alias da_SDL_JoystickGetAttached = SDL_bool function(SDL_Joystick*);
@@ -219,9 +250,11 @@ extern(C) @nogc nothrow {
     alias da_SDL_JoystickUpdate = void function();
     alias da_SDL_JoystickEventState = int function(int);
     alias da_SDL_JoystickGetAxis = Sint16 function(SDL_Joystick*,int);
+    alias da_SDL_JoystickGetAxisInitialState SDL_bool function(SDL_Joystick*,int,Sint16*);
     alias da_SDL_JoystickGetHat = Uint8 function(SDL_Joystick*,int);
     alias da_SDL_JoystickGetBall = int function(SDL_Joystick*,int,int*,int*);
     alias da_SDL_JoystickGetButton = Uint8 function(SDL_Joystick*,int);
+    alias da_SDL_JoystickRumble = int function(SDL_Joystick*,Uint16,Uint16,Uint32);
     alias da_SDL_JoystickClose = void function(SDL_Joystick*);
     alias da_SDL_JoystickCurrentPowerLevel = SDL_JoystickPowerLevel function(SDL_Joystick*);
 
@@ -344,6 +377,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_GetRenderTarget = SDL_Texture* function(SDL_Renderer*);
     alias da_SDL_RenderSetClipRect = int function(SDL_Renderer*,const(SDL_Rect)*);
     alias da_SDL_RenderGetClipRect = void function(SDL_Renderer* renderer,SDL_Rect*);
+    alias da_SDL_DuplicateSurface = SDL_Surface* function(SDL_Surface*);
     alias da_SDL_RenderSetLogicalSize = int function(SDL_Renderer*,int,int);
     alias da_SDL_RenderGetLogicalSize = void function(SDL_Renderer*,int*,int*);
     alias da_SDL_RenderSetIntegerScale = int function(SDL_Renderer*,SDL_bool);
@@ -374,6 +408,8 @@ extern(C) @nogc nothrow {
     alias da_SDL_DestroyRenderer = void function(SDL_Renderer*);
     alias da_SDL_GL_BindTexture = int function(SDL_Texture*,float*,float*);
     alias da_SDL_GL_UnbindTexture = int function(SDL_Texture*);
+    alias da_SDL_RenderGetMetalLayer = void* function(SDL_Renderer*);
+    alias da_SDL_RenderGetMetalCommandEncoder = void* function(SDL_Renderer*);
 
     // SDL_rwops.h
     alias da_SDL_RWFromFile = SDL_RWops* function(const(char)*,const(char)*);
@@ -382,6 +418,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_RWFromConstMem = SDL_RWops* function(const(void)*,int);
     alias da_SDL_AllocRW = SDL_RWops* function();
     alias da_SDL_FreeRW = void function(SDL_RWops*);
+    alias da_SDL_LoadFile_RW = void* function(SDL_RWops*,size_t,int);
     alias da_SDL_ReadU8 = Uint8 function(SDL_RWops*);
     alias da_SDL_ReadLE16 = Uint16 function(SDL_RWops*);
     alias da_SDL_ReadBE16 = Uint16 function(SDL_RWops*);
@@ -396,6 +433,22 @@ extern(C) @nogc nothrow {
     alias da_SDL_WriteBE32 = size_t function(SDL_RWops*,Uint32);
     alias da_SDL_WriteLE64 = size_t function(SDL_RWops*,Uint64);
     alias da_SDL_WriteBE64 = size_t function(SDL_RWops*,Uint64);
+
+    // SDL_sensors.h
+    alias da_SDL_NumSensors = int function();
+    alias da_SDL_SensorGetDeviceName = const(char)* function(int);
+    alias da_SDL_SensorGetDeviceType = SDL_SensorType function(int);
+    alias da_SDL_SensorGetDeviceNonPortableType = int function(int);
+    alias da_SDL_SensorGetDeviceInstanceID = SDL_SensorID function(int);
+    alias da_SDL_SensorOpen = SDL_Sensor* function(int);
+    alias da_SDL_SensorFromInstanceID = SDL_Sensor* function(SDL_SensorID);
+    alias da_SDL_SensorGetName = const(char)* function(SDL_Sensor*);
+    alias da_SDL_SensorGetType = SDL_SensorType function(SDL_Sensor*);
+    alias da_SDL_SensorGetNonPortableType = int function(SDL_Sensor*);
+    alias da_SDL_SensorGetInstanceID = SDL_SensorID function(SDL_Sensor*);
+    alias da_SDL_SensorGetData = int function(SDL_Sensor*,float*,int);
+    alias da_SDL_SensorClose = void function(SDL_Sensor*);
+    alias da_SDL_SensorUpdate = void function(void);
 
     // SDL_shape.h
     alias da_SDL_CreateShapedWindow = SDL_Window* function(const(char)*,uint,uint,uint,uint,Uint32);
@@ -416,6 +469,7 @@ extern(C) @nogc nothrow {
     alias da_SDL_SaveBMP_RW = int function(SDL_Surface*,SDL_RWops*,int);
     alias da_SDL_SetSurfaceRLE = int function(SDL_Surface*,int);
     alias da_SDL_SetColorKey = int function(SDL_Surface*,int,Uint32);
+    alias da_SDL_HasColorKey = SDL_bool function(SDL_Surface*);
     alias da_SDL_GetColorKey = int function(SDL_Surface*,Uint32*);
     alias da_SDL_SetSurfaceColorMod = int function(SDL_Surface*,Uint8,Uint8,Uint8);
     alias da_SDL_GetSurfaceColorMod = int function(SDL_Surface*,Uint8*,Uint8*,Uint8*);
@@ -435,6 +489,9 @@ extern(C) @nogc nothrow {
     alias da_SDL_SoftStretch = int function(SDL_Surface*,const(SDL_Rect)*,SDL_Surface*,const(SDL_Rect)*);
     alias da_SDL_UpperBlitScaled = int function(SDL_Surface*,const(SDL_Rect)*,SDL_Surface*,SDL_Rect*);
     alias da_SDL_LowerBlitScaled = int function(SDL_Surface*,SDL_Rect*,SDL_Surface*,SDL_Rect*);
+    alias da_SDL_SetYUVConversionMode = void function(SDL_YUV_CONVERSION_MODE);
+    alias da_SDL_GetYUVConversionMode = SDL_YUV_CONVERSION_MODE function();
+    alias da_SDL_GetYUVConversionModeForResolution = SDL_YUV_CONVERSION_MODE function(int,int);
 
     // SDL_system.h
     static if(Derelict_OS_Windows) {
@@ -449,7 +506,10 @@ extern(C) @nogc nothrow {
     static if(Derelict_OS_Android) {
         alias da_SDL_AndroidGetJNIEnv = void* function();
         alias da_SDL_AndroidGetActivity = void* function();
-
+        alias da_SDL_IsAndroidTV = SDL_bool function();
+        alias da_SDL_IsChromebook = SDL_bool function();
+        alias da_SDL_IsDeXMode = SDL_bool function();
+        alias da_SDL_AndroidBackButton = void function();
         alias da_SDL_AndroidGetInternalStoragePath = const(char)* function();
         alias da_SDL_AndroidGetInternalStorageState = int function();
         alias da_SDL_AndroidGetExternalStoragePath = const(char)* function();
@@ -458,7 +518,9 @@ extern(C) @nogc nothrow {
         alias da_SDL_WinRTGetFSPathUNICODE = const(wchar_t)* function(SDL_WinRT_Path);
         alias da_SDL_WinRTGetFSPathUTF8 = const(char)* function(SDL_WinRT_Path);
         alias da_SDL_WinRTRunApp = int function(int function(int,char**),void*);
+        alias da_SDL_WinRTGetDeviceFamily = SDL_WinRT_DeviceFamily function();
     }
+    alias da_SDL_IsTablet = SDL_bool function();
 
     // SDL_syswm.h
     alias da_SDL_GetWindowWMInfo = SDL_bool function(SDL_Window* window,SDL_SysWMinfo * info);
@@ -491,8 +553,9 @@ extern(C) @nogc nothrow {
     alias da_SDL_GetNumVideoDisplays = int function();
     alias da_SDL_GetDisplayName = const(char)* function(int);
     alias da_SDL_GetDisplayBounds = int function(int,SDL_Rect*);
-    alias da_SDL_GetDisplayDPI = int function(int,float*,float*,float*);
     alias da_SDL_GetDisplayUsableBounds = int function(int,SDL_Rect*);
+    alias da_SDL_GetDisplayDPI = int function(int,float*,float*,float*);
+    alias da_SDL_GetDisplayOrientation = SDL_DisplayOrientation function(int);
     alias da_SDL_GetNumDisplayModes = int function(int);
     alias da_SDL_GetDisplayMode = int function(int,int,SDL_DisplayMode*);
     alias da_SDL_GetDesktopDisplayMode = int function(int,SDL_DisplayMode*);
@@ -565,6 +628,12 @@ extern(C) @nogc nothrow {
     alias da_SDL_GL_GetSwapInterval = int function();
     alias da_SDL_GL_SwapWindow = void function(SDL_Window*);
     alias da_SDL_GL_DeleteContext = void function(SDL_GLContext);
+    alias da_SDL_Vulkan_LoadLibrary = int function(const(char)*);
+    alias da_SDL_Vulkan_GetVkGetInstanceProcAddr = void* function();
+    alias da_SDL_Vulkan_UnloadLibrary = void function();
+    alias da_SDL_Vulkan_GetInstanceExtensions = SDL_bool function(SDL_Window*,uint*,const(char)**);
+    alias da_SDL_Vulkan_CreateSurface = SDL_bool function(SDL_Window*,void*,void*);
+    alias da_SDL_Vulkan_GetDrawableSize = void function(SDL_Window*,int*,int*);
 }
 
 __gshared {
@@ -598,6 +667,13 @@ __gshared {
     da_SDL_FreeWAV SDL_FreeWAV;
     da_SDL_BuildAudioCVT SDL_BuildAudioCVT;
     da_SDL_ConvertAudio SDL_ConvertAudio;
+    da_SDL_NewAudioStream SDL_NewAudioStream;
+    da_SDL_AudioStreamPut SDL_AudioStreamPut;
+    da_SDL_AudioStreamGet SDL_AudioStreamGet;
+    da_SDL_AudioStreamAvailable SDL_AudioStreamAvailable;
+    da_SDL_AudioStreamFlush SDL_AudioStreamFlush;
+    da_SDL_AudioStreamClear SDL_AudioStreamClear;
+    da_SDL_FreeAudioStream SDL_FreeAudioStream;
     da_SDL_MixAudio SDL_MixAudio;
     da_SDL_MixAudioFormat SDL_MixAudioFormat;
     da_SDL_QueueAudio SDL_QueueAudio;
@@ -615,6 +691,7 @@ __gshared {
     da_SDL_SetClipboardText SDL_SetClipboardText;
     da_SDL_GetClipboardText SDL_GetClipboardText;
     da_SDL_HasClipboardText SDL_HasClipboardText;
+    da_SDL_ComposeCustomBlendMode SDL_ComposeCustomBlendMode;
 
     da_SDL_GetCPUCount SDL_GetCPUCount;
     da_SDL_GetCPUCacheLineSize SDL_GetCPUCacheLineSize;
@@ -629,6 +706,8 @@ __gshared {
     da_SDL_HasSSE42 SDL_HasSSE42;
     da_SDL_HasAVX SDL_HasAVX;
     da_SDL_HasAVX2 SDL_HasAVX2;
+    da_SDL_HasAVX512F SDL_HasAVX512F;
+    da_SDL_HasNEON SDL_HasNEON;
     da_SDL_GetSystemRAM SDL_GetSystemRAM;
 
     da_SDL_SetError SDL_SetError;
@@ -651,20 +730,27 @@ __gshared {
     da_SDL_DelEventWatch SDL_DelEventWatch;
     da_SDL_FilterEvents SDL_FilterEvents;
     da_SDL_EventState SDL_EventState;
-    da_SDL_RegisterEvents SDL_RegisterEvents;    
+    da_SDL_RegisterEvents SDL_RegisterEvents;
 
     da_SDL_GetBasePath SDL_GetBasePath;
     da_SDL_GetPrefPath SDL_GetPrefPath;
 
     da_SDL_GameControllerAddMappingsFromRW SDL_GameControllerAddMappingsFromRW;
     da_SDL_GameControllerAddMapping SDL_GameControllerAddMapping;
+    da_SDL_GameControllerNumMappings SDL_GameControllerNumMappings;
+    da_SDL_GameControllerMappingForIndex SDL_GameControllerMappingForIndex;
     da_SDL_GameControllerMappingForGUID SDL_GameControllerMappingForGUID;
     da_SDL_GameControllerMapping SDL_GameControllerMapping;
     da_SDL_IsGameController SDL_IsGameController;
     da_SDL_GameControllerNameForIndex SDL_GameControllerNameForIndex;
+    da_SDL_GameControllerMappingForDeviceIndex SDL_GameControllerMappingForDeviceIndex;
     da_SDL_GameControllerOpen SDL_GameControllerOpen;
     da_SDL_GameControllerFromInstanceID SDL_GameControllerFromInstanceID;
     da_SDL_GameControllerName SDL_GameControllerName;
+    da_SDL_GameControllerGetPlayerIndex SDL_GameControllerGetPlayerIndex;
+    da_SDL_GameControllerGetVendor SDL_GameControllerGetVendor;
+    da_SDL_GameControllerGetProduct SDL_GameControllerGetProduct;
+    da_SDL_GameControllerGetProductVersion SDL_GameControllerGetProductVersion;
     da_SDL_GameControllerGetAttached SDL_GameControllerGetAttached;
     da_SDL_GameControllerGetJoystick SDL_GameControllerGetJoystick;
     da_SDL_GameControllerEventState SDL_GameControllerEventState;
@@ -677,6 +763,7 @@ __gshared {
     da_SDL_GameControllerGetStringForButton SDL_GameControllerGetStringForButton;
     da_SDL_GameControllerGetBindForButton SDL_GameControllerGetBindForButton;
     da_SDL_GameControllerGetButton SDL_GameControllerGetButton;
+    da_SDL_GameControllerRumble SDL_GameControllerRumble;
     da_SDL_GameControllerClose SDL_GameControllerClose;
 
     da_SDL_RecordGesture SDL_RecordGesture;
@@ -723,13 +810,26 @@ __gshared {
     da_SDL_DelHintCallback SDL_DelHintCallback;
     da_SDL_ClearHints SDL_ClearHints;
 
+    da_SDL_LockJoysticks SDL_LockJoysticks;
+    da_SDL_UnlockJoysticks SDL_UnlockJoysticks;
     da_SDL_NumJoysticks SDL_NumJoysticks;
     da_SDL_JoystickNameForIndex SDL_JoystickNameForIndex;
+    da_SDL_JoystickGetDevicePlayerIndex SDL_JoystickGetDevicePlayerIndex;
+    da_SDL_JoystickGetDeviceGUID SDL_JoystickGetDeviceGUID;
+    da_SDL_JoystickGetDeviceVendor SDL_JoystickGetDeviceVendor;
+    da_SDL_JoystickGetDeviceProduct SDL_JoystickGetDeviceProduct;
+    da_SDL_JoystickGetDeviceProductVersion SDL_JoystickGetDeviceProductVersion;
+    da_SDL_JoystickGetDeviceType SDL_JoystickGetDeviceType;
+    da_SDL_JoystickGetDeviceInstanceID SDL_JoystickGetDeviceInstanceID;
     da_SDL_JoystickOpen SDL_JoystickOpen;
     da_SDL_JoystickName SDL_JoystickName;
     da_SDL_JoystickFromInstanceID SDL_JoystickFromInstanceID;
-    da_SDL_JoystickGetDeviceGUID SDL_JoystickGetDeviceGUID;
+    da_SDL_JoystickGetPlayerIndex SDL_JoystickGetPlayerIndex;
     da_SDL_JoystickGetGUID SDL_JoystickGetGUID;
+    da_SDL_JoystickGetVendor SDL_JoystickGetVendor;
+    da_SDL_JoystickGetProduct SDL_JoystickGetProduct;
+    da_SDL_JoystickGetProductVersion SDL_JoystickGetProductVersion;
+    da_SDL_JoystickGetType SDL_JoystickGetType;
     da_SDL_JoystickGetGUIDString SDL_JoystickGetGUIDString;
     da_SDL_JoystickGetGUIDFromString SDL_JoystickGetGUIDFromString;
     da_SDL_JoystickGetAttached SDL_JoystickGetAttached;
@@ -741,9 +841,11 @@ __gshared {
     da_SDL_JoystickUpdate SDL_JoystickUpdate;
     da_SDL_JoystickEventState SDL_JoystickEventState;
     da_SDL_JoystickGetAxis SDL_JoystickGetAxis;
+    da_SDL_JoystickGetAxisInitialState SDL_JoystickGetAxisInitialState;
     da_SDL_JoystickGetHat SDL_JoystickGetHat;
     da_SDL_JoystickGetBall SDL_JoystickGetBall;
     da_SDL_JoystickGetButton SDL_JoystickGetButton;
+    da_SDL_JoystickRumble SDL_JoystickRumble;
     da_SDL_JoystickClose SDL_JoystickClose;
     da_SDL_JoystickCurrentPowerLevel SDL_JoystickCurrentPowerLevel;
 
@@ -886,6 +988,8 @@ __gshared {
     da_SDL_DestroyRenderer SDL_DestroyRenderer;
     da_SDL_GL_BindTexture SDL_GL_BindTexture;
     da_SDL_GL_UnbindTexture SDL_GL_UnbindTexture;
+    da_SDL_RenderGetMetalLayer SDL_RenderGetMetalLayer;
+    da_SDL_RenderGetMetalCommandEncoder SDL_RenderGetMetalCommandEncoder;
 
     da_SDL_RWFromFile SDL_RWFromFile;
     da_SDL_RWFromFP SDL_RWFromFP;
@@ -893,6 +997,7 @@ __gshared {
     da_SDL_RWFromConstMem SDL_RWFromConstMem;
     da_SDL_AllocRW SDL_AllocRW;
     da_SDL_FreeRW SDL_FreeRW;
+    da_SDL_LoadFile_RW SDL_LoadFile_RW;
     da_SDL_ReadU8 SDL_ReadU8;
     da_SDL_ReadLE16 SDL_ReadLE16;
     da_SDL_ReadBE16 SDL_ReadBE16;
@@ -907,6 +1012,21 @@ __gshared {
     da_SDL_WriteBE32 SDL_WriteBE32;
     da_SDL_WriteLE64 SDL_WriteLE64;
     da_SDL_WriteBE64 SDL_WriteBE64;
+
+    da_SDL_NumSensors SDL_NumSensors;
+    da_SDL_SensorGetDeviceName SDL_SensorGetDeviceName;
+    da_SDL_SensorGetDeviceType SDL_SensorGetDeviceType;
+    da_SDL_SensorGetDeviceNonPortableType SDL_SensorGetDeviceNonPortableType;
+    da_SDL_SensorGetDeviceInstanceID SDL_SensorGetDeviceInstanceID;
+    da_SDL_SensorOpen SDL_SensorOpen;
+    da_SDL_SensorFromInstanceID SDL_SensorFromInstanceID;
+    da_SDL_SensorGetName SDL_SensorGetName;
+    da_SDL_SensorGetType SDL_SensorGetType;
+    da_SDL_SensorGetNonPortableType SDL_SensorGetNonPortableType;
+    da_SDL_SensorGetInstanceID SDL_SensorGetInstanceID;
+    da_SDL_SensorGetData SDL_SensorGetData;
+    da_SDL_SensorClose SDL_SensorClose;
+    da_SDL_SensorUpdate SDL_SensorUpdate;
 
     da_SDL_CreateShapedWindow SDL_CreateShapedWindow;
     da_SDL_IsShapedWindow SDL_IsShapedWindow;
@@ -925,6 +1045,7 @@ __gshared {
     da_SDL_SaveBMP_RW SDL_SaveBMP_RW;
     da_SDL_SetSurfaceRLE SDL_SetSurfaceRLE;
     da_SDL_SetColorKey SDL_SetColorKey;
+    da_SDL_HasColorKey SDL_HasColorKey;
     da_SDL_GetColorKey SDL_GetColorKey;
     da_SDL_SetSurfaceColorMod SDL_SetSurfaceColorMod;
     da_SDL_GetSurfaceColorMod SDL_GetSurfaceColorMod;
@@ -934,6 +1055,7 @@ __gshared {
     da_SDL_GetSurfaceBlendMode SDL_GetSurfaceBlendMode;
     da_SDL_SetClipRect SDL_SetClipRect;
     da_SDL_GetClipRect SDL_GetClipRect;
+    da_SDL_DuplicateSurface SDL_DuplicateSurface;
     da_SDL_ConvertSurface SDL_ConvertSurface;
     da_SDL_ConvertSurfaceFormat SDL_ConvertSurfaceFormat;
     da_SDL_ConvertPixels SDL_ConvertPixels;
@@ -944,6 +1066,9 @@ __gshared {
     da_SDL_SoftStretch SDL_SoftStretch;
     da_SDL_UpperBlitScaled SDL_UpperBlitScaled;
     da_SDL_LowerBlitScaled SDL_LowerBlitScaled;
+    da_SDL_SetYUVConversionMode SDL_SetYUVConversionMode;
+    da_SDL_GetYUVConversionMode SDL_GetYUVConversionMode;
+    da_SDL_GetYUVConversionModeForResolution SDL_GetYUVConversionModeForResolution;
 
     static if(Derelict_OS_Windows) {
         da_SDL_Direct3D9GetAdapterIndex SDL_Direct3D9GetAdapterIndex ;
@@ -957,7 +1082,10 @@ __gshared {
     static if(Derelict_OS_Android) {
         da_SDL_AndroidGetJNIEnv SDL_AndroidGetJNIEnv;
         da_SDL_AndroidGetActivity SDL_AndroidGetActivity;
-
+        da_SDL_IsAndroidTV SDL_IsAndroidTV;
+        da_SDL_IsChromebook SDL_IsChromebook;
+        da_SDL_IsDeXMode SDL_IsDeXMode;
+        da_SDL_AndroidBackButton SDL_AndroidBackButton;
         da_SDL_AndroidGetInternalStoragePath SDL_AndroidGetInternalStoragePath;
         da_SDL_AndroidGetInternalStorageState SDL_AndroidGetInternalStorageState;
         da_SDL_AndroidGetExternalStoragePath SDL_AndroidGetExternalStoragePath;
@@ -966,7 +1094,9 @@ __gshared {
         da_SDL_WinRTGetFSPathUNICODE SDL_WinRTGetFSPathUNICODE;
         da_SDL_WinRTGetFSPathUTF8 SDL_WinRTGetFSPathUTF8;
         da_SDL_WinRTRunApp SDL_WinRTRunApp;
+        da_SDL_WinRTGetDeviceFamily SDL_WinRTGetDeviceFamily;
     }
+    da_SDL_IsTablet SDL_IsTablet;
 
     da_SDL_GetWindowWMInfo SDL_GetWindowWMInfo;
 
@@ -994,8 +1124,9 @@ __gshared {
     da_SDL_GetNumVideoDisplays SDL_GetNumVideoDisplays;
     da_SDL_GetDisplayName SDL_GetDisplayName;
     da_SDL_GetDisplayBounds SDL_GetDisplayBounds;
-    da_SDL_GetDisplayDPI SDL_GetDisplayDPI;
     da_SDL_GetDisplayUsableBounds SDL_GetDisplayUsableBounds;
+    da_SDL_GetDisplayDPI SDL_GetDisplayDPI;
+    da_SDL_GetDisplayOrientation SDL_GetDisplayOrientation;
     da_SDL_GetNumDisplayModes SDL_GetNumDisplayModes;
     da_SDL_GetDisplayMode SDL_GetDisplayMode;
     da_SDL_GetDesktopDisplayMode SDL_GetDesktopDisplayMode;
@@ -1068,5 +1199,10 @@ __gshared {
     da_SDL_GL_GetSwapInterval SDL_GL_GetSwapInterval;
     da_SDL_GL_SwapWindow SDL_GL_SwapWindow;
     da_SDL_GL_DeleteContext SDL_GL_DeleteContext;
+    da_SDL_Vulkan_LoadLibrary SDL_Vulkan_LoadLibrary;
+    da_SDL_Vulkan_GetVkGetInstanceProcAddr SDL_Vulkan_GetVkGetInstanceProcAddr;
+    da_SDL_Vulkan_UnloadLibrary SDL_Vulkan_UnloadLibrary;
+    da_SDL_Vulkan_GetInstanceExtensions SDL_Vulkan_GetInstanceExtensions;
+    da_SDL_Vulkan_CreateSurface SDL_Vulkan_CreateSurface;
 }
 

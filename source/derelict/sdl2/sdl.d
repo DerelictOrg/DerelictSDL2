@@ -62,6 +62,11 @@ alias SDL_BlitScaled = SDL_UpperBlitScaled;
         return SDL_PeepEvents(null,0,SDL_PEEKEVENT,SDL_QUIT,SDL_QUIT) > 0;
     }
 
+    // SDL_rwops.h
+    void* SDL_LoadFile(const(char)* file, size_t datasize) {
+        return SDL_LoadFile_RW(SDL_RWFromFile(file, "rb"), datasize, 1);
+    }
+
     // SDL_surface.h
     SDL_Surface* SDL_LoadBMP(const(char)* file) {
         return SDL_LoadBMP_RW(SDL_RWFromFile(file,"rb"),1);

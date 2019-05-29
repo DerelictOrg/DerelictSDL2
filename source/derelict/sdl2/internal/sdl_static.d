@@ -33,17 +33,22 @@ import derelict.util.system;
 import derelict.sdl2.internal.sdl_types;
 
 extern(C) @nogc nothrow {
+    // SDL.h
     int SDL_Init(Uint32);
     int SDL_InitSubSystem(Uint32);
     void SDL_QuitSubSystem(Uint32);
     Uint32 SDL_WasInit(Uint32);
     void SDL_Quit();
     void SDL_free(void* mem);
+
+    // SDL_assert.h
     void SDL_SetAssertionHandler(SDL_AssertionHandler,void*);
     SDL_AssertionHandler SDL_GetDefaultAssertionHandler();
     SDL_AssertionHandler SDL_GetAssertionHandler(void**);
     const(SDL_assert_data)* SDL_GetAssertionReport();
     void SDL_ResetAssertionReport();
+
+    // SDL_audio.h
     int SDL_GetNumAudioDrivers();
     const(char)* SDL_GetAudioDriver(int);
     int SDL_AudioInit(const(char)*);
@@ -61,6 +66,13 @@ extern(C) @nogc nothrow {
     void SDL_FreeWAV(Uint8*);
     int SDL_BuildAudioCVT(SDL_AudioCVT*,SDL_AudioFormat,Uint8,int,SDL_AudioFormat,Uint8,int);
     int SDL_ConvertAudio(SDL_AudioCVT*);
+    SDL_AudioStream* SDL_NewAudioStream(const(SDL_AudioFormat),const(Uint8),const(int),const(SDL_AudioFormat),const(Uint8),const(int));
+    int SDL_AudioStreamPut(SDL_AudioStream*,const(void*),int);
+    int SDL_AudioStreamGet(SDL_AudioStream*,void*,int);
+    int SDL_AudioStreamAvailable(SDL_AudioStream*);
+    int SDL_AudioStreamFlush(SDL_AudioStream*);
+    void SDL_AudioStreamClear(SDL_AudioStream*);
+    void SDL_FreeAudioStream(SDL_AudioStream*);
     void SDL_MixAudio(Uint8*,const(Uint8)*,Uint32,int);
     void SDL_MixAudioFormat(Uint8*,const(Uint8)*,SDL_AudioFormat,Uint32,int);
     int SDL_QueueAudio(SDL_AudioDeviceID,const(void)*,Uint32);
@@ -74,9 +86,16 @@ extern(C) @nogc nothrow {
     void SDL_CloseAudio();
     void SDL_CloseAudioDevice(SDL_AudioDeviceID);
     int SDL_AudioDeviceConnected(SDL_AudioDeviceID);
+
+    // SDL_blendmode.h
+    SDL_BlendMode SDL_ComposeCustomBlendMode(SDL_BlendFactor,SDL_BlendFactor,SDL_BlendOperation,SDL_BlendFactor,SDL_BlendFactor,SDL_BlendOperation);
+
+    // SDL_clipboard.h
     int SDL_SetClipboardText(const(char)*);
     char* SDL_GetClipboardText();
     SDL_bool SDL_HasClipboardText();
+
+    // SDL_cpuinfo.h
     int SDL_GetCPUCount();
     int SDL_GetCPUCacheLineSize();
     SDL_bool SDL_HasRDTSC();
@@ -90,10 +109,16 @@ extern(C) @nogc nothrow {
     SDL_bool SDL_HasSSE42();
     SDL_bool SDL_HasAVX();
     SDL_bool SDL_HasAVX2();
+    SDL_bool SDL_HasAVX512F();
+    SDL_bool SDL_HasNEON();
     int SDL_GetSystemRAM();
+
+    // SDL_error.h
     void SDL_SetError(const(char)*,...);
     const(char)* SDL_GetError();
     void SDL_ClearError();
+
+    // SDL_events.h
     void SDL_PumpEvents();
     int SDL_PeepEvents(SDL_Event*,int,SDL_eventaction,Uint32,Uint32);
     SDL_bool SDL_HasEvent(Uint32);
@@ -111,17 +136,28 @@ extern(C) @nogc nothrow {
     void SDL_FilterEvents(SDL_EventFilter,void*);
     Uint8 SDL_EventState(Uint32,int);
     Uint32 SDL_RegisterEvents(int);
+
+    // SDL_filesystem.h
     char* SDL_GetBasePath();
     char* SDL_GetPrefPath(const(char)* org,const(char)* app);
+
+    // SDL_gamecontroller.h
     int SDL_GameControllerAddMappingsFromRW(SDL_RWops*,int);
     int SDL_GameControllerAddMapping(const(char)*);
+    int SDL_GameControllerNumMappings();
+    char* SDL_GameControllerMappingForIndex(int);
     char* SDL_GameControllerMappingForGUID(SDL_JoystickGUID);
     char* SDL_GameControllerMapping(SDL_GameController*);
     SDL_bool SDL_IsGameController(int);
     const(char)* SDL_GameControllerNameForIndex(int);
+    char* SDL_GameControllerMappingForDeviceIndex(int);
     SDL_GameController* SDL_GameControllerOpen(int);
     SDL_GameController* SDL_GameControllerFromInstanceID(SDL_JoystickID);
     const(char)* SDL_GameControllerName(SDL_GameController*);
+    int SDL_GameControllerGetPlayerIndex(SDL_GameController*);
+    Uint16 SDL_GameControllerGetVendor(SDL_GameController*);
+    Uint16 SDL_GameControllerGetProduct(SDL_GameController*);
+    Uint16 SDL_GameControllerGetProductVersion(SDL_GameController*);
     SDL_bool SDL_GameControllerGetAttached(SDL_GameController*);
     SDL_Joystick* SDL_GameControllerGetJoystick(SDL_GameController*);
     int SDL_GameControllerEventState(int);
@@ -134,11 +170,16 @@ extern(C) @nogc nothrow {
     const(char)* SDL_GameControllerGetStringForButton(SDL_GameControllerButton);
     SDL_GameControllerButtonBind SDL_GameControllerGetBindForButton(SDL_GameController*,SDL_GameControllerButton);
     Uint8 SDL_GameControllerGetButton(SDL_GameController*,SDL_GameControllerButton);
+    int SDL_GameControllerRumble(SDL_GameController*,Uint16,Uint16,Uint32);
     void SDL_GameControllerClose(SDL_GameController*);
+
+    // SDL_gesture.h
     int SDL_RecordGesture(SDL_TouchID);
     int SDL_SaveAllDollarTemplates(SDL_RWops*);
     int SDL_SaveDollarTemplate(SDL_GestureID,SDL_RWops*);
     int SDL_LoadDollarTemplates(SDL_TouchID,SDL_RWops*);
+
+    // SDL_haptic.h
     int SDL_NumHaptics();
     const(char)* SDL_HapticName(int);
     SDL_Haptic* SDL_HapticOpen(int);
@@ -169,6 +210,8 @@ extern(C) @nogc nothrow {
     int SDL_HapticRumbleInit(SDL_Haptic*);
     int SDL_HapticRumblePlay(SDL_Haptic*,float,Uint32);
     int SDL_HapticRumbleStop(SDL_Haptic*);
+
+    // SDL_hints.h
     SDL_bool SDL_SetHintWithPriority(const(char)*,const(char)*,SDL_HintPriority);
     SDL_bool SDL_SetHint(const(char)*,const(char)*);
     const(char)* SDL_GetHint(const(char)*);
@@ -176,13 +219,28 @@ extern(C) @nogc nothrow {
     void SDL_AddHintCallback(const(char)*,SDL_HintCallback,void*);
     void SDL_DelHintCallback(const(char)*,SDL_HintCallback,void*);
     void SDL_ClearHints();
+
+    // SDL_joystick.h
+    void SDL_LockJoysticks();
+    void SDL_UnlockJoysticks();
     int SDL_NumJoysticks();
     const(char)* SDL_JoystickNameForIndex(int);
+    int SDL_JoystickGetDevicePlayerIndex(int);
+    SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int);
+    Uint16 SDL_JoystickGetDeviceVendor(int);
+    Uint16 SDL_JoystickGetDeviceProduct(int);
+    Uint16 SDL_JoystickGetDeviceProductVersion(int);
+    SDL_JoystickType SDL_JoystickGetDeviceType(int);
+    SDL_JoystickID SDL_JoystickGetDeviceInstanceID(int);
     SDL_Joystick* SDL_JoystickOpen(int);
     SDL_Joystick* SDL_JoystickFromInstanceID(SDL_JoystickID);
     const(char)* SDL_JoystickName(SDL_Joystick*);
-    SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int);
+    int SDL_JoystickGetPlayerIndex(SDL_Joystick*);
     SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick*);
+    Uint16 SDL_JoystickGetVendor(SDL_Joystick*);
+    Uint16 SDL_JoystickGetProduct(SDL_Joystick*);
+    Uint16 SDL_JoystickGetProductVersion(SDL_Joystick*);
+    SDL_JoystickType SDL_JoystickGetType(SDL_Joystick*);
     char* SDL_JoystickGetGUIDString(SDL_JoystickGUID);
     SDL_JoystickGUID SDL_JoystickGetGUIDFromString(const(char)*);
     SDL_bool SDL_JoystickGetAttached(SDL_Joystick*);
@@ -194,11 +252,15 @@ extern(C) @nogc nothrow {
     void SDL_JoystickUpdate();
     int SDL_JoystickEventState(int);
     Sint16 SDL_JoystickGetAxis(SDL_Joystick*,int);
+    SDL_bool SDL_JoystickGetAxisInitialState(SDL_Joystick*,int,Sint16*);
     Uint8 SDL_JoystickGetHat(SDL_Joystick*,int);
     int SDL_JoystickGetBall(SDL_Joystick*,int,int*,int*);
     Uint8 SDL_JoystickGetButton(SDL_Joystick*,int);
+    int SDL_JoystickRumble(SDL_Joystick*,Uint16,Uint16,Uint32);
     void SDL_JoystickClose(SDL_Joystick*);
     SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(SDL_Joystick*);
+
+    // SDL_keyboard.h
     SDL_Window* SDL_GetKeyboardFocus();
     Uint8* SDL_GetKeyboardState(int*);
     SDL_Keymod SDL_GetModState();
@@ -215,9 +277,13 @@ extern(C) @nogc nothrow {
     void SDL_SetTextInputRect(SDL_Rect*);
     SDL_bool SDL_HasScreenKeyboardSupport();
     SDL_bool SDL_IsScreenKeyboardShown(SDL_Window*);
+
+    // SDL_loadso.h
     void* SDL_LoadObject(const(char)*);
     void* SDL_LoadFunction(void*,const(char*));
     void SDL_UnloadObject(void*);
+
+    // SDL_log.h
     void SDL_LogSetAllPriority(SDL_LogPriority);
     void SDL_LogSetPriority(int,SDL_LogPriority);
     SDL_LogPriority SDL_LogGetPriority(int);
@@ -233,8 +299,12 @@ extern(C) @nogc nothrow {
     void SDL_LogMessageV(int,SDL_LogPriority,const(char)*,va_list);
     void SDL_LogGetOutputFunction(SDL_LogOutputFunction,void**);
     void SDL_LogSetOutputFunction(SDL_LogOutputFunction,void*);
+
+    // SDL_messagebox.h
     int SDL_ShowMessageBox(const(SDL_MessageBoxData)*,int*);
     int SDL_ShowSimpleMessageBox(Uint32,const(char)*,const(char)*,SDL_Window*);
+
+    // SDL_mouse.h
     SDL_Window* SDL_GetMouseFocus();
     Uint32 SDL_GetMouseState(int*,int*);
     Uint32 SDL_GetGlobalMouseState(int*,int*);
@@ -252,6 +322,8 @@ extern(C) @nogc nothrow {
     SDL_Cursor* SDL_GetDefaultCursor();
     void SDL_FreeCursor(SDL_Cursor*);
     int SDL_ShowCursor(int);
+
+    // SDL_pixels.h
     const(char)* SDL_GetPixelFormatName(Uint32);
     SDL_bool SDL_PixelFormatEnumToMasks(Uint32,int*,Uint32*,Uint32*,Uint32*,Uint32*);
     Uint32 SDL_MasksToPixelFormatEnum(int,Uint32,Uint32,Uint32,Uint32);
@@ -266,13 +338,21 @@ extern(C) @nogc nothrow {
     void SDL_GetRGB(Uint32,const(SDL_PixelFormat)*,Uint8*,Uint8*,Uint8*);
     void SDL_GetRGBA(Uint32,const(SDL_PixelFormat)*,Uint8*,Uint8*,Uint8*,Uint8*);
     void SDL_CalculateGammaRamp(float,Uint16*);
+
+    // SDL_platform.h
     const(char)* SDL_GetPlatform();
+
+    // SDL_power.h
     SDL_PowerState SDL_GetPowerInfo(int*,int*);
+
+    // SDL_Rect.h
     SDL_bool SDL_HasIntersection(const(SDL_Rect)*,const(SDL_Rect)*);
     SDL_bool SDL_IntersectRect(const(SDL_Rect)*,const(SDL_Rect)*,SDL_Rect*);
     void SDL_UnionRect(const(SDL_Rect)*,const(SDL_Rect)*,SDL_Rect*);
     SDL_bool SDL_EnclosePoints(const(SDL_Point)*,int,const(SDL_Rect)*,SDL_Rect*);
     SDL_bool SDL_IntersectRectAndLine(const(SDL_Rect)*,int*,int*,int*,int*);
+
+    // SDL_Render.h
     int SDL_GetNumRenderDrivers();
     int SDL_GetRenderDriverInfo(int,SDL_RendererInfo*);
     int SDL_CreateWindowAndRenderer(int,int,Uint32,SDL_Window**,SDL_Renderer**);
@@ -329,12 +409,17 @@ extern(C) @nogc nothrow {
     void SDL_DestroyRenderer(SDL_Renderer*);
     int SDL_GL_BindTexture(SDL_Texture*,float*,float*);
     int SDL_GL_UnbindTexture(SDL_Texture*);
+    void* SDL_RenderGetMetalLayer(SDL_Renderer*);
+    void* SDL_RenderGetMetalCommandEncoder(SDL_Renderer*);
+
+    // SDL_rwops.h
     SDL_RWops* SDL_RWFromFile(const(char)*,const(char)*);
     SDL_RWops* SDL_RWFromFP(FILE*,SDL_bool);
     SDL_RWops* SDL_RWFromMem(void*,int);
     SDL_RWops* SDL_RWFromConstMem(const(void)*,int);
     SDL_RWops* SDL_AllocRW();
     void SDL_FreeRW(SDL_RWops*);
+    void* SDL_LoadFile_RW(SDL_RWops*,size_t,int);
     Uint8 SDL_ReadU8(SDL_RWops*);
     Uint16 SDL_ReadLE16(SDL_RWops*);
     Uint16 SDL_ReadBE16(SDL_RWops*);
@@ -349,10 +434,30 @@ extern(C) @nogc nothrow {
     size_t SDL_WriteBE32(SDL_RWops*,Uint32);
     size_t SDL_WriteLE64(SDL_RWops*,Uint64);
     size_t SDL_WriteBE64(SDL_RWops*,Uint64);
+
+    // SDL_sensors.h
+    int SDL_NumSensors();
+    const(char)* SDL_SensorGetDeviceName(int);
+    SDL_SensorType SDL_SensorGetDeviceType(int);
+    int SDL_SensorGetDeviceNonPortableType(int);
+    SDL_SensorID SDL_SensorGetDeviceInstanceID(int);
+    SDL_Sensor* SDL_SensorOpen(int);
+    SDL_Sensor* SDL_SensorFromInstanceID(SDL_SensorID);
+    const(char)* SDL_SensorGetName(SDL_Sensor*);
+    SDL_SensorType SDL_SensorGetType(SDL_Sensor*);
+    int SDL_SensorGetNonPortableType(SDL_Sensor*);
+    SDL_SensorID SDL_SensorGetInstanceID(SDL_Sensor*);
+    int SDL_SensorGetData(SDL_Sensor*,float*,int);
+    void SDL_SensorClose(SDL_Sensor*);
+    void SDL_SensorUpdate();
+
+    // SDL_shape.h
     SDL_Window* SDL_CreateShapedWindow(const(char)*,uint,uint,uint,uint,Uint32);
     SDL_bool SDL_IsShapedWindow(const(SDL_Window)*);
     int SDL_SetWindowShape(SDL_Window*,SDL_Surface*,SDL_WindowShapeMode*);
     int SDL_GetShapedWindowMode(SDL_Window*,SDL_WindowShapeMode*);
+
+    // SDL_surface.h
     SDL_Surface* SDL_CreateRGBSurface(Uint32,int,int,int,Uint32,Uint32,Uint32,Uint32);
     SDL_Surface* SDL_CreateRGBSurfaceWithFormat(Uint32,int,int,int,Uint32);
     SDL_Surface* SDL_CreateRGBSurfaceFrom(void*,int,int,int,int,Uint32,Uint32,Uint32,Uint32);
@@ -365,6 +470,7 @@ extern(C) @nogc nothrow {
     int SDL_SaveBMP_RW(SDL_Surface*,SDL_RWops*,int);
     int SDL_SetSurfaceRLE(SDL_Surface*,int);
     int SDL_SetColorKey(SDL_Surface*,int,Uint32);
+    SDL_bool SDL_HasColorKey(SDL_Surface*);
     int SDL_GetColorKey(SDL_Surface*,Uint32*);
     int SDL_SetSurfaceColorMod(SDL_Surface*,Uint8,Uint8,Uint8);
     int SDL_GetSurfaceColorMod(SDL_Surface*,Uint8*,Uint8*,Uint8*);
@@ -374,6 +480,7 @@ extern(C) @nogc nothrow {
     int SDL_GetSurfaceBlendMode(SDL_Surface*,SDL_BlendMode*);
     SDL_bool SDL_SetClipRect(SDL_Surface*,const(SDL_Rect)*);
     void SDL_GetClipRect(SDL_Surface*,SDL_Rect*);
+    SDL_Surface* SDL_DuplicateSurface(SDL_Surface*);
     SDL_Surface* SDL_ConvertSurface(SDL_Surface*,const(SDL_PixelFormat)*,Uint32);
     SDL_Surface* SDL_ConvertSurfaceFormat(SDL_Surface*,Uint32,Uint32);
     int SDL_ConvertPixels(int,int,Uint32,const(void)*,int,Uint32,void*,int);
@@ -384,6 +491,11 @@ extern(C) @nogc nothrow {
     int SDL_SoftStretch(SDL_Surface*,const(SDL_Rect)*,SDL_Surface*,const(SDL_Rect)*);
     int SDL_UpperBlitScaled(SDL_Surface*,const(SDL_Rect)*,SDL_Surface*,SDL_Rect*);
     int SDL_LowerBlitScaled(SDL_Surface*,SDL_Rect*,SDL_Surface*,SDL_Rect*);
+    void SDL_SetYUVConversionMode(SDL_YUV_CONVERSION_MODE);
+    SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionMode();
+    SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionModeForResolution(int,int);
+
+    // SDL_system.h
     static if(Derelict_OS_Windows) {
         int SDL_Direct3D9GetAdapterIndex(int);
         IDirect3DDevice9* SDL_RenderGetD3D9Device(SDL_Renderer*);
@@ -396,6 +508,10 @@ extern(C) @nogc nothrow {
     static if(Derelict_OS_Android) {
         void* SDL_AndroidGetJNIEnv();
         void* SDL_AndroidGetActivity();
+        SDL_bool SDL_IsAndroidTV();
+        SDL_bool SDL_IsChromebook();
+        SDL_bool SDL_IsDeXMode();
+        void SDL_AndroidBackButton();
         const(char)* SDL_AndroidGetInternalStoragePath();
         int SDL_AndroidGetInternalStorageState();
         const(char)* SDL_AndroidGetExternalStoragePath();
@@ -404,21 +520,33 @@ extern(C) @nogc nothrow {
         const(wchar_t)* SDL_WinRTGetFSPathUNICODE(SDL_WinRT_Path);
         const(char)* SDL_WinRTGetFSPathUTF8(SDL_WinRT_Path);
         int SDL_WinRTRunApp(int function(int,char**),void*);
+        SDL_WinRT_DeviceFamily SDL_WinRTGetDeviceFamily();
     }
+    SDL_bool SDL_IsTablet();
+
+    // SDL_syswm.h
     SDL_bool SDL_GetWindowWMInfo(SDL_Window* window,SDL_SysWMinfo * info);
+
+    // SDL_timer.h
     Uint32 SDL_GetTicks();
     Uint64 SDL_GetPerformanceCounter();
     Uint64 SDL_GetPerformanceFrequency();
     void SDL_Delay(Uint32);
     SDL_TimerID SDL_AddTimer(Uint32,SDL_TimerCallback,void*);
     SDL_bool SDL_RemoveTimer(SDL_TimerID);
+
+    // SDL_touch.h
     int SDL_GetNumTouchDevices();
     SDL_TouchID SDL_GetTouchDevice(int);
     int SDL_GetNumTouchFingers(SDL_TouchID);
     SDL_Finger* SDL_GetTouchFinger(SDL_TouchID,int);
+
+     // SDL_version.h
     void SDL_GetVersion(SDL_version*);
     const(char)* SDL_GetRevision();
     int SDL_GetRevisionNumber();
+
+    // SDL_video.h
     int SDL_GetNumVideoDrivers();
     const(char)* SDL_GetVideoDriver(int);
     int SDL_VideoInit(const(char)*);
@@ -427,8 +555,9 @@ extern(C) @nogc nothrow {
     int SDL_GetNumVideoDisplays();
     const(char)* SDL_GetDisplayName(int);
     int SDL_GetDisplayBounds(int,SDL_Rect*);
-    int SDL_GetDisplayDPI(int,float*,float*,float*);
     int SDL_GetDisplayUsableBounds(int,SDL_Rect*);
+    int SDL_GetDisplayDPI(int,float*,float*,float*);
+    SDL_DisplayOrientation SDL_GetDisplayOrientation(int);
     int SDL_GetNumDisplayModes(int);
     int SDL_GetDisplayMode(int,int,SDL_DisplayMode*);
     int SDL_GetDesktopDisplayMode(int,SDL_DisplayMode*);
@@ -501,4 +630,12 @@ extern(C) @nogc nothrow {
     int SDL_GL_GetSwapInterval();
     void SDL_GL_SwapWindow(SDL_Window*);
     void SDL_GL_DeleteContext(SDL_GLContext);
+
+    // SDL_vulkan.h
+    int SDL_Vulkan_LoadLibrary(const(char)*);
+    void* SDL_Vulkan_GetVkGetInstanceProcAddr();
+    void SDL_Vulkan_UnloadLibrary();
+    SDL_bool SDL_Vulkan_GetInstanceExtensions(SDL_Window*,uint*,const(char)**);
+    SDL_bool SDL_Vulkan_CreateSurface(SDL_Window*,void*,void*);
+    void SDL_Vulkan_GetDrawableSize(SDL_Window*,int*,int*);
 }
